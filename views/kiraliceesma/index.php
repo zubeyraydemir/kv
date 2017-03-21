@@ -16,6 +16,15 @@ if (isset($villa["data"]))
 ?>
 
 <div class="padding40">
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="" data-parent="#estateslist" href="<?=Url::to('@web/kiraliceesma/villa/yeni')?>">Yeni</a>
+        </h4>
+    </div>
+</div>
+
 <?php 
 foreach ($estates as $estate)
 {?>

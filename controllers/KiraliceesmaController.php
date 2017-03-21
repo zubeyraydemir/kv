@@ -8,6 +8,10 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 
 class KiraliceesmaController extends Controller
 {
@@ -229,12 +233,89 @@ class KiraliceesmaController extends Controller
         return $id;
     }
 	
+    public function actionDeletepic()
+    {
+        $request = Yii::$app->request;
+
+        $datas  = [
+        "price"                          => $request->post("key"),
+        "start_date"                       => $request->post("extra"),
+        "villa_id"                         => $request->post("id")
+        ];
+        $id = $request->post("id");
+        /*
+        if (!empty($id))
+        {
+                Yii::$app->db->createCommand()->update('prices', $datas, "id = $id")->execute();
+        }
+        else
+        {
+                Yii::$app->db->createCommand()->insert('prices', $datas, "id = $id")->execute();
+                $id = Yii::$app->db->getLastInsertID();
+        }*/
+        return "{}";
+    }
+	
     public function actionSavevilla()
     {
         $request = Yii::$app->request;
 		if ($request->isPost) 
 		{
 			$id = $request->post("villa_id");
+            $pictures = $request->post("pictures");
+            if (!empty($pictures))
+                $pictures = json_decode($pictures);
+            else
+                $pictures = [];
+            
+            if (count($_FILES) > 0)
+            {
+                $files = UploadedFile::getInstancesByName("files");
+                ini_set('max_execution_time', 30000);
+                ini_set('memory_limit', '1024M');
+                
+                $uploaddir = \Yii::getAlias('@webroot') . '/images/villa/';
+                $i = count($pictures);
+                foreach ($files as $file) 
+                {
+                    $pictures[$i] = $file->baseName . '.' . $file->extension;
+                    $uploadfile = $uploaddir . $file->baseName . '.' . $file->extension;
+                    $file->saveAs($uploadfile);
+
+                    $img = $imagine = Image::getImagine()
+                    ->open("$uploadfile");
+
+                    
+                    $img->thumbnail(new Box(723, 407))
+                    ->save($uploaddir."b/".$pictures[$i], ['quality' => 90]);
+
+                    $img->thumbnail(new Box(360, 271))
+                    ->save($uploaddir."t/".$pictures[$i], ['quality' => 60]); 
+                    $i++;
+                }
+                /*
+                for ($i = 0; $i < count($_FILES['files']); $i++)
+                {
+                    $pictures[$i] = basename($_FILES['files']['name'][$i]);
+                    $uploadfile = $uploaddir . basename($_FILES['files']['name'][$i]);
+                    if (file_exists($uploadfile)) {
+                        unlink("$uploadfile");
+                        //return "Bu resim zaten varmış. başka bir resimle karıştırıyor olmayasın? ". basename($_FILES['files']['name'][$i]);
+                    }
+                    move_uploaded_file($_FILES['files']['tmp_name'][$i], $uploadfile);
+                      
+                    $img = $imagine = Image::getImagine()
+                    ->open("$uploadfile");
+
+                    
+                    $img->thumbnail(new Box(723, 407))
+                    ->save($uploaddir."b/".$pictures[$i], ['quality' => 90]);
+
+                    $img->thumbnail(new Box(360, 271))
+                    ->save($uploaddir."t/".$pictures[$i], ['quality' => 60]); 
+                }
+                ,*/
+            }
 
 			$datas  = [
 			"name"                          => $request->post("name"),
@@ -299,7 +380,7 @@ class KiraliceesmaController extends Controller
 			"electricity"                   => $request->post("electricity"),
 			"limited_electricity"           => $request->post("limited_electricity"),
 			"wireless"                      => $request->post("wireless"),
-            "pictures"                      => [],
+            "pictures"                      => $pictures,
 			"created"                       => date("Y-m-d"),
 			"udpated"                       => date("Y-m-d")
 			];

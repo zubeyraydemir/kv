@@ -29,10 +29,11 @@ if (isset($villa["data"]))
 		</div>
 		<div id="collapseNew" class="panel-collapse collapse in">
 			<div class="panel-body">
-				<form id="formVilla" class="form-horizontal" method="post" action="<?=Url::to('@web/kiraliceesma/savevilla')?>">
+				<form id="formVilla" class="form-horizontal"  enctype="multipart/form-data" method="post" action="<?=Url::to('@web/kiraliceesma/savevilla')?>">
 					<input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
 					<input type="hidden" name="villa_id" value="<?=($data? $villa["id"] :"")?>" />
 					<input type="hidden" name="reservations" value="<?=($res? json_encode($res) :"")?>" />
+					<input type="hidden" name="pictures" value="<?=($data? json_encode($data["pictures"]) :"")?>" />
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="name">İsim:</label>
 						<div class="col-sm-10">
@@ -46,9 +47,9 @@ if (isset($villa["data"]))
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="currency">Bölge:</label>
+						<label class="control-label col-sm-2" for="currency">Para birimi:</label>
 						<div class="col-sm-10"> 
-							<input type="text" class="form-control"  id="currency" name="currency"  placeholder="eur,try,usd,gbp" value="<?=($data?$data["currency"]:"")?>">
+							<input type="text" class="form-control"  id="currency" name="currency"  placeholder="eur,try,usd,gbp" value="<?=(isset($data["currency"])?$data["currency"]:"")?>">
 						</div>
 					</div>
 					<div class="form-group">
@@ -175,7 +176,7 @@ if (isset($villa["data"]))
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="description">Açıklama:</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="description" name="description" placeholder=""  value="<?=($data?$data["description"]:"")?>">
+							<textarea class="form-control" id="description" name="description"><?=($data?$data["description"]:"")?></textarea>
 						</div>
 					</div>
 					
@@ -305,7 +306,15 @@ if (isset($villa["data"]))
 							</div>
 						</div>
 					</div>
-					
+					<div class="form-group">
+						<label class="control-label col-sm-2">Resimler</label>
+						<div class="col-sm-10">
+							<label class="control-label">Resimleri Seç</label>
+							<input id="files" name="files[]" type="file" multiple data-show-upload="false" data-show-caption="true">
+						</div>
+					</div>
+
+
 					<div class="form-group">
 						<label class="control-label col-sm-2">Rezervasyon</label>
 						<div class="col-sm-10">
@@ -364,7 +373,7 @@ if (isset($villa["data"]))
 		</div>
 		<div class="modal-body">
 			<input type="hidden" name="event-index" value="">
-			<form class="form-horizontal">
+			<form  class="form-horizontal">
 				<div class="form-group">
 					<label for="min-date" class="col-sm-4 control-label">Rezervasyon sahibi</label>
 					<div class="col-sm-7">
@@ -713,9 +722,9 @@ $(function() {
     
 
     $('#calendar2').calendar({ 
-		style :"background",
+		style :"border",
 		language: "tr",
-		alwaysHalfDay: true,
+		//alwaysHalfDay: true,
         enableContextMenu: true,
         enableRangeSelection: true,
         contextMenuItems:[
@@ -787,11 +796,71 @@ $(function() {
     $('#save-event2').click(function() {
         saveEvent2();
     });
+	$("#files").fileinput({
+        showUpload: false,
+        showCaption: false,
+        browseClass: "btn btn-primary btn-lg",
+        fileType: "any",
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        overwriteInitial: false,
+        initialPreviewAsData: true,
+		<?php if ($data && isset($data["pictures"])) { ?>
+        initialPreview: [
+			<?php
+				foreach($data["pictures"] as $pic)
+				{
+					echo '"'.Url::to('@web/images/villa/t/'.$pic.'",');
+				}
+			?>
+        ],
+        initialPreviewConfig: [
+			<?php
+				foreach($data["pictures"] as $pic)
+				{
+					echo '{caption: "'.$pic.'", width: "50px", url: "'   .Url::to('@web/kiraliceesma/deletepic')  .'", key: "'.$pic.'", extra: {id: '.$villa["id"].', _csrf: _csrf}},';
+				}
+			?>
+        ],
+		<?php }?>
+		previewSettings: {
+			image: {width: "150px", height: "auto"},
+		}
+    });
+	tinymce.init({
+  selector: 'textarea',
+  height: 200,
+  theme: 'modern',
+  plugins: [
+    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+    'searchreplace wordcount visualblocks visualchars code fullscreen',
+    'insertdatetime media nonbreaking save table contextmenu directionality',
+    'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
+  ],
+  toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+  toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+  image_advtab: true,
+  templates: [
+    { title: 'Test template 1', content: 'Test 1' },
+    { title: 'Test template 2', content: 'Test 2' }
+  ],
+  content_css: [
+    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+    '//www.tinymce.com/css/codepen.min.css'
+  ]
+ });
 });
 		
-	
-		/*
-	*/
+	$("#formVilla").submit( function(eventObj) {
+		tinyMCE.triggerSave();
+		var pics = [];
+		var conf = $('#files').fileinput('getPreview').config;
+		for (var i=0;i<conf.length;i++)
+		{
+			pics[i] = conf[i].caption;
+		}
+      $('input[name=pictures]').val($.toJSON(pics));
+      return true;
+  });
 	</script>
 
 

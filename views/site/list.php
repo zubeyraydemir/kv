@@ -19,6 +19,7 @@ $asdf = \Yii::t('app', 'Hotels');
     <!-- Bootstrap -->
     <link href="<?=Url::to('@web/')?>dist/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="<?=Url::to('@web/')?>assets/css/custom.css" rel="stylesheet" media="screen">
+    <link href="<?=Url::to('@web/')?>assets/css/daterangepicker.css" rel="stylesheet" media="screen">
 
 	<link href="<?=Url::to('@web/')?>examples/carousel/carousel.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -77,11 +78,8 @@ $asdf = \Yii::t('app', 'Hotels');
 			<div class="left">
 				<ul class="bcrumbs">
 					<li>/</li>
-					<li><a href="<?=Url::to('@web/')?>#">Hotels</a></li>
-					<li>/</li>
-					<li><a href="<?=Url::to('@web/')?>#">U.S.A.</a></li>
-					<li>/</li>					
-					<li><a href="<?=Url::to('@web/')?>#" class="active">New York</a></li>					
+					<li><a href="<?=Url::to('@web/list')?>"><?=\Yii::t('app', 'Villas');?></a></li>
+					<li>				
 				</ul>				
 			</div>
 			<a class="backbtn right" href="<?=Url::to('@web/')?>#"></a>
@@ -118,24 +116,18 @@ $asdf = \Yii::t('app', 'Hotels');
 						
 						<!-- HOTELS TAB -->
 						<div class="hotelstab2 none">
+						<form id="searchForm" action="<?=Url::to('@web/')?>list" method="get">
 							<span class="opensans size13"><?=\Yii::t('app', 'Villa name');?></span>
-							<input type="text" class="form-control" placeholder="" value="<?=$model["name"]?>">
+							<input type="text" class="form-control" placeholder="" value="<?=$model["name"]?>" name="n">
 							
 							<div class="clearfix pbottom15"></div>
 							
-							<div class="w50percent">
 								<div class="wh90percent textleft">
 									<span class="opensans size13"><?=\Yii::t('app', 'Check in date');?></span>
-									<input type="text" class="form-control mySelectCalendar" id="datepicker" placeholder="mm/dd/yyyy" data-date="<?=$model["start"]?>"/>
+									<input type="text" class="form-control mySelectCalendar" id="daterangepicker" name="d" data-sdate="<?=$model["start"]?>" data-edate="<?=$model["end"]?>"/>
+									<input type="hidden" name="sd" />
+									<input type="hidden" name="ed" />
 								</div>
-							</div>
-
-							<div class="w50percentlast">
-								<div class="wh90percent textleft right">
-									<span class="opensans size13"><?=\Yii::t('app', 'Check out date');?></span>
-									<input type="text" class="form-control mySelectCalendar" id="datepicker2" placeholder="mm/dd/yyyy" data-date="<?=$model["end"]?>"/>
-								</div>
-							</div>
 							
 							<div class="clearfix pbottom15"></div>
 							
@@ -144,7 +136,7 @@ $asdf = \Yii::t('app', 'Hotels');
 								<div class="w50percent">
 									<div class="wh90percent textleft">
 												<span class="opensans size13"><b><?=\Yii::t('app', 'Adult');?></b></span>
-												<select class="form-control mySelectBoxClass" id="formAdult">
+												<select class="form-control mySelectBoxClass" id="formAdult" name="a">
 												<?php
 												for($i = 1; $i <= 5; $i++)
 												{
@@ -158,9 +150,9 @@ $asdf = \Yii::t('app', 'Hotels');
 								<div class="w50percentlast">	
 									<div class="wh90percent textleft right">
 											<span class="opensans size13"><b><?=\Yii::t('app', 'Child');?></b></span>
-												<select class="form-control mySelectBoxClass" id="formChild">
+												<select class="form-control mySelectBoxClass" id="formChild" name="c">
 												<?php
-												for($i = 1; $i <= 5; $i++)
+												for($i = 0; $i <= 5; $i++)
 												{
 													echo "<option ".($model["child"] == $i ? "selected":"").">$i</option>";
 												}
@@ -171,7 +163,8 @@ $asdf = \Yii::t('app', 'Hotels');
 							</div>
 							
 							<div class="clearfix"></div>
-							<button type="submit" class="btn-search3"><?=\Yii::t('app', 'Search');?></button>
+							<button type="submit" id="villaSearch"  class="btn-search3"><?=\Yii::t('app', 'Search');?></button>
+							</form>
 						</div>
 						<!-- END OF HOTELS TAB -->
 						
@@ -474,11 +467,11 @@ $asdf = \Yii::t('app', 'Hotels');
 				<div class="hpadding20">
 					<!-- Top filters -->
 					<div class="topsortby">
-						<div class="col-md-4 offset-0">
+						<div class="col-md-1 offset-0">
 								
 								<div class="left mt7"><b>Sort by:</b></div>
 								
-								<div class="right wh70percent">
+								<!--div class="right wh70percent">
 									<select class="form-control mySelectBoxClass ">
 									  <option selected>Guest rating</option>
 									  <option>5 stars</option>
@@ -487,37 +480,37 @@ $asdf = \Yii::t('app', 'Hotels');
 									  <option>2 stars</option>
 									  <option>1 stars</option>
 									</select>
-								</div>
+								</div-->
 
 						</div>			
 						<div class="col-md-4">
 							<div class="w50percent">
 								<div class="wh90percent">
-									<select class="form-control mySelectBoxClass ">
-									  <option selected>Name</option>
-									  <option>A to Z</option>
-									  <option>Z to A</option>
+									<select class="form-control mySelectBoxClass " data-name="name" onchange="lSort(this)">
+									  <option selected><?=\Yii::t('app', 'Name');?></option>
+									  <option value="asc"><?=\Yii::t('app', 'A to Z');?></option>
+									  <option value="desc"><?=\Yii::t('app', 'Z to A');?></option>
 									</select>
 								</div>
 							</div>
 							<div class="w50percentlast">
 								<div class="wh90percent">
-									<select class="form-control mySelectBoxClass ">
-									  <option selected>Price</option>
-									  <option>Ascending</option>
-									  <option>Descending</option>
+									<select class="form-control mySelectBoxClass " data-name="price" onchange="lSort(this)">
+									  <option selected><?=\Yii::t('app', 'Price');?></option>
+									  <option value="asc"><?=\Yii::t('app', 'Ascending');?></option>
+									  <option value="desc"><?=\Yii::t('app', 'Descending');?></option>
 									</select>
 								</div>
 							</div>					
 						</div>
-						<div class="col-md-4 offset-0">
+						<!--div class="col-md-4 offset-0">
 							<button class="popularbtn left">Most Popular</button>
 							<div class="right">
 								<button class="gridbtn" onClick="window.open('list2.html','_self');">&nbsp;</button>
 								<button class="listbtn active">&nbsp;</button>
 								<button class="grid2btn" onClick="window.open('list3.html','_self');">&nbsp;</button>
 							</div>
-						</div>
+						</div-->
 					</div>
 					<!-- End of topfilters-->
 				</div>
@@ -526,36 +519,35 @@ $asdf = \Yii::t('app', 'Hotels');
 				<br/><br/>
 				<div class="clearfix"></div>
 				
-
-					<div class="offset-2" id="blank_list" style="display:none">
+	<div style="display:none">
+		<div id="villa-item">
+			
+					<div class="offset-2">
 						<div class="col-md-4 offset-0">
 							<div class="listitem2">
-								<a href="<?=Url::to('@web/images/villa/b/')?>{picture}" data-footer="A custom footer text" data-title="{name}" data-gallery="multiimages" data-toggle="">
-									<img src="<?=Url::to('@web/images/villa/t/')?>{picture}" alt=""/>
+								<a href="" class="vldetail">
+									<img src=""  class="vlpicture" alt=""/>
 								</a>
-								<!--a class="liover" href="<?=Url::to('@web/villa/')?>">
-									<div class="liover"></div>
-								</a-->
 							</div>
 						</div>
 						<div class="col-md-8 offset-0">
 							<div class="itemlabel3">
 								<div class="labelright">
-									<!--img src="<?=Url::to('@web/')?>images/filter-rating-5.png" width="60" alt=""/><br/><br/><br/>
-									<img src="<?=Url::to('@web/')?>images/user-rating-5.png" width="60" alt=""/><br/>
-									<span class="size11 grey">18 Reviews</span><br/><br/-->
-									<span class="green size18"><b>$36.00</b></span><br/>
-									<span class="size11 grey"><?=\Yii::t('app', 'night');?></span><br/><br/><br/>
-									<span class="green size18"><b>$36.00</b></span><br/>
-									<span class="size11 grey"><?=\Yii::t('app', 'night');?></span><br/><br/><br/>
-									<form action="<?=Url::to('@web/villa/')?>{name}">
-									 <button class="bookbtn mt1" type="submit">Book</button>	
+									<form action=""  class="vldetaila" style="float:bottom">
+									 <button class="bookbtn mt1" type="submit"><?=\Yii::t('app', 'Book');?></button>	
 									</form>			
+									<br/><br/>
+									<span class="green size18"><b class="price"></b> <b class="currency" style="text-transform: uppercase;"></b></span><br/>
+									<span class="size11 grey"><?=($model["days"]>0? \Yii::t('app', 'total price') : \Yii::t('app', 'night price'))?></span>
+									<br/><br/><br/>
+									<br/><br/><br/>
+									<br/><br/> 
 								</div>
-								<div class="labelleft2">			
-									<b>{name}</b><br/><br/><br/>
-									<p class="grey">
-									{description}</p><br/>
+								<div class="labelleft2">		
+									<a href="" class="vldetail">	
+									<b class="name"></b></a><br/><br/>
+									<p class="grey description">
+									</p>
 									<ul class="hotelpreferences">
 										<li class="icohp-internet" title="İnternet"></li>
 										<li class="icohp-air"></li>
@@ -573,11 +565,25 @@ $asdf = \Yii::t('app', 'Hotels');
 						</div>
 					</div>
 
-				<div class="itemscontainer offset-1">
+					<div class="clearfix"></div>
+					<div class="offset-2"><hr class="featurette-divider3"></div>
+
+		</div>
+	</div>
+
+<div id="villa-list">
+	<div class="list">
+	</div>
+	<ul class="pagination right padding20"></ul>
+</div>	
+
+
+
 			
-			<?php
+			<?php /*
 				foreach($model["villas"] as $villa)
 				{
+					//{ vldetail: 'villa/beyaz', vlpicture:'images/villa/t/beyaz-01.jpg', vlname:"Beyaz", vldesc:"Açıklama" },
 					$data = json_decode($villa["data"], true);
 					?>
 					<div class="offset-2">
@@ -629,9 +635,8 @@ $asdf = \Yii::t('app', 'Hotels');
 					<div class="clearfix"></div>
 					<div class="offset-2"><hr class="featurette-divider3"></div>
 					<?php
-					}
+					} */
 					?>
-				</div>	
 				<!-- End of offset1-->		
 
 				<div class="hpadding20">
@@ -731,8 +736,26 @@ $asdf = \Yii::t('app', 'Hotels');
 		</div>
 	</div>
 	
-
-
+	<script type="text/javascript">
+		var totalDays = <?=$model["days"]?>;
+		var villaValues = [
+	<?php 
+	foreach($model["villas"] as $villa)
+	{
+		$data = json_decode($villa["data"], true);
+		$url = Url::to('@web/villa/').$data["name"];
+		$pic = Url::to('@web/images/villa/t/').$data["pictures"][0];
+		$data["vldetail"] = $url;
+		$data["vldetaila"] = $url;
+		$data["vlpicture"] = $pic;
+		unset($data["owner_phone"]);
+		unset($data["owner_mail"]);
+		unset($data["owner"]);
+		echo json_encode($data). ",";
+	}
+	?>
+		];
+	</script>
 
     <!-- Javascript -->	
     <script src="<?=Url::to('@web/')?>assets/js/js-list4.js"></script>	
@@ -744,6 +767,11 @@ $asdf = \Yii::t('app', 'Hotels');
 	<script type='text/javascript' src='<?=Url::to('@web/')?>js/lightbox.js'></script>	
 	
 	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/jquery.twbsPagination.min.js'></script>	
+
+	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/list.js'></script>	
+	
+	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/moment.min.js'></script>	
+	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/daterangepicker.js'></script>	
 	
     <!-- JS Ease -->	
     <script src="<?=Url::to('@web/')?>assets/js/jquery.easing.js"></script>

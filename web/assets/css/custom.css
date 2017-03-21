@@ -2778,4 +2778,8 @@ padding-top:3px;
 
 .page-item.prev { display: block}
 
-
+p.description {
+    height: 120px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

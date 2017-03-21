@@ -53,6 +53,7 @@ $this->title = "Yönetim Paneli"
 
 	<?php $this->registerCssFile('@web/assets/css/bootstrap-year-calendar2.css');?>
 	<?php $this->registerCssFile('@web/assets/css/bootstrap-datepicker3.css');?>
+	<?php $this->registerCssFile('@web/assets/css/fileinput.css');?>
 	
     <!-- jQuery -->	
     <script src="<?=Url::to('@web/')?>assets/js/jquery.v2.0.3.js"></script>
@@ -275,6 +276,9 @@ $this->title = "Yönetim Paneli"
 	
 	<script src="<?=Url::to('@web/')?>assets/js/js-dashboard.js"></script>	
     <script src="<?=Url::to('@web/')?>assets/js/notify.min.js"></script>
+    <script src="<?=Url::to('@web/')?>assets/js/fileinput.min.js"></script>
+    <script src="<?=Url::to('@web/')?>assets/js/sortable.min.js"></script>
+    <script src="<?=Url::to('@web/')?>plugins/tinymce/tinymce.min.js"></script>
 
 	
 		

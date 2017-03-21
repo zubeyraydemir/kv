@@ -79,7 +79,101 @@ class SiteController extends Controller
         $end = Yii::$app->request->get('ed');
         $adult = Yii::$app->request->get('a');
         $child = Yii::$app->request->get('c');
-        $posts = Yii::$app->db->createCommand('SELECT * FROM estates')->queryAll();
+        $adult = empty($adult) ? 2 : $adult;
+        $child = empty($child) ? 0 : $child;
+
+        $villa_ids = "";
+        $priceq = "";
+        if (!empty($start))
+        {
+            $params = [':name' => $name];
+
+            $villa_ids = Yii::$app->db->createCommand('SELECT group_concat(distinct villa_id) ids FROM reservations 
+                where ((start_date <= :start_date and end_date >= :start_date) 
+                    or (start_date <= :end_date and end_date >= :end_date) 
+                    or (start_date >= :start_date and end_date <= :end_date) 
+                    or (start_date <= :start_date and end_date >= :end_date))')
+            ->bindValues([':start_date' => $start,':end_date' => $end])
+            ->queryScalar();
+            $priceq = " ((start_date <= :start_date and end_date >= :start_date) 
+                    or (start_date <= :end_date and end_date >= :end_date) 
+                    or (start_date >= :start_date and end_date <= :end_date) 
+                    or (start_date <= :start_date and end_date >= :end_date)) and ";
+
+        }
+        if (empty($villa_ids))
+        {
+            $posts = Yii::$app->db->createCommand('SELECT * FROM estates')->queryAll();
+            $prices = Yii::$app->db->createCommand("SELECT * FROM prices where $priceq start_date >= now() or (start_date <= now() and end_date >= now()) order by villa_id,start_date,id desc")
+            ->bindValues([':start_date' => $start,':end_date' => $end])
+            ->queryAll();
+        }
+        else
+        {
+            $posts = Yii::$app->db->createCommand("SELECT * FROM estates where id not in ($villa_ids)")->queryAll();
+            $prices = Yii::$app->db->createCommand("SELECT * FROM prices where $priceq villa_id not in ($villa_ids) and  (start_date >= now() or (start_date <= now() and end_date >= now()))  order by villa_id,start_date,id desc")
+            ->bindValues([':start_date' => $start,':end_date' => $end])
+            ->queryAll();
+        }
+        $totalday = 0;
+        if (empty($start))
+        {
+            for ($i=0;$i<count($posts);$i++)
+            {
+                $villa = $posts[$i];
+                $minpri = 99999;
+                foreach ($prices as $price)
+                {
+                    if ($price["villa_id"] == $villa["id"])
+                    {
+                        if ($price["price"] < $minpri)
+                            $minpri = $price["price"];
+                    }
+                }
+                $posts[$i]["price"] = $minpri;
+            }
+        }
+        else
+        {
+            $sdate = new \DateTime($start); 
+            $edate = new \DateTime($end); 
+
+            if ($sdate >= $edate)
+            {
+                $sdate->modify('+1 day');
+                $end = $sdate->format('Y-m-d');
+                $edate = $sdate;
+                $sdate = new \DateTime($start); 
+            }
+
+            while ($sdate < $edate)
+            {
+                $totalday++;
+                $date = $sdate->format('Y-m-d');
+                for ($i=0;$i<count($posts);$i++)
+                {
+                    $posts[$i]["price"] = 0;
+                    $villa = $posts[$i];
+                    foreach ($prices as $price)
+                    {
+                        if ($price["villa_id"] == $villa["id"] && $price["start_date"] <= $date && $price["end_date"] >= $date)
+                        {
+                            $posts[$i]["price"] += $price["price"];
+                            break;
+                        }
+                    }
+                }
+                
+                $sdate->modify('+1 day');
+            }
+        }
+
+        for ($i=0;$i<count($posts);$i++)
+        {
+            $temp = json_decode($posts[$i]["data"],true);
+            $temp["price"] = $posts[$i]["price"];
+            $posts[$i]["data"] = json_encode($temp);
+        }
 
         $model = [
             "name"=>$name,
@@ -87,7 +181,8 @@ class SiteController extends Controller
             "end"=>$end,
             "adult"=>$adult,
             "child"=>$child,
-            "villas"=>$posts
+            "villas"=>$posts,
+            "days" => $totalday
         ];
         return $this->render('list', [ "model" => $model]);
     }

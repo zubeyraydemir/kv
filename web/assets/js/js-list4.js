@@ -5,6 +5,50 @@ jQuery(function() {
 	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker();
 	jQuery("#datepicker").datepicker('setDate', new Date(jQuery("#datepicker").data("date")));
 	jQuery("#datepicker2").datepicker('setDate', new Date(jQuery("#datepicker2").data("date")));
+	 
+$('#daterangepicker').daterangepicker({
+    "autoApply": true,
+    "showDropdowns": true,
+    "locale": {
+        "format": "DD/MM/YYYY",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "H",
+        "daysOfWeek": ["Pz", "Pt", "Sa", "Çş", "Pş", "Cu", "Ct"],
+        "monthNames": [
+            "Ocak",
+            "Şubat",
+            "Mart",
+            "Nisan",
+            "Mayıs",
+            "Haziran",
+            "Temmuz",
+            "Ağustos",
+            "Eylül",
+            "Ekim",
+            "Kasım",
+            "Aralık"
+        ],
+        "firstDay": 1
+    },
+    "showCustomRangeLabel": false,
+    "minDate": moment(),
+    "opens": "center"
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+});
+
+if ($('#daterangepicker').data("sdate") != "")
+{
+$('#daterangepicker').data('daterangepicker').setStartDate(moment($('#daterangepicker').data("sdate")));
+$('#daterangepicker').data('daterangepicker').setEndDate(moment($('#daterangepicker').data("edate")));
+}
+
+
 });
 
 
@@ -12,26 +56,6 @@ jQuery(function() {
 //Counter
 //------------------------------
 
-jQuery(function($) {
-	$('.countprice').countTo({
-		from: 5,
-		to: 36,
-		speed: 1000,
-		refreshInterval: 50,
-		onComplete: function(value) {
-			console.debug(this);
-		}
-	});
-	$('.counthotel').countTo({
-		from: 1,
-		to: 53,
-		speed: 2000,
-		refreshInterval: 50,
-		onComplete: function(value) {
-			console.debug(this);
-		}
-	});			
-});
 
 
 
@@ -444,11 +468,30 @@ $(window).on('hashchange',function(){
 });
 
 
-
-				
+var hackerList =null;	
 jQuery(document).ready(function(jQuery){
-	
+	var options = {
+    item: 'villa-item',
+	sortClass: "sort",
+	valueNames: [{ name: 'vldetail', attr: 'href' },{ name: 'vldetaila', attr: 'action' }, { name: 'vlpicture', attr: 'src' }, 'name', 'description', 'price', 'currency'],
+	page: 10,
+	pagination: true
+	};
 
+
+
+hackerList = new List('villa-list', options, villaValues);
+$("b.price").filter(function() {return $(this).text().trim() == "0";}).parent().text("-");
+
+/*
+
+hackerList.filter(function(item) {
+if (item.values().oven == "on") {
+   return true;
+} else {
+   return false;
+}
+});
 
 jQuery('.pagination-sm').twbsPagination({
         totalPages: 35,
@@ -462,5 +505,45 @@ jQuery('.pagination-sm').twbsPagination({
 		last: "Son Sayfa"
     });
 
+*/
 
+});
+
+function lSort(obj) {
+	var that = $(obj);
+	hackerList.sort(that.data("name"), { order: that.val() }); 
+}
+
+
+jQuery(function($) {
+	var minpri = villaValues[0].price;
+	for (var i=0;i<villaValues.length;i++)
+	{
+		if (villaValues[i].price < minpri)
+			minpri = villaValues[i].price;
+	}
+	$('.countprice').countTo({
+		from: 0,
+		to: minpri,
+		speed: 1000,
+		refreshInterval: 50,
+		onComplete: function(value) {
+			console.debug(this);
+		}
+	});
+	$('.counthotel').countTo({
+		from: 0,
+		to: villaValues.length,
+		speed: 2000,
+		refreshInterval: 50,
+		onComplete: function(value) {
+			console.debug(this);
+		}
+	});			
+});
+
+$("#searchForm").submit(function() {
+	$("input[name=sd]").val($("input[name=sd]").datepicker("getDate").sql());
+	$("input[name=ed]").val($("input[name=ed]").datepicker("getDate").sql());
+	return true;
 });
