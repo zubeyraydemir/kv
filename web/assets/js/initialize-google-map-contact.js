@@ -68,7 +68,8 @@
 		];
 
 		
-		var myLatlng = new google.maps.LatLng(36.5068, -4.8825);
+		var myLatlng = new google.maps.LatLng(40.935694, 29.134278);
+		var myLatlngCenter = new google.maps.LatLng(40.93360, 29.134278);
 
 
 	  // Create a new StyledMapType object, passing it the array of styles,
@@ -81,7 +82,7 @@
 	  // to the map type control.
 	  var mapOptions = {
 		zoom: 15,
-		center: myLatlng,
+		center: myLatlngCenter,
 		mapTypeControl: true,
 		mapTypeControlOptions: {
 		  mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style'],

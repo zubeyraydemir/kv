@@ -3,6 +3,8 @@
 //------------------------------
 jQuery(function() {
 	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker();
+	jQuery("#datepicker").datepicker('setDate', new Date(jQuery("#datepicker").data("date")));
+	jQuery("#datepicker2").datepicker('setDate', new Date(jQuery("#datepicker2").data("date")));
 });
 
 
@@ -437,13 +439,28 @@ $(document).ready(function($){
 
 });
 
+$(window).on('hashchange',function(){ 
+    alert("slm");
+});
 
 
 
+				
+jQuery(document).ready(function(jQuery){
+	
 
 
+jQuery('.pagination-sm').twbsPagination({
+        totalPages: 35,
+        visiblePages: 7,
+        onPageClick: function (event, page) {
+            $('#page-content').text('Page ' + page);
+        },
+		first: "İlk Sayfa",
+		prev: "Önceki",
+		next: "Sonraki",
+		last: "Son Sayfa"
+    });
 
 
-
-
-
+});

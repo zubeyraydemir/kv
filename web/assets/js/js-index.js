@@ -3,7 +3,7 @@
 //------------------------------
 
 jQuery(function() {
-	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker();
+	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker(jQuery.datepicker.regional[ "tr" ]);
 });
 
 
@@ -213,7 +213,7 @@ jQuery(window).scroll(function(){
 			  }
 			
 			
-			jQuery('.logo').stop().animate({width: '120px'}, 100);		
+			jQuery('.logo').stop().animate({width: '140px'}, 100);		
 	
 		}
 		
@@ -286,3 +286,13 @@ jQuery(".one").mouseleave(function() {
 
 
 
+// submit
+jQuery('form').submit(function(e) {
+    e.preventDefault();
+	jQuery("#villa_name").val(jQuery("#formname").val());
+	jQuery("#start_date").val(jQuery.datepicker.formatDate('yy-mm-dd', jQuery('#datepicker').datepicker('getDate')));
+	jQuery("#end_date").val(jQuery.datepicker.formatDate('yy-mm-dd', jQuery('#datepicker2').datepicker('getDate')));
+	jQuery("#adult").val(jQuery("#formAdult").val());
+	jQuery("#child").val(jQuery("#formChild").val());
+	this.submit();
+});

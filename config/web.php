@@ -6,6 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'tr',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -15,7 +16,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-			'loginUrl'=>'admin/login',
+			'loginUrl'=>'@web/prensmustafa',
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => false,
         ],
@@ -54,12 +55,37 @@ $config = [
 			'enablePrettyUrl' => true,
 			'rules' => array(
 					'' => 'site/index', 
-					$t['search'] => 'site/about', 
+					'prensmustafa' => 'kiraliceesma/login', 
+					'search' => 'site/about', 
+					'villa/<name:\w*>' => 'site/villa', 
+					'kiraliceesma/villa/<name>' => 'kiraliceesma/villa', 
+					'list' => 'site/list', 
+                    'contact' => 'site/contact',
+                    'iletisim' => 'site/contact',
+                    'hakkinda' => 'site/about',
+                    'post/<id:\d+>' => 'post/view',
+                    'sex' => 'site/sex',
 			),
 		],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'assetManager' => [
+            'linkAssets' => true,
+        ],
+        'i18n' => [
+        'translations' => [
+            'app*' => [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@app/messages',
+                //'sourceLanguage' => 'en-US',
+                'fileMap' => [
+                    'app' => 'app.php',
+                    'app/error' => 'error.php',
+                ],
+            ],
+        ],
+    ],
     ],
     'params' => $params,
 ];

@@ -186,12 +186,22 @@ a:hover.green2{color:#339933; font-weight:normal; text-decoration:none;}
 
 /*IMAGE*/
 .fwi{width:100%; height:261px; overflow:hidden; position:relative;}
-.fwi img{width:100%; margin-left:0px;}
+.fwi img{
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   -webkit-transform: translateY(-50%) translateX(-50%);
+}
 @media (min-width: 992px) {
 .fwi img{width:120%;margin-left:-20px;}
 }
 @media (min-width: 1200px) {
-.fwi img{width:100%; margin-left:0px;}
+.fwi img{
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   -webkit-transform: translateY(-50%) translateX(-50%);
+}
 }
 
 /*bg*/
@@ -1838,7 +1848,7 @@ background:url('../../images/arrows.png') scroll 0 0 no-repeat;
 
 
 /*PREFERENCE LIST*/
-ul.hotelpreferences {margin: 0px;padding: 0px;list-style: none;}
+ul.hotelpreferences {margin: 0px;padding: 0px;list-style: none; float:bottom}
 .hotelpreferences li{
 width:28px; 
 height:28px; 
@@ -2766,6 +2776,6 @@ padding-top:3px;
 .line6{background:#e8e8e8; height:1px;  margin:30px 0 30px 0; padding:0; display:block;}
 
 
-
+.page-item.prev { display: block}
 
 
