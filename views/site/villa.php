@@ -4,7 +4,9 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-$this->title = 'Kiralık Villam';
+$data = json_decode($villa["data"], true);
+$this->title = 'Kiralık Villam - ' . $data["name"];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,6 +41,9 @@ $this->title = 'Kiralık Villam';
 	
     <!-- Picker UI-->	
 	<link rel="stylesheet" href="<?=Url::to('@web/')?>assets/css/jquery-ui.css" />	
+	<link rel="stylesheet" href="<?=Url::to('@web/')?>assets/css/owl.carousel.css" />	
+	<link rel="stylesheet" href="<?=Url::to('@web/')?>assets/css/photoswipe.css" />	
+	<link rel="stylesheet" href="<?=Url::to('@web/')?>assets/css/default-skin/default-skin.css" />	
 	
 	<!-- bin/jquery.slider.min.css -->
 	<link rel="stylesheet" href="<?=Url::to('@web/')?>plugins/jslider/css/jslider.css" type="text/css">
@@ -71,14 +76,12 @@ $this->title = 'Kiralık Villam';
 			<div class="left">
 				<ul class="bcrumbs">
 					<li>/</li>
-					<li><a href="<?=Url::to('@web/')?>#">Hotels</a></li>
+					<li><a href="<?=Url::to('@web/villalar')?>"><?=\Yii::t('app', 'Villas');?></a></li>
 					<li>/</li>
-					<li><a href="<?=Url::to('@web/')?>#">U.S.A.</a></li>
-					<li>/</li>					
-					<li><a href="<?=Url::to('@web/')?>#" class="active">New York</a></li>					
+					<li><a href="<?=Url::to('@web/villa').$villa["name"]?>"><?=$data["name"]?></a></li>				
 				</ul>				
 			</div>
-			<a class="backbtn right" href="<?=Url::to('@web/')?>#"></a>
+			<a class="backbtn right" href="<?=Url::to('@web/villalar')?>"></a>
 		</div>
 		<div class="clearfix"></div>
 		<div class="brlines"></div>
@@ -93,7 +96,46 @@ $this->title = 'Kiralık Villam';
 			
 				<div id="c-carousel">
 				<div id="wrapper">
+					<img src="<?=Url::to('@web/')?>images/zoom.png" style="position:absolute;z-index:2; margin: 5px; width:25px;opacity: .5;cursor:pointer" onclick="openPhotoSwipe();">
 				<div id="inner">
+					<div class="owl-carousel">
+						
+							<?php
+							foreach ($data["pictures"] as $pic)
+							{
+								?>
+									<div class="item">
+										<img src="<?=Url::to('@web/')?>images/villa/b/<?=$pic?>" alt="">
+									</div>
+								<?php
+							}
+							?>
+					</div>
+					<!--div id="caroufredsel_wrapper2">
+						<div id="carousel" class="hasan">
+							<?php
+							foreach ($data["pictures"] as $pic)
+							{
+								?>
+									<img src="<?=Url::to('@web/')?>images/villa/b/<?=$pic?>" alt=""/>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+					<div id="pager-wrapper">
+						<div id="pager">
+							<?php
+							foreach ($data["pictures"] as $pic)
+							{
+								?>
+									<img src="<?=Url::to('@web/')?>images/villa/b/<?=$pic?>"  height="68" alt=""/>
+								<?php
+							}
+							?>
+						</div>
+					</div>
+					
 					<div id="caroufredsel_wrapper2">
 						<div id="carousel">
 							<img src="<?=Url::to('@web/')?>images/details-slider/slide1.jpg" alt=""/>
@@ -106,6 +148,8 @@ $this->title = 'Kiralık Villam';
 					</div>
 					<div id="pager-wrapper">
 						<div id="pager">
+							<?php
+							?>
 							<img src="<?=Url::to('@web/')?>images/details-slider/slide1.jpg" width="120" height="68" alt=""/>
 							<img src="<?=Url::to('@web/')?>images/details-slider/slide2.jpg" width="120" height="68" alt=""/>
 							<img src="<?=Url::to('@web/')?>images/details-slider/slide3.jpg" width="120" height="68" alt=""/>
@@ -113,11 +157,9 @@ $this->title = 'Kiralık Villam';
 							<img src="<?=Url::to('@web/')?>images/details-slider/slide5.jpg" width="120" height="68" alt=""/>
 							<img src="<?=Url::to('@web/')?>images/details-slider/slide6.jpg" width="120" height="68" alt=""/>						
 						</div>
-					</div>
+					</div-->
 				</div>
-				<div class="clearfix"></div>
-				<button id="prev_btn2" class="prev2"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></button>
-				<button id="next_btn2" class="next2"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></button>		
+				<div class="clearfix"></div>	
 					
 		</div>
 		</div> <!-- /c-carousel -->
@@ -132,39 +174,68 @@ $this->title = 'Kiralık Villam';
 			<!-- RIGHT INFO -->
 			<div class="col-md-4 detailsright offset-0">
 				<div class="padding20">
-					<h4 class="lh1">Mabely Grand Hotel</h4>
+					<h4 class="lh1"><?=$data["name"]?></h4>
 					<img src="<?=Url::to('@web/')?>images/smallrating-5.png" alt=""/>
 				</div>
 				
 				<div class="line3"></div>
 				
 				<div class="hpadding20">
-					<h2 class="opensans slim green2">Wonderful!</h2>
+					
+					<?=isset($start) ? '<h2 class="opensans slim green2">Harika!</h2>Seçtiğiniz tarihlerde rezervasyon yapabilirsiniz.' : "Fiyat seçeneklerini görmek için tarih seçiniz"?>
 				</div>
 				
 				<div class="line3 margtop20"></div>
 				
-				<div class="col-md-6 bordertype1 padding20">
-					<span class="opensans size30 bold grey2">97%</span><br/>
-					of guests<br/>recommend
-				</div>
-				<div class="col-md-6 bordertype2 padding20">
-					<span class="opensans size30 bold grey2">4.5</span>/5<br/>
-					guest ratings
-				</div>
-				
-				<div class="col-md-6 bordertype3">
-					<img src="<?=Url::to('@web/')?>images/user-rating-4.png" alt=""/><br/>
-					18 reviews
-				</div>
-				<div class="col-md-6 bordertype3">
-					<a href="<?=Url::to('@web/')?>#" class="grey">+Add review</a>
+				<div class="col-md-12 bordertype3 padding20">
+					<?php
+					$pridesc = "";
+					//echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
+					$minpri = 99999;
+					if (count($prices) > 0)
+					{
+						if (isset($start))
+						{
+							$date = new DateTime($start);
+							$total_price = 0;
+							while ($date->format("Y-m-d") < $end)
+							{
+								foreach($prices as $price)
+								{
+									if ($price["start_date"] <= $date && $price["end_date"] >= $date)
+									{
+										$total_price += $price["price"];
+									}
+								}
+									$date->add(new DateInterval('P1D')); 
+							}
+						}
+						foreach($prices as $price)
+						{
+							if ($minpri > $price["price"])
+								$minpri = $price["price"];
+						}
+
+						if (isset($start))
+						{
+							$date1 = new DateTime($start);
+							$date2 = new DateTime($end);
+							$interval = $date1->diff($date2);
+							echo $interval->d. " gecelik konaklama.<br>";
+						}
+
+					}
+					else
+					{
+						$pridesc = "Girdiğiniz tarihler arasında fiyat bilgisi bulunamadı. Rezervasyonda bulunarak veya bizi arayarak fiyat bilgisi hakkında bilgi alabilirsiniz";
+					}
+					?>
 				</div>
 				<div class="clearfix"></div><br/>
 				
 				<div class="hpadding20">
 					<a href="<?=Url::to('@web/')?>#" class="add2fav margtop5">Add to favourite</a>
-					<a href="<?=Url::to('@web/')?>#" class="booknow margtop20 btnmarg">Book now</a>
+					<a href="#tabs" class="booknow margtop20 btnmarg" onclick="$('.nav-tabs a[href=#roomrates]').tab('show');"><?=\Yii::t('app', 'Book now');?></a>
 				</div>
 			</div>
 			<!-- END OF RIGHT INFO -->
@@ -174,130 +245,116 @@ $this->title = 'Kiralık Villam';
 		
 		<div class="container mt25 offset-0">
 
-			<div class="col-md-8 pagecontainer2 offset-0">
+			<div id="tabs" class="col-md-8 pagecontainer2 offset-0">
 				<div class="cstyle10"></div>
 		
 				<ul class="nav nav-tabs" id="myTab">
-					<li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="<?=Url::to('@web/')?>#summary"><span class="summary"></span><span class="hidetext">Summary</span>&nbsp;</a></li>
-					<li onclick="mySelectUpdate()" class="active"><a data-toggle="tab" href="<?=Url::to('@web/')?>#roomrates"><span class="rates"></span><span class="hidetext">Room rates</span>&nbsp;</a></li>
-					<li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="<?=Url::to('@web/')?>#preferences"><span class="preferences"></span><span class="hidetext">Preferences</span>&nbsp;</a></li>
-					<li onclick="loadScript()" class=""><a data-toggle="tab" href="<?=Url::to('@web/')?>#maps"><span class="maps"></span><span class="hidetext">Maps</span>&nbsp;</a></li>
-					<li onclick="mySelectUpdate(); trigerJslider(); trigerJslider2(); trigerJslider3(); trigerJslider4(); trigerJslider5(); trigerJslider6();" class=""><a data-toggle="tab" href="<?=Url::to('@web/')?>#reviews"><span class="reviews"></span><span class="hidetext">Reviews</span>&nbsp;</a></li>
-					<li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="<?=Url::to('@web/')?>#thingstodo"><span class="thingstodo"></span><span class="hidetext">Things to do</span>&nbsp;</a></li>
-
+					<li onclick="mySelectUpdate()" class="active"><a data-toggle="tab" href="#summary"><span class="summary"></span><span class="hidetext"><?=\Yii::t('app', 'About');?></span>&nbsp;</a></li>
+					<li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#roomrates"><span class="rates"></span><span class="hidetext"><?=\Yii::t('app', 'Reservation');?></span>&nbsp;</a></li>
+					<li onclick="loadScript()" class=""><a data-toggle="tab" href="#maps"><span class="maps"></span><span class="hidetext"><?=\Yii::t('app', 'Maps');?></span>&nbsp;</a></li>
+					<li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#thingstodo"><span class="thingstodo"></span><span class="hidetext"><?=\Yii::t('app', 'Things to do');?></span>&nbsp;</a></li>
+					<!--li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#preferences"><span class="preferences"></span><span class="hidetext">Preferences</span>&nbsp;</a></li>
+					<li onclick="mySelectUpdate(); trigerJslider(); trigerJslider2(); trigerJslider3(); trigerJslider4(); trigerJslider5(); trigerJslider6();" class=""><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext">Reviews</span>&nbsp;</a></li-->
+					
 				</ul>			
 				<div class="tab-content4" >
 					<!-- TAB 1 -->				
-					<div id="summary" class="tab-pane fade ">
-						<p class="hpadding20">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor aliquam felis, sit amet tempus nibh ullamcorper nec. Maecenas suscipit dolor at blandit congue. Sed adipiscing, odio feugiat pellentesque tincidunt, est leo vestibulum erat, ac pharetra massa justo ac lorem. 
-						</p>
-						<div class="line4"></div>
-						
-						<!-- Collapse 1 -->	
-						<button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse1">
-						  Malaga <span class="collapsearrow"></span>
-						</button>
-						
-						<div id="collapse1" class="collapse in">
-							<div class="hpadding20">
-								Situated near the sea, this hotel is close to Centre de Arte Contemporaneo, Malaga Cathedral, and Malaga Amphitheatre. Also nearby are Alcazaba and Picasso's Birthplace.
-							</div>
-							<div class="clearfix"></div>
+					<div id="summary" class="tab-pane fade active in">
+						<div class="hpadding20">
+							<?=$data["description"]?>
 						</div>
-						<!-- End of collapse 1 -->	
-						
-						<div class="line4"></div>						
-						
-						<!-- Collapse 2 -->	
-						<button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse2">
-						  2 restaurants, a bar/lounge <span class="collapsearrow"></span>
-						</button>
-						
-						<div id="collapse2" class="collapse in">
-							<div class="hpadding20">
-								Situated near the sea, this hotel is close to Centre de Arte Contemporaneo, Malaga Cathedral, and Malaga Amphitheatre. Also nearby are Alcazaba and Picasso's Birthplace.
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<!-- End of collapse 2 -->	
-						
-						<div class="line4"></div>						
-						
-						<!-- Collapse 3 -->	
-						<button type="button" class="collapsebtn2 collapsed" data-toggle="collapse" data-target="#collapse3">
-						  Complimentary Wi-Fi <span class="collapsearrow"></span>
-						</button>
-						
-						<div id="collapse3" class="collapse">
-							<div class="hpadding20">
-								Yes
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<!-- End of collapse 3 -->	
-						
-						<div class="line4"></div>							
-						
-						<!-- Collapse 4 -->	
-						<button type="button" class="collapsebtn2 collapsed" data-toggle="collapse" data-target="#collapse4">
-						  Internet <span class="collapsearrow"></span>
-						</button>
-						
-						<div id="collapse4" class="collapse">
-							<div class="hpadding20">
-								Yes
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<!-- End of collapse 4 -->		
-
-						<div class="line4"></div>								
-
-						<!-- Collapse 5 -->	
-						<button type="button" class="collapsebtn2 collapsed" data-toggle="collapse" data-target="#collapse5">
-						  Parking <span class="collapsearrow"></span>
-						</button>
-						
-						<div id="collapse5" class="collapse">
-							<div class="hpadding20">
-								Yes
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<!-- End of collapse 5 -->				
-
 						<div class="line4"></div>								
 
 						<!-- Collapse 6 -->	
 						<button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse6">
-						  Room Amenities <span class="collapsearrow"></span>
+						  <?=\Yii::t('app', 'Villa Amenities');?> <span class="collapsearrow"></span>
 						</button>
-						
+						<?php
+						$allprop = ["private_villa",
+							"inside_site",
+							"private_pool",
+							"shared_pool",
+							"heated_pool",
+							"closed_pool",
+							"natural_secured",
+							"curtain_secured",
+							"sea_view",
+							"nature_view",
+							"private_parking",
+							"shared_parking",
+							"pet_allowed",
+							"dish_washer",
+							"washer",
+							"fridge",
+							"oven",
+							"heater",
+							"microwave",
+							"kitchen_tools",
+							"kettle",
+							"toast_maker",
+							"toaster",
+							"iron",
+							"ironing_table",
+							"hair_dryer",
+							"safety_box",
+							"fireplace",
+							"air_conditioner",
+							"seating_group",
+							"food_table",
+							"television",
+							"dvd_player",
+							"jacuzzi",
+							"bathtub",
+							"pool",
+							"child_pool",
+							"camelia",
+							"barbeque",
+							"sunbed",
+							"umbrella",
+							"water",
+							"gas",
+							"electricity",
+							"limited_electricity",
+							"wireless"
+						];
+						$available = [];
+						foreach ($allprop as $prop)
+						{
+							if (isset($data[$prop]))
+								$available[] = $prop;
+						}
+						$perblock = ceil(count($available) / 3);
+						?>
 						<div id="collapse6" class="collapse in">
 							<div class="hpadding20">
 								<div class="col-md-4">
 									<ul class="checklist">
-										<li>Climate control</li>
-										<li>Air conditioning</li>
-										<li>Direct-dial phone</li>
-										<li>Minibar</li>
+										<?php
+										for ($i = 0; $i < $perblock; $i++)
+										{
+											echo "<li>".\Yii::t("app", $available[$i])."</li>";
+										}
+										?>
 									</ul>
 								</div>
 								<div class="col-md-4">
 									<ul class="checklist">
-										<li>Wake-up calls</li>
-										<li>Daily housekeeping</li>
-										<li>Private bathroom</li>
-										<li>Hair dryer</li>	
+										<?php
+										for ($i = $perblock; $i < $perblock*2; $i++)
+										{
+											echo "<li>".\Yii::t("app", $available[$i])."</li>";
+										}
+										?>
 									</ul>									
 								</div>	
 								<div class="col-md-4">
 									<ul class="checklist">								
-										<li>Makeup/shaving mirror</li>
-										<li>Shower/tub combination</li>
-										<li>Satellite TV service</li>
-										<li>Electronic/magnetic keys</li>	
+										<?php
+										for ($i = $perblock*2; $i < count($available); $i++)
+										{
+											echo "<li>".\Yii::t("app", $available[$i])."</li>";
+										}
+										?>
 									</ul>									
 								</div>									
 							</div>
@@ -307,292 +364,197 @@ $this->title = 'Kiralık Villam';
 				
 					</div>
 					<!-- TAB 2 -->
-					<div id="roomrates" class="tab-pane fade active in">
-					    <div class="hpadding20">
-							<p class="dark">Your travel rates</p>
-							<div class="col-md-4 offset-0">
-								<div class="w50percent">
-									<div class="wh90percent textleft">
-										<span class="opensans size13"><b>Check in</b></span>
-										<input type="text" class="form-control mySelectCalendar" id="datepicker" placeholder="mm/dd/yyyy"/>
+					<div id="roomrates" class="tab-pane fade ">
+						<form action="<?=Url::to('@web/')?>reservation" method="post">
+							<div class="hpadding20">
+								<p class="dark">Rezervasyon bilgileriniz</p>
+								<div class="col-md-2 offset-0">
 									</div>
-								</div>
-
-								<div class="w50percentlast">
-									<div class="wh90percent textleft right">
-										<span class="opensans size13"><b>Check out</b></span>
-										<input type="text" class="form-control mySelectCalendar" id="datepicker2" placeholder="mm/dd/yyyy"/>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-8 offset-0">
-								<div class="col-md-8 ">
-									<div class="room1" >
-										<div class="w50percent">
-											<div class="wh90percent textleft">
-												<span class="opensans size13"><b>ROOM 1</b></span><br/>
-												
-												<div class="addroom1 block"><a onclick="addroom2()" class="grey cpointer">+ Add room</a></div>
-											</div>
-										</div>
-
-										<div class="w50percentlast">	
-											<div class="wh90percent textleft right ohidden">
-												<div class="w50percent">
-													<div class="wh90percent textleft left">
-														<span class="opensans size13"><b>Adult</b></span>
-														<select class="form-control mySelectBoxClass">
-														  <option>1</option>
-														  <option selected>2</option>
-														  <option>3</option>
-														  <option>4</option>
-														  <option>5</option>
-														</select>
-													</div>
-												</div>							
-												<div class="w50percentlast">
-													<div class="wh90percent textleft right ohidden">
-													<span class="opensans size13"><b>Child</b></span>
-														<select class="form-control mySelectBoxClass">
-														  <option>0</option>
-														  <option selected>1</option>
-														  <option>2</option>
-														  <option>3</option>
-														  <option>4</option>
-														  <option>5</option>
-														</select>
-													</div>
-												</div>
-											</div>
+								<div class="col-md-4 offset-0">
+									<div class="w50percent">
+										<div class="wh90percent textleft">
+											<span class="opensans size13"><b><?=\Yii::t("app","Check in date")?></b></span>
+											<input type="text" class="form-control mySelectCalendar" id="datepicker" placeholder="mm/dd/yyyy" data-date="<?=isset($start)?$start:""?>"/>
 										</div>
 									</div>
+
+									<div class="w50percentlast">
+										<div class="wh90percent textleft right">
+											<span class="opensans size13"><b><?=\Yii::t("app","Check out date")?></b></span>
+											<input type="text" class="form-control mySelectCalendar" id="datepicker2" placeholder="mm/dd/yyyy" data-date="<?=isset($end)?$end:""?>"/>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 offset-0">
 									
-									<div class="room2 none">
-										<div class="clearfix"></div><div class="line1"></div>
-										<div class="w50percent">
-											<div class="wh90percent textleft">
-												<span class="opensans size13"><b>ROOM 2</b></span><br/>
-												<div class="addroom2 block grey"><a onclick="addroom3()" class="grey cpointer">+ Add room</a> | <a onclick="removeroom2()" class="orange cpointer"><img src="<?=Url::to('@web/')?>images/delete.png" alt="delete"/></a></div>
-											</div>
-										</div>
-
-										<div class="w50percentlast">	
-											<div class="wh90percent textleft right">
-												<div class="w50percent">
-													<div class="wh90percent textleft left">
-														<span class="opensans size13"><b>Adult</b></span>
-														<select class="form-control mySelectBoxClass">
-														  <option>1</option>
-														  <option>2</option>
-														  <option selected>3</option>
-														  <option>4</option>
-														  <option>5</option>
-														</select>
-													</div>
-												</div>							
-												<div class="w50percentlast">
-													<div class="wh90percent textleft right">
-													<span class="opensans size13"><b>Child</b></span>
-														<select class="form-control mySelectBoxClass">
-														  <option selected>0</option>
-														  <option>1</option>
-														  <option>2</option>
-														  <option>3</option>
-														  <option>4</option>
-														  <option>5</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>		
-
-									<div class="room3 none">
-										<div class="clearfix"></div><div class="line1"></div>
-										<div class="w50percent">
-											<div class="wh90percent textleft">
-												<span class="opensans size13"><b>ROOM 3</b></span><br/>
-												<div class="addroom3 block grey"><a onclick="addroom3()" class="grey cpointer">+ Add room</a> | <a onclick="removeroom3()" class="orange cpointer"><img src="<?=Url::to('@web/')?>images/delete.png" alt="delete"/></a></div>
-											</div>
-										</div>
-
-										<div class="w50percentlast">	
-											<div class="wh90percent textleft right">
-												<div class="w50percent">
-													<div class="wh90percent textleft left">
-														<span class="opensans size13"><b>Adult</b></span>
-														<select class="form-control mySelectBoxClass">
-														  <option selected>1</option>
-														  <option>2</option>
-														  <option>3</option>
-														  <option>4</option>
-														  <option>5</option>
-														</select>
-													</div>
-												</div>							
-												<div class="w50percentlast">
-													<div class="wh90percent textleft right">
-													<span class="opensans size13"><b>Child</b></span>
-														<select class="form-control mySelectBoxClass">
-														  <option selected>0</option>
-														  <option>1</option>
-														  <option>2</option>
-														  <option>3</option>
-														  <option>4</option>
-														  <option>5</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
+									
+									<div class="col-md-4 center offset-0">
+										<button class="updatebtn caps center margtop20"><?=\Yii::t("app","Update")?></button>
 									</div>
 								</div>
-								
-								<div class="col-md-4 center offset-0">
-									<button class="updatebtn caps center margtop20">Update</button>
-								</div>
+								<div class="clearfix"></div>
+							</div>
+							<br/><br/>
+							
+							<div class="col-md-2 textright">
+								<div class="margtop15"><span class="dark"><?=\Yii::t("app","Contact Name")?>:</span><span class="red">*</span></div>
+							</div>
+							<div class="col-md-4"> 
+								<input type="text" class="form-control " placeholder="">
+							</div>
+							<div class="col-md-4 textleft margtop15">
 							</div>
 							<div class="clearfix"></div>
-						</div>
+							
+							<br/>
+							<div class="col-md-2 textright">
+								<div class="margtop7"><span class="dark"><?=\Yii::t("app","Email Address")?>:</span><span class="red">*</span></div>
+							</div>
+							<div class="col-md-4 textleft">
+								<input type="text" class="form-control" placeholder="">
+							</div>
+							<div class="clearfix"></div>
+							
+							<br/>
+							<div class="col-md-2 textright">
+								<div class="margtop7"><span class="dark"><?=\Yii::t("app","Phone Number")?>:</span><span class="red">*</span></div>
+							</div>
+							<div class="col-md-4 textleft">
+								<input type="text" class="form-control" placeholder="">
+							</div>
+							<div class="clearfix"></div>
+
+							<br/>
+							<div class="col-md-4">
+							</div>
+						</form>
 						<br/>
 						
-						<p class="hpadding20 dark">Room type</p>
-						
+											
 						<div class="line2"></div>
+						<h2 class="hpadding20 dark"><?=\Yii::t("app", "Price table")?></h2>	
+						<div class="col-md-12">
+						<table class="pricedate">
+							<thead>
+								<tr>
+									<th><?=\Yii::t("app", "Month/Day")?></th>
+									<?php
+									for ($i = 1; $i <= 31; $i++)
+									{
+										echo "<th>$i</th>";
+									}
+									?>
+								</tr>
+							</thead>
+							<tbody>
+							<?php
+				
+							$months = array("", "OCAK", "ŞUBAT", "MART", "NİSAN", "MAYIS", "HAZİRAN", "TEMMUZ", "AĞUSTOS", "EYLÜL", "EKİM", "KASIM", "ARALIK");
+							$today = date("Y-m-d");
+							$reserves = $res;
+							
+							$date = new DateTime(date(date('Y')."-01-01"));
+							$end_date = date((date('Y')+1)."-01-01");
+							$reserveCount = 0;
+							$priceCount = 0;
+							$currmonth = 0;
+							$price = "";
+							while ($date->format("Y-m-d") < $end_date)
+							{ 
+								if (count($prices) - 1 >= $priceCount)
+								{
+									if ($date->format("Y-m-d") >= $prices[$priceCount]["start_date"] && $date->format("Y-m-d") <= $prices[$priceCount]["end_date"])
+									{
+										$price = $prices[$priceCount]["price"];
+									}
+									else
+									{
+										if ($date->format("Y-m-d") > $prices[$priceCount]["end_date"])
+										{
+											$priceCount++;
+											if ($priceCount >= count($prices))
+											{
+												$price = "";
+											}
+											else if ($date->format("Y-m-d") >= $prices[$priceCount]["start_date"] && $date->format("Y-m-d") <= $prices[$priceCount]["end_date"])
+											{
+												$price = $prices[$priceCount]["price"];
+											}	
+											else
+												$price = "";
+										}
+									}
+								}
+								if ($currmonth != $date->format("m")*1)
+								{
+									if ($currmonth > 0)
+									{
+										echo "$bot";
+										for ($i=$lastday;$i<31;$i++)
+										{
+											echo "<td style='border: 0px'></td>";
+										}
+										echo "</tr>";
+									}
+									$currmonth = $date->format("m")*1;
+									$bot = "<tr><td>" . $months[$currmonth] . "</td>";
+								}
+								$day = $price;//$date->format("d");
+								$lastday = $date->format("d") * 1;
+								//$bot .= "<td>$day</td>";
+								if ($date->format("Y-m-d") < $today)
+								{
+								$bot .= "<td bgcolor='#ddd'></td>";
+								}
+								else
+								{
+									if (count($reserves) > 0)
+									{
+										if (count($reserves) > $reserveCount)
+										{
+											if ($date->format("Y-m-d") >= $reserves[$reserveCount]["start_date"])
+											{
+												if ($date->format("Y-m-d") <= $reserves[$reserveCount]["end_date"])
+												{
+													if ($date->format("Y-m-d") == $reserves[$reserveCount]["start_date"])
+														$bot .= "<td style='background: linear-gradient(-45deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent)' data-a=1>$day</td>";
+													else if ($date->format("Y-m-d") == $reserves[$reserveCount]["end_date"])
+														$bot .= "<td style='background: linear-gradient(135deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent)' data-a=1>$day</td>";
+													else
+														$bot .= "<td bgcolor='#2c8fc9' data-a=1>$day</td>";
+												}
+												else
+												{
+													$reserveCount++;
+													
+													if ((count($reserves) > $reserveCount) && $date->format("Y-m-d") >= $reserves[$reserveCount]["start_date"])
+														$bot .= "<td bgcolor='#2c8fc9' data-a=2>$day</td>";
+													else
+														$bot .= "<td data-a=3>$day</td>";
+												}
+											}
+											else
+									$bot .= "<td data-a=4>$day</td>";
+										}
+										else
+									$bot .= "<td data-a=5>$day</td>";
+									} 
+									else
+									$bot .= "<td data-a=6>$day</td>";
+								}
+								$date->add(new DateInterval('P1D'));
+							}
+							echo "</table>";
+							?>
+							</tbody>
+						</table>
+						<br>
+							<p style="border: 1px solid; background-color: #2c8fc9; color: black; float:left; padding:5px; margin:10px;">Dolu</p>
+							<p style="border: 1px solid; color: black; float:left; padding:5px; margin:10px;">Boş</p>
+							
+							<p style="background: linear-gradient(-45deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent);border: 1px solid; color: black; float:left; padding:5px; margin:10px;">Kiracı girişi</p>
+							<p style="background: linear-gradient(135deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent);border: 1px solid; color: black; float:left; padding:5px; margin:10px;">Kiracı çıkışı</p>
 						
-						<div class="padding20">
-							<div class="col-md-4 offset-0">
-								<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/items2/item1.jpg" alt="" class="fwimg"/></a>
-							</div>
-							<div class="col-md-8 offset-0">
-								<div class="col-md-8 mediafix1">
-									<h4 class="opensans dark bold margtop1 lh1">Standard Double room</h4>
-									Max Occupancy: 2 adults
-									<ul class="hotelpreferences margtop10">
-										<li class="icohp-internet"></li>
-										<li class="icohp-air"></li>
-										<li class="icohp-pool"></li>
-										<li class="icohp-childcare"></li>
-										<li class="icohp-fitness"></li>
-										<li class="icohp-breakfast"></li>
-										<li class="icohp-parking"></li>
-									</ul>
-									<div class="clearfix"></div>
-									<ul class="checklist2 margtop10">
-										<li>FREE Cancellation</li>
-										<li>Pay at hotel or pay today </li>
-									</ul>									
-								</div>
-								<div class="col-md-4 center bordertype4">
-									<span class="opensans green size24">$49.51</span><br/>
-									<span class="opensans lightgrey size12">avg/night</span><br/><br/>
-									<span class="lred bold">3 left</span><br/><br/>
-									<button class="bookbtn mt1">Book</button>	
-								</div>										
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="line2"></div>		
-
-						<div class="padding20">
-							<div class="col-md-4 offset-0">
-								<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/items2/item2.jpg" alt="" class="fwimg"/></a>
-							</div>
-							<div class="col-md-8 offset-0">
-								<div class="col-md-8">
-									<h4 class="opensans dark bold margtop1 lh1">Double Room with Town View</h4>
-									Max Occupancy: 3 adults
-									<ul class="hotelpreferences margtop10">
-										<li class="icohp-hairdryer"></li>
-										<li class="icohp-garden"></li>
-										<li class="icohp-grill"></li>
-										<li class="icohp-kitchen"></li>
-										<li class="icohp-bar"></li>
-										<li class="icohp-living"></li>
-										<li class="icohp-tv"></li>
-									</ul>
-									<div class="clearfix"></div>
-									<ul class="checklist2 margtop10">
-										<li>FREE Cancellation</li>
-										<li>Pay at hotel or pay today </li>
-									</ul>									
-								</div>
-								<div class="col-md-4 center bordertype4">
-									<span class="opensans green size24">$105.78</span><br/>
-									<span class="opensans lightgrey size12">avg/night</span><br/><br/>
-									<span class="">9 available</span><br/><br/>
-									<button class="bookbtn mt1">Book</button>	
-								</div>										
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="line2"></div>	
-
-						<div class="padding20">
-							<div class="col-md-4 offset-0">
-								<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/items2/item3.jpg" alt="" class="fwimg"/></a>
-							</div>
-							<div class="col-md-8 offset-0">
-								<div class="col-md-8">
-									<h4 class="opensans dark bold margtop1 lh1">Family Suite</h4>
-									Max Occupancy: 4 adults
-									<ul class="hotelpreferences margtop10">
-										<li class="icohp-fridge"></li>
-										<li class="icohp-microwave"></li>
-										<li class="icohp-washing"></li>
-										<li class="icohp-roomservice"></li>
-										<li class="icohp-safe"></li>
-										<li class="icohp-playground"></li>
-										<li class="icohp-conferenceroom"></li>
-									</ul>
-									<div class="clearfix"></div>
-									<ul class="checklist2 margtop10">
-										<li>FREE Cancellation</li>
-										<li>Pay at hotel or pay today </li>
-									</ul>									
-								</div>
-								<div class="col-md-4 center bordertype4">
-									<span class="opensans green size24">$186.18</span><br/>
-									<span class="opensans lightgrey size12">avg/night</span><br/><br/>
-									<span class="red bold">booked</span><br/><br/>
-									<button class="bookbtn mt1 cunvailable">Book</button>	
-								</div>										
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="line2"></div>	
-
-						<div class="padding20">
-							<div class="col-md-4 offset-0">
-								<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/items2/item4.jpg" alt="" class="fwimg"/></a>
-							</div>
-							<div class="col-md-8 offset-0">
-								<div class="col-md-8">
-									<h4 class="opensans dark bold margtop1 lh1">Superior, Sea View</h4>
-									Max Occupancy: 3 adults
-									<ul class="hotelpreferences margtop10">
-										<li class="icohp-internet"></li>
-										<li class="icohp-air"></li>
-										<li class="icohp-pool"></li>
-										<li class="icohp-childcare"></li>
-										<li class="icohp-fitness"></li>
-										<li class="icohp-breakfast"></li>
-										<li class="icohp-parking"></li>
-									</ul>
-									<div class="clearfix"></div>
-									<ul class="checklist2 margtop10">
-										<li>FREE Cancellation</li>
-										<li>Pay at hotel or pay today </li>
-									</ul>									
-								</div>
-								<div class="col-md-4 center bordertype4">
-									<span class="opensans green size24">$211.57</span><br/>
-									<span class="opensans lightgrey size12">avg/night</span><br/><br/>
-									<span class="">12 available</span><br/><br/>
-									<button class="bookbtn mt1">Book</button>	
-								</div>										
-							</div>
-							<div class="clearfix"></div>
 						</div>
 						<div class="line2"></div>							
 						
@@ -690,7 +652,7 @@ $this->title = 'Kiralık Villam';
 						
 						<!-- Collapse 8 -->	
 						<button type="button" class="collapsebtn2" data-toggle="collapse" data-target="#collapse8">
-						  Room facilities <span class="collapsearrow"></span>
+						  <?=\Yii::t("app", "Villa facilities")?> <span class="collapsearrow"></span>
 						</button>
 						
 						<div id="collapse8" class="collapse in">
@@ -1120,7 +1082,7 @@ $this->title = 'Kiralık Villam';
 				</div>
 			</div>
 			
-			<div class="col-md-4" >
+			<div id="panels" class="col-md-4" >
 				
 				<div class="pagecontainer2 testimonialbox">
 					<div class="cpadding0 mt-10">
@@ -1264,12 +1226,80 @@ $this->title = 'Kiralık Villam';
 		</div>
 	</div>
 	
+
+	<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 	
 	<!-- Javascript -->	
 	<script src="<?=Url::to('@web/')?>assets/js/js-details.js"></script>
 	
+<script>
+
+var myLat = 36.5110;
+var myLng = -4.8825;
+
+</script>
 	<!-- Googlemap -->	
 	<script src="<?=Url::to('@web/')?>assets/js/initialize-google-map.js"></script>
+	<script src="<?=Url::to('@web/')?>assets/js/datepicker-tr.js"></script>	
 	
     <!-- Custom Select -->
 	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/jquery.customSelect.js'></script>
@@ -1284,8 +1314,8 @@ $this->title = 'Kiralık Villam';
     <script type="text/javascript" src="<?=Url::to('@web/')?>rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
 	
     <!-- CarouFredSel -->
-    <script src="<?=Url::to('@web/')?>assets/js/jquery.carouFredSel-6.2.1-packed.js"></script>
-    <script src="<?=Url::to('@web/')?>assets/js/helper-plugins/jquery.touchSwipe.min.js"></script>
+    <!--script src="<?=Url::to('@web/')?>assets/js/jquery.carouFredSel-6.2.1-packed.js"></script>
+    <script src="<?=Url::to('@web/')?>assets/js/helper-plugins/jquery.touchSwipe.min.js"></script-->
 	
 	<script type="text/javascript" src="<?=Url::to('@web/')?>assets/js/helper-plugins/jquery.mousewheel.min.js"></script>
 	<script type="text/javascript" src="<?=Url::to('@web/')?>assets/js/helper-plugins/jquery.transit.min.js"></script>
@@ -1295,7 +1325,11 @@ $this->title = 'Kiralık Villam';
     <script src="<?=Url::to('@web/')?>assets/js/counter.js"></script>	
 	
     <!-- Carousel-->	
-    <script src="<?=Url::to('@web/')?>assets/js/initialize-carousel-detailspage.js"></script>		
+    <script src="<?=Url::to('@web/')?>assets/js/initialize-carousel-detailspage.js"></script>	
+    <script src="<?=Url::to('@web/')?>assets/js/owl.carousel.js"></script>		
+    <script src="<?=Url::to('@web/')?>assets/js/owl.carousel2.thumbs.js"></script>		
+	<script type="text/javascript" src="<?=Url::to('@web/')?>assets/js/photoswipe.js"></script>
+	<script type="text/javascript" src="<?=Url::to('@web/')?>assets/js/photoswipe-ui-default.js"></script>
 	
     <!-- Js Easing-->	
     <script src="<?=Url::to('@web/')?>assets/js/jquery.easing.js"></script>
@@ -1303,5 +1337,42 @@ $this->title = 'Kiralık Villam';
 	
     <!-- Bootstrap-->	
     <script src="<?=Url::to('@web/')?>dist/js/bootstrap.min.js"></script>
+
+
+	
+<script type="text/javascript">
+var openPhotoSwipe = function() {
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+
+    // build items array
+    var items = [
+
+		<?php
+		foreach ($data["pictures"] as $pic)
+		{
+            $root = \Yii::getAlias('@webroot') . '/images/villa/';
+			$img = $root . $pic;
+			$url = Url::to('@web/')."images/villa/$pic";
+			$size = getimagesize($img);
+			echo "{src: '$url', w:$size[0], h:$size[1]},";
+		}
+		?>
+    ];
+    
+    // define options (if needed)
+    var options = {
+             // history & focus options are disabled on CodePen        
+        history: false,
+        focus: false,
+
+        showAnimationDuration: 0,
+        hideAnimationDuration: 0
+        
+    };
+    
+    var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+    gallery.init();
+};
+</script>
   </body>
 </html>

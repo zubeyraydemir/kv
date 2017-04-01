@@ -307,8 +307,7 @@ if (isset($villa["data"]))
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2">Resimler</label>
-						<div class="col-sm-10">
+						<div class="col-sm-12">
 							<label class="control-label">Resimleri Seç</label>
 							<input id="files" name="files[]" type="file" multiple data-show-upload="false" data-show-caption="true">
 						</div>

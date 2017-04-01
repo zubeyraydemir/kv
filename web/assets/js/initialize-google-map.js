@@ -68,7 +68,7 @@
 		];
 
 		
-		var myLatlng = new google.maps.LatLng(36.5110, -4.8825);
+		var myLatlng = new google.maps.LatLng(myLat, myLng);
 
 
 	  // Create a new StyledMapType object, passing it the array of styles,
@@ -89,12 +89,23 @@
 
 	  var map = new google.maps.Map(document.getElementById('map-canvas'),
 		mapOptions);
-		
+		/*
 	  var marker = new google.maps.Marker({
 		  position: myLatlng,
 		  map: map,
 		  title: 'Hello World!'
-	  });
+	  });*/
+
+	  var cityCircle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35,
+            map: map,
+            center: myLatlng,
+            radius: 100
+          });
 
 
 	  //Associate the styled map with the MapTypeId and set it to display.

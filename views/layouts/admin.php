@@ -127,6 +127,13 @@ $this->title = "Yönetim Paneli"
 						  </div>
 						  </a></li>
 
+						<li class="margbottom20">
+						  <a href="<?=Url::to('@web/kiraliceesma/hakkinda')?>" data-toggle="" >
+						  <div class="dash-ct">
+							  <span class="comments-icon left"></span>	
+							  <span class="dtxt">Hakkımızda</span>
+						  </div>
+						  </a></li>
 						<!--li>
 						  <a href="#media" data-toggle="tab">
 						  <div class="dash-ct">

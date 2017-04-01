@@ -3,6 +3,8 @@
 //------------------------------
 jQuery(function() {
 	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker();
+	$("#datepicker").datepicker('setDate', new Date($("#datepicker").data("date")));
+	$("#datepicker2").datepicker('setDate', new Date($("#datepicker2").data("date")));
 });
 
 
@@ -241,24 +243,22 @@ jQuery(window).scroll(function(){
 	
 });	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//tab change evetn
+var reserveOpen = false;
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+  var target = $(e.target).attr("href") // activated tab
+  if (target == "#roomrates")
+  {
+	reserveOpen = true;
+	$("#tabs").toggleClass("col-md-8");
+	$("#tabs").toggleClass("col-md-12");
+	$("#panels").toggleClass("hidden")
+  }
+  else if (reserveOpen)
+  {
+	reserveOpen = false;
+	$("#tabs").toggleClass("col-md-8");
+	$("#tabs").toggleClass("col-md-12");
+	$("#panels").toggleClass("hidden")
+  }
+});

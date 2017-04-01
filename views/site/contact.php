@@ -127,37 +127,38 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="col-md-12">
 				<div class="bs-example bs-example-tabs cstyle04">
 				
+						<form id="contactform">
 					<div class="tab-content">
-
+						<div id="sendmail">
 						<div class="col-md-4">
-						<form action="#">
-							<span class="opensans size24 slim">Contact</span>
-							<input type="text" placeholder="Name" class="form-control logpadding margtop10">
-							<input type="text" placeholder="Phone" class="form-control logpadding margtop20">
-							<input type="text" placeholder="E-mail" class="form-control logpadding margtop20">
+							<span class="opensans size24 slim"><?=\Yii::t("app", "Contact")?></span>
+							<input type="text" id="name" placeholder="<?=\Yii::t("app", "Name")?>" class="form-control logpadding margtop10">
+							<input type="text" id="phone" placeholder="<?=\Yii::t("app", "Phone")?>" class="form-control logpadding margtop20">
+							<input type="text" id="mail" placeholder="<?=\Yii::t("app", "Email")?>" class="form-control logpadding margtop20">
 						</div>
 						<div class="col-md-4">
-							<textarea rows="9" class="form-control margtop10"></textarea>
+							<textarea rows="9" id="comment" class="form-control margtop10"></textarea>
+						</div>
 						</div>
 						<div class="col-md-4 opensans grey">
-							Address:<br/>
+							<?=\Yii::t("app", "Address")?>:<br/>
 							<span class="dark">
-								Stephen J. Jessen<br/>
-								2 Queen Anne Street<br/>
-								London, W1G 9LQ<br/>
+								Altayçeşme Mh. Çamlı Sk.<br> DAP Royal Center D Blok D.76<br> Maltepe - İstanbul 
 							</span>
 							<br/>
-							Phone<br/>
-							<p class="opensans size30 cyan xslim">1-866-599-6674</p>
-							Email<br/>
-							<a href="<?=Url::to('@web/')?>mailto:office@company.com" class="green2">office@company.com</a>
+							<?=\Yii::t("app", "Phone")?><br/>
+							<p class="opensans size30 cyan xslim">0 (216) 451 51 15</p>
+							<?=\Yii::t("app", "Mobile")?><br/>
+							<p class="opensans size30 cyan xslim">0 (549) 451 51 15</p>
+							<?=\Yii::t("app", "Email")?><br/>
+							<a href="<?=Url::to('@web/')?>mailto:info@kiralikvillam.com" class="green2">info@kiralikvillam.com</a>
 						</div>
 					</div>
 					
 					<div class="searchbg3">
-						<button type="submit" class="btn-search right mr20">Send Email</button>
-						</form>
+						<button type="submit" class="btn-search right mr20"><?=\Yii::t("app", "Send Email")?></button>
 					</div>
+						</form>
 						
 				</div>
 			</div>
@@ -168,11 +169,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 		<div class="lastminutecontact lcfix">
 			<div class="container lmc">	
-				<img src="<?=Url::to('@web/')?>images/rating-4.png" alt=""/><br/>
-				LAST MINUTE: <b>Barcelona</b> - 2 nights - Flight+4* Hotel, Dep 27h Aug from $209/person<br/>
-				<form action="details.html" >
-					<button class="btn iosbtn" type="submit">Read more</button>
-				</form>
+				<img src="<?=Url::to('@web/')?>images/rating-5.png" alt=""/><br/>
+				Her türlü soru ve önerileriniz için bizi arayabilirsiniz.<br/>
 			</div>
 		</div>
 		
@@ -206,7 +204,31 @@ $this->params['breadcrumbs'][] = $this->title;
 	<!-- END OF WRAP -->
 	
 	
-	
+	<script>
+		var baseUrl = "<?=Url::to('@web/')?>";
+		var _csrf = '<?=Yii::$app->request->getCsrfToken()?>';
+
+		$("#contactform").submit(function() {
+
+			$.ajax({
+			url: baseUrl+ 'sendcontact',
+			type: 'post',
+			data: {
+						_csrf : _csrf,
+						name: $("#name").val(),
+						phone: $("#phone").val(),
+						mail: $("#mail").val(),
+						comment: $("#comment").val(),
+					},
+			success: function (data) {
+				$("#sendmail").html("<div class='col-md-8 size15'> Emailiniz gönderilmiştir. En kısa sürede size geridönüş yapacağız.");
+				
+			}
+			});
+
+			return false;
+		});
+	</script>
 
 	
     <!-- This page JS -->

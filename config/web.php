@@ -10,7 +10,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'eDhaeOU28-qQBWrYPmEKwPOVxn90DEzP',
+            'cookieValidationKey' => 'eDhaaeOU28-qQBWrYPmEKwPOVxn90DEzP',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -28,6 +28,14 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'ssl://smtp.yandex.com',
+                'username' => 'info@kiralikvillam.com',
+                'password' => '1qw2015',
+                'port' => '465',
+                'encryption' => 'SSL',
+            ],
             'useFileTransport' => true,
         ],
         'log' => [
@@ -57,9 +65,12 @@ $config = [
 					'' => 'site/index', 
 					'prensmustafa' => 'kiraliceesma/login', 
 					'search' => 'site/about', 
-					'villa/<name:\w*>' => 'site/villa', 
+					'villa/<name>' => 'site/villa', 
+                    'sendcontact' => 'site/sendcontact', 
 					'kiraliceesma/villa/<name>' => 'kiraliceesma/villa', 
+                    'kiraliceesma/hakkinda' => 'kiraliceesma/hakkinda', 
 					'list' => 'site/list', 
+					'villalar' => 'site/list', 
                     'contact' => 'site/contact',
                     'iletisim' => 'site/contact',
                     'hakkinda' => 'site/about',

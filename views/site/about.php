@@ -55,147 +55,23 @@ $this->params['breadcrumbs'][] = $this->title;
   </head>
   <body id="top" class="thebg" >
     
-	<div class="navbar-wrapper2 navbar-fixed-top">
-      <div class="container">
-		<div class="navbar mtnav">
-
-			<div class="container offset-3">
-			  <!-- Navigation-->
-			  <div class="navbar-header">
-				<button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-				  <span class="icon-bar"></span>
-				  <span class="icon-bar"></span>
-				  <span class="icon-bar"></span>
-				</button>
-				<a href="<?=Url::to('@web/')?>index.html" class="navbar-brand"><img src="<?=Url::to('@web/')?>images/logo.png" alt="Travel Agency Logo" class="logo"/></a>
-			  </div>
-			  <div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-				  <li class="dropdown active">
-					<a data-toggle="dropdown" class="dropdown-toggle" href="<?=Url::to('@web/')?>index.html">Home <span class="badge indent0">1</span><b class="lightcaret mt-2"></b></a>
-					<ul class="dropdown-menu posright-0">
-					  <li>
-							<div class="row dropwidth01">
-								<ul class="droplist col-md-4">
-								  <li class="dropdown-header">Homepages</li>	
-								  <li><a href="<?=Url::to('@web/')?>index.html">Home 1 minimal</a></li>
-								  <li><a href="<?=Url::to('@web/')?>index2.html">Home 2 offers</a></li>
-								  <li><a href="<?=Url::to('@web/')?>index3.html">Home 3 full search</a></li>
-								  <li><a href="<?=Url::to('@web/')?>index4.html">Home 4 presentation</a></li>
-								  <li><a href="<?=Url::to('@web/')?>index5.html">Home 5 footer2</a></li>
-								  <li><a href="<?=Url::to('@web/')?>index6.html">Home 6 full</a></li>
-								  <li><a href="<?=Url::to('@web/')?>index7.html">Home 7 </a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-new-homepage.html">New Homepage</a> <span class="green">new</span></li>									  
-								</ul>
-								<ul class="droplist col-md-4">
-								  <li class="dropdown-header">Intro pages</li>
-								  <li><a href="<?=Url::to('@web/')?>intro.html">Intro 1</a></li>
-								  <li><a href="<?=Url::to('@web/')?>intro2.html">Intro 2 - slides</a> <span class="glyphicon glyphicon-star lblue"></span></li>
-								  <li><a href="<?=Url::to('@web/')?>intro3.html">Intro 3 - slides2</a> <span class="glyphicon glyphicon-star lblue"></span></li>
-								</ul>
-								<ul class="droplist col-md-4">
-								  <li class="dropdown-header">Colors</li>
-								  <li><a href="<?=Url::to('@web/')?>../blue/index.html">Blue</a></li>
-								  <li><a href="<?=Url::to('@web/')?>../green/index.html">Green</a></li>
-								  <li><a href="<?=Url::to('@web/')?>../orange/index.html">Orange</a></li>
-								  <li><a href="<?=Url::to('@web/')?>../cyan/index.html">Cyan</a></li>
-								  <li></li>
-								  <li class="inactive size10 lgrey caps"><span class="glyphicon glyphicon-star "></span> Popular pages</li>								  
-								</ul>
-							</div>
-					  </li>
-					</ul>
-				  </li>
-				  <li class="dropdown">
-					<a data-toggle="dropdown" class="dropdown-toggle" href="<?=Url::to('@web/')?>#">Pages <span class="badge indent0">14</span><b class="lightcaret mt-2"></b></a>
-					<ul class="dropdown-menu posright-0">
-					  <li>
-							<div class="row dropwidth01">
-								<ul class="droplist col-md-4">
-								  <li class="dropdown-header">Inner pages</li>	
-								  <li><a href="<?=Url::to('@web/')?>list.html">List page 1</a></li>
-								  <li><a href="<?=Url::to('@web/')?>list2.html">List page 2</a></li>
-								  <li><a href="<?=Url::to('@web/')?>list3.html">List page 3</a></li>
-								  <li><a href="<?=Url::to('@web/')?>list4.html">List page 4</a></li>
-								  <li><a href="<?=Url::to('@web/')?>details.html">Details page</a></li>
-								  <li><a href="<?=Url::to('@web/')?>payment.html">Payment</a></li>
-								  <li><a href="<?=Url::to('@web/')?>blog.html">Blog page</a></li>
-								  <li><a href="<?=Url::to('@web/')?>blog-details.html">Blog details</a></li>	
-								  <li><a href="<?=Url::to('@web/')?>about.html">About</a></li>								  
-								  <li><a href="<?=Url::to('@web/')?>contact.html">Contact</a></li>
-								  <li><a href="<?=Url::to('@web/')?>profile.html">User Profile</a>  <span class="glyphicon glyphicon-star lblue"></span></li>
-								  <li><a href="<?=Url::to('@web/')?>login.html">Login</a></li>
-								  <li><a href="<?=Url::to('@web/')?>dashboard/index.html">Dashboard</a>  <span class="glyphicon glyphicon-star lblue"></span></li>								  
-
-						  
-								</ul>	
-								<ul class="droplist col-md-4">
-								  <li class="dropdown-header">Update - <span class="green">14 New Pages</span></li>	
-								  <li><a href="<?=Url::to('@web/')?>z-new-homepage.html">New Homepage</a>  <span class="glyphicon glyphicon-star lblue"></span></li>
-								  <li><a href="<?=Url::to('@web/')?>z-flights-list.html">Flights list</a>  <span class="glyphicon glyphicon-star lblue"></span></li>
-								  <li><a href="<?=Url::to('@web/')?>z-flights-payment.html">Flights payment</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-cruise-list.html">Cruise list</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-cruise-payment.html">Cruise payment</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-rentacar-list.html">Rent a car list</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-rentacar-details.html">Rent a car details</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-rentacar-payment.html">Rent a car payment</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-transfers-list.html">Transfers list</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-transfers-payment.html">Transfers payment</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-activities-list.html">Activities list</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-activities-details.html">Activities details</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-activities-payment.html">Activities payment</a></li>
-								  <li><a href="<?=Url::to('@web/')?>z-wearesearching.html">Loading page</a></li>
-								</ul>								
-								<ul class="droplist col-md-4">
-								  <li class="dropdown-header">Bootstrap Shortcodes</li>	
-								  <li ><a href="<?=Url::to('@web/')?>http://getbootstrap.com/components/" target="_blank">Components</a></li>								  
-								  <li ><a href="<?=Url::to('@web/')?>http://getbootstrap.com/javascript/" target="_blank">Javascript</a></li>								  
-								  <li ><a href="<?=Url::to('@web/')?>http://getbootstrap.com/css/" target="_blank">Css</a></li>	
-								  <li class="dropdown-header">Comming next</li>	
-								  <li class="inactive"><a href="<?=Url::to('@web/')?>#">More Home pages</a></li>
-								  <li class="inactive"><a href="<?=Url::to('@web/')?>#">Elements</a></li>
-								  <li class="inactive"><a href="<?=Url::to('@web/')?>#">...</a></li>
-								  <li></li>								  
-								  <li class="inactive size10 lgrey caps"><span class="glyphicon glyphicon-star "></span> Popular pages</li>
-								</ul>									
-							</div>
-					  </li>
-					</ul>
-				  </li>
-				  <li><a href="<?=Url::to('@web/')?>#">Hotels</a></li>
-				  <li><a href="<?=Url::to('@web/')?>#">Flights</a></li>
-				  <li><a href="<?=Url::to('@web/')?>#">Vacations</a></li>
-				  <li><a href="<?=Url::to('@web/')?>#">Cars</a></li>			  
-				  <li><a href="<?=Url::to('@web/')?>#">Cruises</a></li>			  
-				  <li><a href="<?=Url::to('@web/')?>#">Last minute</a></li>			  
-				  <li><a href="<?=Url::to('@web/')?>#">Early booking</a></li>			  
-				  <li class="dropdown">
-					<a data-toggle="dropdown" class="dropdown-toggle" href="<?=Url::to('@web/')?>#">Deals<b class="lightcaret mt-2"></b></a>
-					<ul class="dropdown-menu">
-					  <li class="dropdown-header">Aligned Right Dropdown</li>	
-					  <li><a href="<?=Url::to('@web/')?>#">Sample Link 1</a></li>
-					  <li><a href="<?=Url::to('@web/')?>#">Sample Link 2</a></li>
-					</ul>
-				  </li>		
-				</ul>
-			  </div>
-			  <!-- /Navigation-->			  
-			</div>
 		
-        </div>
-      </div>
-    </div>
-	
+	<!-- Top wrapper -->	
+    <?php $this->beginContent('@app/views/layouts/header.php'); ?>
+	<?php $this->endContent(); ?>
+	<!-- /Top wrapper -->	
+
+
 	<div class="container breadcrub">
 	    <div>
 			<a class="homebtn left" href="<?=Url::to('@web/')?>#"></a>
 			<div class="left">
 				<ul class="bcrumbs">
 					<li>/</li>
-					<li><a href="<?=Url::to('@web/')?>#" class="active">About us</a></li>					
+					<li><a href="#" class="active"><?=\Yii::t("app", "About us")?></a></li>					
 				</ul>				
 			</div>
-			<a class="backbtn right" href="<?=Url::to('@web/')?>#"></a>
+			<a class="backbtn right" href="<?=Url::to('@web/')?>"></a>
 		</div>
 		<div class="clearfix"></div>
 		<div class="brlines"></div>
@@ -210,169 +86,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			
 			<!-- CONTENT -->
 			<div class="col-md-12 pagecontainer2 offset-0">
-				<div class="hpadding50c">
-					<p class="lato size30 slim">Meet the team</p>
-					<p class="aboutarrow"></p>
+				<div class="col-md-12 mt20">
+					
+				<?=$about?>
 				</div>
-				<div class="line3"></div>
-				
-				<div class="hpadding50c">
-					
-					<p class="lato size22 slim textcenter">
-					Your online travel agency. As one of the world's leading online travel companies,<br/>
-					we make it easy to plan your next business or leisure trip
-					</p>
-					<br/>
-					<div class="line3"></div>
-					<br/>
-
-					<!-- LEFT IMG -->
-					<div class="col-md-8 cpdd01">
-						<img src="<?=Url::to('@web/')?>images/about-man.jpg" class="fwimg" alt=""/>
-					</div>
-					<!-- END OF LEFT IMG -->
-					
-					<!-- IMG RIGHT TEXT -->
-					<div class="col-md-4 cpdd02">
-						<div class="opensans size18 grey">
-							<span class="lato dark bold">Company</span><br/>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus feugiat semper tempor. Nullam commodo varius augue, lobortis dapibus ante fringilla quis. 
-							<br/><br/>
-							
-
-							<span class="lato dark bold">Speciality</span><br/>
-							<div class="progress-about margbtm10">
-							  <div class="progress-bar progress-bar-success pbar1" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-								Speciality 1 90%
-							  </div>
-							</div>	
-							<div class="progress-about margbtm10">
-							  <div class="progress-bar progress-bar-success pbar2" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-								Speciality 2 100%
-							  </div>
-							</div>	
-							<div class="progress-about margbtm10">
-							  <div class="progress-bar progress-bar-success pbar3" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-								Speciality 3 85%
-							  </div>
-							</div>	
-							<div class="progress-about">
-							  <div class="progress-bar progress-bar-success pbar4" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-								Speciality 4 95%
-							  </div>
-							</div>	
-
-						</div>
-					</div>
-					<!-- END OF IMG RIGHT TEXT -->
-					<div class="clearfix"></div>
-					<br/><br/>
-					
-				
-					<span class="lato size18 dark bold">Meet the Team</span><br/><br/>
-					
-					<div class="col-md-4">
-						<div class="abover ohidden">
-							<div class="abbg">
-								<div class="socials-container">
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Twitter" class="left"><span class="socials-twitter "></span></a>
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Facebook" class="left"><span class="socials-facebook "></span></a>
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Google Plus" class="left"><span class="socials-gplus "></span></a>
-								</div>
-							</div>
-							<img src="<?=Url::to('@web/')?>images/about-women.jpg" class="fwimg" alt=""/>
-							<div class="chart none" data-percent="69" style="float:right; margin-top:-60px; right:10px;"><span class="countbouncerate">69</span>%</div>
-						</div>
-						<p class="lato lh2 mt10"><b>John Doe</b><br/>
-						Marketing
-						</p>
-					</div>
-					<div class="col-md-4">
-						<div class="abover ohidden">
-							<div class="abbg">
-								<div class="socials-container">
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Twitter" class="left"><span class="socials-twitter "></span></a>
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Facebook" class="left"><span class="socials-facebook "></span></a>
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Google Plus" class="left"><span class="socials-gplus "></span></a>
-								</div>
-							</div>
-							<img src="<?=Url::to('@web/')?>images/about-men2.jpg" class="fwimg" alt=""/>
-							<div class="chart2 none" data-percent="69" style="float:right; margin-top:-60px; right:10px;"><span class="countnewvisits">81</span>%</div>
-						</div>
-						<p class="lato lh2 mt10"><b>John Doe</b><br/>
-						C.E.O. 
-						</p>						
-					</div>
-					<div class="col-md-4">
-						<div class="abover ohidden">
-							<div class="abbg">
-								<div class="socials-container">
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Twitter" class="left"><span class="socials-twitter "></span></a>
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Facebook" class="left"><span class="socials-facebook "></span></a>
-									<a href="<?=Url::to('@web/')?>#" data-placement="top" title="Google Plus" class="left"><span class="socials-gplus "></span></a>
-								</div>
-							</div>
-							<img src="<?=Url::to('@web/')?>images/about-women2.jpg" class="fwimg" alt=""/>	
-							<div class="chart3 none" data-percent="69" style="float:right; margin-top:-60px; right:10px;"><span class="countsearchtrafic">33</span>%</div>							
-						</div>
-						<p class="lato lh2 mt10"><b>John Doe</b><br/>
-						Marketing
-						</p>						
-					</div>		
-					<div class="clearfix"></div>
-					
-					<br/>
-					<br/>
-					
-					
-					<div class="line3"></div>
-					<br/>
-					<br/>
-					
-					<div class="col-md-4">
-						<div class="opensans grey2">
-							<span class="gcircle">1</span><span class="lato size18 dark mt6 ml10"><b>Short history</b></span><br/><br/>
-							Suspendisse convallis, est mollis venenatis tristique, nisl lectus eleifend est, id ultrices diam dui at dolor. Praesent risus quam, sodales cursus cursus in, congue non enim. Vestibulum tristique mollis neque vitae tempus. 
-							<ul class='checklist2'>
-								<li>Pellentesque non dolor urna</li>
-								<li>Tempor nisl et enim sagittis egestas</li>
-								<li>Aenean a purus vel nisi aliquet ultricies</li>
-								<li>Ut nunc vivamus at erat ligula suspen</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-md-4">
-
-						<p class="opensans grey2">
-						<span class="gcircle">2</span><span class="lato size18 dark mt6 ml10"><b>Our main goal</b></span><br/><br/>
-						Pellentesque non dolor urna. Praesent tempor nisl et enim sagittis egestas. Aenean a purus vel nisi aliquet ultricies vel ut nunc. Vivamus at erat ligula. Suspendisse bibendum tellus vitae ipsum malesuada euismod vel nec risus. Aliquam egestas sodales ornare. Pellentesque a lorem eget turpis venenatis tincidunt quis id magna. 
-						<br/>
-						<br/>
-						Nulla faucibus nisl a arcu convallis bibendum at sed nulla. Proin tellus est, scelerisque ut luctus ut, tincidunt ac neque. 
-						Phasellus lectus enim, convallis quis faucibus eget, mattis eget erat. Aliquam id metus ligula, vel laoreet lorem. Pellentesque varius dignissim orci eu accumsan. 
-						</p>						
-					</div>
-					<div class="col-md-4">
-	
-						<p class="opensans grey2">
-						<span class="gcircle">3</span><span class="lato size18 dark mt6 ml10"><b>Want to join us?</b></span><br/><br/>
-						Pellentesque non dolor urna. Praesent tempor nisl et enim sagittis egestas. Aenean a purus vel nisi aliquet ultricies vel ut nunc. 
-						<br/>
-						<br/>
-						Vivamus at erat ligula. Suspendisse bibendum tellus vitae ipsum malesuada euismod vel nec risus. Aliquam egestas sodales ornare. 
-						Pellentesque a lorem eget turpis venenatis 
-						tincidunt quis id magna. 
-						<br/>
-						<button class="btn-search4 caps center margtop20">Apply now</button>
-						</p>						
-					</div>		
-					<div class="clearfix"></div>
-					
-					
-				</div>
-				
-
-				
 			<div class="clearfix"></div><br/><br/>
 			</div>
 			<!-- END CONTENT -->			

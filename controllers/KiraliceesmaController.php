@@ -69,6 +69,19 @@ class KiraliceesmaController extends Controller
         return $this->render('index');
     }
 
+    public function actionHakkinda()
+    {
+        $about = Yii::$app->db->createCommand('SELECT value FROM settings where name = :name')
+        ->bindValues([":name" => "about"])
+           ->queryScalar();
+		//$data = json_encode($estates);
+        return $this->render('about', [
+            'about' => $about,
+        ]);
+
+        return $this->render('index');
+    }
+
     public function slugify($text)
     {
     // replace non letter or digits by -
@@ -256,6 +269,17 @@ class KiraliceesmaController extends Controller
         return "{}";
     }
 	
+    public function actionSaveabout()
+    {
+        $request = Yii::$app->request;
+		if ($request->isPost) 
+		{
+            $about = $request->post("description");
+            Yii::$app->db->createCommand()->update('settings', ["value" => $about], "name = 'about'")->execute();
+			return $this->redirect('@web/kiraliceesma');
+        }
+    }
+	
     public function actionSavevilla()
     {
         $request = Yii::$app->request;
@@ -317,6 +341,11 @@ class KiraliceesmaController extends Controller
                 ,*/
             }
 
+            $regions = Yii::$app->db->createCommand("SELECT name FROM regions where name = :name")->bindValue([":name" => $request->post("region")])->queryAll();
+            if (count($regions) == 0)
+            {
+			    Yii::$app->db->createCommand()->insert('regions', ["name" => $request->post("region")])->execute();
+            }
 			$datas  = [
 			"name"                          => $request->post("name"),
 			"region"                        => $request->post("region"),

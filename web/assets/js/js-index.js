@@ -4,6 +4,7 @@
 
 jQuery(function() {
 	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker(jQuery.datepicker.regional[ "tr" ]);
+	jQuery(".chosen-select").chosen({max_selected_options: 5, select_all_character: '*'});
 });
 
 
@@ -202,7 +203,11 @@ jQuery(window).scroll(function(){
 		
 		if(jQuery(window).scrollTop() != 0){
 			jQuery('.mtnav').stop().animate({top: '0px'}, 500);
-			jQuery('.logo').stop().animate({width: '100px'}, 100);
+			jQuery('img.logo').stop().animate({width: '90px'}, 100);
+			
+			jQuery('a.logo').stop().animate({marginTop: '0px'}, 100);
+			//jQuery('a.logo').toggleClass("logo");
+			
 
 		}       
 		else {
@@ -213,7 +218,9 @@ jQuery(window).scroll(function(){
 			  }
 			
 			
-			jQuery('.logo').stop().animate({width: '140px'}, 100);		
+			jQuery('img.logo').stop().animate({width: '120px'}, 100);
+			//jQuery('a.logo').toggleClass("logo");
+			jQuery('a.logo').stop().animate({marginTop: '-35px'}, 100);
 	
 		}
 		

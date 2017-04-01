@@ -4,9 +4,6 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 
-$this->title = 'Kiralık Villam';
-\Yii::$app->language = 'tr';
-$asdf = \Yii::t('app', 'Hotels');
 ?>
 
 	<!-- Top wrapper -->			  
@@ -22,7 +19,7 @@ $asdf = \Yii::t('app', 'Hotels');
 				  <span class="icon-bar"></span>
 				  <span class="icon-bar"></span>
 				</button>
-				<a href="<?=Url::to('@web/')?>" class="navbar-brand" style="padding-top:0"><img src="<?=Url::to('@web/')?>images/logo.png" alt="Kiralik Villam" class="logo"/></a>
+				<a href="<?=Url::to('@web/')?>" class="navbar-brand logo" style="height:1%;padding:0"><img src="<?=Url::to('@web/')?>images/logo.png" alt="Kiralik Villam" class="logo"/></a>
 			  </div>
 			  <div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -37,6 +34,8 @@ $asdf = \Yii::t('app', 'Hotels');
 				  </li>		
 					<li><a href="<?=Url::to('hakkinda')?>"><?=\Yii::t('app', 'About Us');?></a></li>
 					<li><a href="<?=Url::to('@web/').\Yii::t('app', 'contact')?>"><?=\Yii::t('app', 'Contact');?></a></li>
+
+					<li style="text-align:center"><img width="150px" src="<?=Url::to('@web/')?>images/tursab.png" alt=""/><br>Belge Numarası: 8744</li>
 
 					<li><a href="https://www.facebook.com/kiralikvillam" class="sociallogo"><img width="28px" src="<?=Url::to('@web/')?>images/icon-facebook.png" alt=""/></a></li>
 					<li><a href="https://twitter.com/kiralikvillam" class="sociallogo"><img  width="28px" src="<?=Url::to('@web/')?>images/icon-twitter.png" alt=""/></a></li>

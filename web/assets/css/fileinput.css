@@ -110,6 +110,10 @@
 .krajee-default.file-preview-frame .kv-file-content {
     height: 80px;
 }
+.krajee-default.file-preview-frame .kv-file-content img
+{
+    max-height: 80px;
+}
 
 .krajee-default.file-preview-frame .file-thumbnail-footer {
     height: 70px;

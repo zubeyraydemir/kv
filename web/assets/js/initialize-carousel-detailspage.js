@@ -1,10 +1,38 @@
 
 
+$(document).ready(function(){
+    var owl = $('.owl-carousel');
+    owl.owlCarousel({
+        loop: true,
+        items: 1,
+        thumbs: true,
+        thumbImage: true,
+        thumbContainerClass: 'owl-thumbs',
+        thumbItemClass: 'owl-thumb-item',
+		autoplay:true,
+		autoplayTimeout:5000,
+		autoplayHoverPause:true
+    });
+	var cilds = $(".owl-thumbs img");
+	var total = 0;
+	for (var i =0; i < cilds.length; i++)
+	{
+		total += 160;
+	}
+	total += cilds[cilds.length-1]["width"];
+	$(".owl-thumbs2").css("width", total);
+});
+
+
+
 // ##################################
 // INICTIALIZE CAROUSEL DETAILS PAGE
 // #################################
 
 		$(function() {
+
+
+			/*
 			var $carousel = $('#carousel'),
 				$pager = $('#pager');
 
@@ -17,11 +45,14 @@
 
 			$carousel.carouFredSel({
 				responsive: true,
+				width: "auto",
+				usePadding: true,
 				items: {
 					visible: 1,
-					width: 800,
-					height: (500/800*100) + '%'
+					width: "100",
+					height: "50%"
 				},
+				swipe: {onTouch: true},
 				scroll: {
 					fx: 'crossfade',
 					onBefore: function( data ) {
@@ -62,6 +93,7 @@
 				src = src.split( '/small/' ).join( '/large/' );
 				$carousel.trigger( 'slideTo', [ 'img[src="'+ src +'"]' ] );
 			});
+			*/
 		});
 
 

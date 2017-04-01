@@ -82,7 +82,7 @@ $asdf = \Yii::t('app', 'Hotels');
 					<li>				
 				</ul>				
 			</div>
-			<a class="backbtn right" href="<?=Url::to('@web/')?>#"></a>
+			<a class="backbtn right" href="<?=Url::to('@web/')?>"></a>
 		</div>
 		<div class="clearfix"></div>
 		<div class="brlines"></div>
@@ -124,7 +124,7 @@ $asdf = \Yii::t('app', 'Hotels');
 							
 								<div class="wh90percent textleft">
 									<span class="opensans size13"><?=\Yii::t('app', 'Check in date');?></span>
-									<input type="text" class="form-control mySelectCalendar" id="daterangepicker" name="d" data-sdate="<?=$model["start"]?>" data-edate="<?=$model["end"]?>"/>
+									<input type="text" class="form-control mySelectCalendar" id="daterangepicker" data-sdate="<?=$model["start"]?>" data-edate="<?=$model["end"]?>"/>
 									<input type="hidden" name="sd" />
 									<input type="hidden" name="ed" />
 								</div>
@@ -172,7 +172,7 @@ $asdf = \Yii::t('app', 'Hotels');
 				<!-- END OF BOOK FILTERS -->	
 				
 				<div class="line2"></div>
-				
+				<?php /*
 				<div class="padding20title"><h3 class="opensans dark"><?=\Yii::t('app', 'Filters');?></h3></div>
 				<div class="line2"></div>
 				
@@ -457,10 +457,10 @@ $asdf = \Yii::t('app', 'Hotels');
 				<br/>
 				<br/>
 				
+			*/?>
 				
 			</div>
 			<!-- END OF FILTERS -->
-			
 			<!-- LIST CONTENT-->
 			<div class="rightcontent col-md-9 offset-0">
 			
@@ -469,7 +469,7 @@ $asdf = \Yii::t('app', 'Hotels');
 					<div class="topsortby">
 						<div class="col-md-1 offset-0">
 								
-								<div class="left mt7"><b>Sort by:</b></div>
+								<div class="left mt7"><b><?=\Yii::t('app', 'Sort by');?>:</b></div>
 								
 								<!--div class="right wh70percent">
 									<select class="form-control mySelectBoxClass ">
@@ -544,20 +544,13 @@ $asdf = \Yii::t('app', 'Hotels');
 									<br/><br/> 
 								</div>
 								<div class="labelleft2">		
-									<a href="" class="vldetail">	
-									<b class="name"></b></a><br/><br/>
+									<a href="" class="vldetail2">	
+										<b class="name"></b>
+									</a>
+									<br/><br/>
 									<p class="grey description">
 									</p>
 									<ul class="hotelpreferences">
-										<li class="icohp-internet" title="İnternet"></li>
-										<li class="icohp-air"></li>
-										<li class="icohp-pool"></li>
-										<li class="icohp-childcare"></li>
-										<li class="icohp-fitness"></li>
-										<li class="icohp-breakfast"></li>
-										<li class="icohp-parking"></li>
-										<li class="icohp-pets"></li>
-										<li class="icohp-spa"></li>
 									</ul>
 									
 								</div>
@@ -743,10 +736,11 @@ $asdf = \Yii::t('app', 'Hotels');
 	foreach($model["villas"] as $villa)
 	{
 		$data = json_decode($villa["data"], true);
-		$url = Url::to('@web/villa/').$data["name"];
-		$pic = Url::to('@web/images/villa/t/').$data["pictures"][0];
+		$url = Url::to('@web/villa/').$villa["slug"];
+		$pic = Url::to('@web/images/villa/t/').(count($data["pictures"])>0?$data["pictures"][0] : "thumb.png");
 		$data["vldetail"] = $url;
 		$data["vldetaila"] = $url;
+		$data["vldetail2"] = $url;
 		$data["vlpicture"] = $pic;
 		unset($data["owner_phone"]);
 		unset($data["owner_mail"]);

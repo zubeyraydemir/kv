@@ -2,7 +2,7 @@
 //Picker
 //------------------------------
 jQuery(function() {
-	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker();
+	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker(jQuery.datepicker.regional[ "tr" ]);
 	jQuery("#datepicker").datepicker('setDate', new Date(jQuery("#datepicker").data("date")));
 	jQuery("#datepicker2").datepicker('setDate', new Date(jQuery("#datepicker2").data("date")));
 	 
@@ -464,7 +464,7 @@ $(document).ready(function($){
 });
 
 $(window).on('hashchange',function(){ 
-    alert("slm");
+    //alert("slm");
 });
 
 
@@ -473,8 +473,8 @@ jQuery(document).ready(function(jQuery){
 	var options = {
     item: 'villa-item',
 	sortClass: "sort",
-	valueNames: [{ name: 'vldetail', attr: 'href' },{ name: 'vldetaila', attr: 'action' }, { name: 'vlpicture', attr: 'src' }, 'name', 'description', 'price', 'currency'],
-	page: 10,
+	valueNames: [{ name: 'vldetail', attr: 'href' },{ name: 'vldetaila', attr: 'action' }, { name: 'vldetail2', attr: 'href' }, { name: 'vlpicture', attr: 'src' }, 'name', 'description', 'price', 'currency', 'hotelpreferences'],
+	page: 5,
 	pagination: true
 	};
 
@@ -543,7 +543,7 @@ jQuery(function($) {
 });
 
 $("#searchForm").submit(function() {
-	$("input[name=sd]").val($("input[name=sd]").datepicker("getDate").sql());
-	$("input[name=ed]").val($("input[name=ed]").datepicker("getDate").sql());
+	$("input[name=sd]").val($('#daterangepicker').data('daterangepicker').startDate._d.sql());
+	$("input[name=ed]").val($('#daterangepicker').data('daterangepicker').endDate._d.sql());
 	return true;
 });
