@@ -101,7 +101,7 @@ $asdf = \Yii::t('app', 'Hotels');
 					<div class="padding20">
 						<p class="size13"><span class="size18 bold counthotel">53</span> <?=\Yii::t('app', 'Villas starting at');?></p>
 						<p class="size30 bold"><span class="countprice"></span> TL<span class="size13"><?=(\Yii::$app->language=="tr" ? "'den başlayan fiyatlarla":"");?></span></p>
-						<p class="size13"><?=\Yii::t('app', 'Narrow results or');?> <a href="#all"><?=\Yii::t('app', 'view all');?></a></p>
+						<p class="size13"><?=\Yii::t('app', 'Narrow results or');?> <a id="clearfilter" href="#"><?=\Yii::t('app', 'view all');?></a></p>
 					</div>
 					<div class="tip-arrow"></div>
 				</div>
@@ -118,7 +118,7 @@ $asdf = \Yii::t('app', 'Hotels');
 						<div class="hotelstab2 none">
 						<form id="searchForm" action="<?=Url::to('@web/')?>list" method="get">
 							<span class="opensans size13"><?=\Yii::t('app', 'Villa name');?></span>
-							<input type="text" class="form-control" placeholder="" value="<?=$model["name"]?>" name="n">
+							<input type="text" class="form-control" placeholder="" value="<?=$model["name"]?>" name="name">
 							
 							<div class="clearfix pbottom15"></div>
 							
@@ -133,33 +133,17 @@ $asdf = \Yii::t('app', 'Hotels');
 							
 							<div class="room1" >
 							
-								<div class="w50percent">
 									<div class="wh90percent textleft">
 												<span class="opensans size13"><b><?=\Yii::t('app', 'Adult');?></b></span>
 												<select class="form-control mySelectBoxClass" id="formAdult" name="a">
 												<?php
-												for($i = 1; $i <= 5; $i++)
+												for($i = 1; $i <= 13; $i++)
 												{
 													echo "<option ".($model["adult"] == $i ? "selected":"").">$i</option>";
 												}
 												?>
 												</select>
 									</div>
-								</div>
-
-								<div class="w50percentlast">	
-									<div class="wh90percent textleft right">
-											<span class="opensans size13"><b><?=\Yii::t('app', 'Child');?></b></span>
-												<select class="form-control mySelectBoxClass" id="formChild" name="c">
-												<?php
-												for($i = 0; $i <= 5; $i++)
-												{
-													echo "<option ".($model["child"] == $i ? "selected":"").">$i</option>";
-												}
-												?>
-												</select>
-									</div>
-								</div>
 							</div>
 							
 							<div class="clearfix"></div>
@@ -651,84 +635,11 @@ $asdf = \Yii::t('app', 'Hotels');
 	
 	
 	<!-- FOOTER -->
-	<div class="footerbgblack">
-		<div class="container">		
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Let's socialize</span>
-				<div class="scont">
-					<a href="<?=Url::to('@web/')?>#" class="social1b"><img src="<?=Url::to('@web/')?>images/icon-facebook.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social2b"><img src="<?=Url::to('@web/')?>images/icon-twitter.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social3b"><img src="<?=Url::to('@web/')?>images/icon-gplus.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social4b"><img src="<?=Url::to('@web/')?>images/icon-youtube.png" alt=""/></a>
-					<br/><br/><br/>
-					<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/logosmal2.png" alt="" /></a><br/>
-					<span class="grey2">&copy; 2013  |  <a href="<?=Url::to('@web/')?>#">Privacy Policy</a><br/>
-					All Rights Reserved </span>
-					<br/><br/>
-					
-				</div>
-			</div>
-			<!-- End of column 1-->
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Travel Specialists</span>
-				<br/><br/>
-				<ul class="footerlistblack">
-					<li><a href="<?=Url::to('@web/')?>#">Golf Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Ski & Snowboarding</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney Parks Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disneyland Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney World Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Vacations As Advertised</a></li>
-				</ul>
-			</div>
-			<!-- End of column 2-->		
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Travel Specialists</span>
-				<br/><br/>
-				<ul class="footerlistblack">
-					<li><a href="<?=Url::to('@web/')?>#">Weddings</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Accessible Travel</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney Parks</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Cruises</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Round the World</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">First Class Flights</a></li>
-				</ul>				
-			</div>
-			<!-- End of column 3-->		
-			
-			<div class="col-md-3 grey">
-				<span class="ftitleblack">Newsletter</span>
-				<div class="relative">
-					<input type="email" class="form-control fccustom2black" id="exampleInputEmail1" placeholder="Enter email">
-					<button type="submit" class="btn btn-default btncustom">Submit<img src="<?=Url::to('@web/')?>images/arrow.png" alt=""/></button>
-				</div>
-				<br/><br/>
-				<span class="ftitleblack">Customer support</span><br/>
-				<span class="pnr">1-866-599-6674</span><br/>
-				<span class="grey2">office@travel.com</span>
-			</div>			
-			<!-- End of column 4-->			
-		
-			
-		</div>	
-	</div>
-	
-	<div class="footerbg3black">
-		<div class="container center grey"> 
-		<a href="<?=Url::to('@web/')?>#">Home</a> | 
-		<a href="<?=Url::to('@web/')?>#">About</a> | 
-		<a href="<?=Url::to('@web/')?>#">Last minute</a> | 
-		<a href="<?=Url::to('@web/')?>#">Early booking</a> | 
-		<a href="<?=Url::to('@web/')?>#">Special offers</a> | 
-		<a href="<?=Url::to('@web/')?>#">Blog</a> | 
-		<a href="<?=Url::to('@web/')?>#">Contact</a>
-		<a href="<?=Url::to('@web/')?>#top" class="gotop scroll"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></a>
-		</div>
-	</div>
-	
+    <?php $this->beginContent('@app/views/layouts/footer2.php'); ?>
+	<?php $this->endContent(); ?>
+	<!-- /FOOTER -->
+
+
 	<script type="text/javascript">
 		var totalDays = <?=$model["days"]?>;
 		var villaValues = [
@@ -784,6 +695,7 @@ $asdf = \Yii::t('app', 'Hotels');
 	
     <!-- Picker -->	
 	<script src="<?=Url::to('@web/')?>assets/js/jquery-ui.js"></script>
+	<script src="<?=Url::to('@web/')?>assets/js/notify.min.js"></script>
 	
     <!-- Bootstrap -->	
     <script src="<?=Url::to('@web/')?>dist/js/bootstrap.min.js"></script>

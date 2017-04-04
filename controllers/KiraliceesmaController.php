@@ -341,7 +341,7 @@ class KiraliceesmaController extends Controller
                 ,*/
             }
 
-            $regions = Yii::$app->db->createCommand("SELECT name FROM regions where name = :name")->bindValue([":name" => $request->post("region")])->queryAll();
+            $regions = Yii::$app->db->createCommand("SELECT name FROM regions where name = :name")->bindValues([":name" => $request->post("region")])->queryAll();
             if (count($regions) == 0)
             {
 			    Yii::$app->db->createCommand()->insert('regions', ["name" => $request->post("region")])->execute();
@@ -361,6 +361,7 @@ class KiraliceesmaController extends Controller
 			"additional_baby_bed_count"     => $request->post("additional_baby_bed_count"),
 			"additional_baby_bed_price"     => $request->post("additional_baby_bed_price"),
 			"deposit"                       => $request->post("deposit"),
+			"pre_payment"                   => $request->post("pre_payment"),
 			"cleaning_price"                => $request->post("cleaning_price"),
 			"private_villa"                 => $request->post("private_villa"),
 			"inside_site"                   => $request->post("inside_site"),

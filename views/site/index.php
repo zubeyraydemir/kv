@@ -41,6 +41,7 @@ $this->title = 'Kiralık Villam';
     <!-- Picker UI-->	
 	<link rel="stylesheet" href="<?=Url::to('@web/')?>assets/css/jquery-ui.css" />
 	<link rel="stylesheet" href="<?=Url::to('@web/')?>assets/css/chosen.css" />		
+    <link href="<?=Url::to('@web/')?>assets/css/daterangepicker.css" rel="stylesheet" media="screen">
 	
     <!-- jQuery -->	
     <script src="<?=Url::to('@web/')?>assets/js/jquery.v2.0.3.js"></script>
@@ -68,6 +69,7 @@ $this->title = 'Kiralık Villam';
 					<!-- FADE -->
 					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
 						<img src="<?=Url::to('@web/')?>images/slider/slider-01.jpg" alt=""/>
+						<?php /*
 						<div class="tp-caption scrolleffect sft"
 							 data-x="center"
 							 data-y="120"
@@ -82,46 +84,45 @@ $this->title = 'Kiralık Villam';
 								<span class="lato size48 slim uppercase yellow">$1500</span><br/>
 							 </div>
 						</div>	
+						*/ ?>
 					</li>	
 
-					<!-- FADE -->
 					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						
 						<img src="<?=Url::to('@web/')?>images/slider/slider-02.jpg" alt=""/>
-						<div class="tp-caption scrolleffect sft"
-							 data-x="center"
-							 data-y="120"
-							 data-speed="1000"
-							 data-start="800"
-							 data-easing="easeOutExpo"  >
-							 <div class="sboxpurple textcenter">
-								<span class="lato size28 slim caps white">France</span><br/><br/><br/>
-								<span class="lato size100 slim caps white">Paris</span><br/>
-								<span class="lato size20 normal caps white">from</span><br/><br/>
-								<span class="lato size48 slim uppercase yellow">$1500</span><br/>
-							 </div>
-						</div>	
 					</li>	
-					
-					<!-- FADE -->
 					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
 						<img src="<?=Url::to('@web/')?>images/slider/slider-03.jpg" alt=""/>
-						<div class="tp-caption scrolleffect sft"
-							 data-x="center"
-							 data-y="120"
-							 data-speed="1000"
-							 data-start="800"
-							 data-easing="easeOutExpo">
-							 <div class="sboxpurple textcenter">
-								<span class="lato size28 slim caps white">Greece</span><br/><br/><br/>
-								<span class="lato size100 slim caps white">Santorini</span><br/>
-								<span class="lato size20 normal caps white">from</span><br/><br/>
-								<span class="lato size48 slim uppercase yellow">$1500</span><br/>
-							 </div>
-						</div>	
-					</li>
-					
-
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-04.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-05.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-06.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-07.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-08.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-09.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-10.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-11.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-12.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-13.jpg" alt=""/>
+					</li>	
 				</ul>
 				<div class="tp-bannertimer none"></div>
 			</div>
@@ -223,59 +224,45 @@ $this->title = 'Kiralık Villam';
 						<div id="hotel" class="tab-pane fade active in">
 
 							<span class="opensans size18"><?=\Yii::t('app', 'Villa region');?></span>
-							<select id="formname" class="form-control chosen-select" multiple data-placeholder=" ">
-								<option>Kaş</option>
-								<option>kalkan</option>
-								<option>fethiye</option>
+							<select id="formname" class="form-control chosen-select" multiple data-placeholder="<?=\Yii::t('app', 'All regions');?>">
+								<?php
+								foreach ($regions as $region)
+								{
+									echo "<option>".$region["name"]."</option>";
+								}
+								?>
 							</select>
 							
 							<br/>
 							<br/>
-							
-							<div class="w50percent">
+							 
 								<div class="wh90percent textleft">
 									<span class="opensans size13"><b><?=\Yii::t('app', 'Check in date');?></b></span>
-									<input type="text" class="form-control mySelectCalendar" id="datepicker" placeholder="<?=\Yii::t('app', 'dd/mm/yyyy');?>"/>
-								</div>
-							</div>
-
-							<div class="w50percentlast">
-								<div class="wh90percent textleft right">
-									<span class="opensans size13"><b><?=\Yii::t('app', 'Check out date');?></b></span>
-									<input type="text" class="form-control mySelectCalendar" id="datepicker2" placeholder="<?=\Yii::t('app', 'dd/mm/yyyy');?>"/>
-								</div>
-							</div>
+									<input type="text" class="form-control mySelectCalendar" id="daterangepicker" />
+								</div>  
 							
 							<div class="clearfix"></div>
 							
 							<div class="room1 margtop15">
 							
-								<div class="w50percent">
 									<div class="wh90percent textleft">
-												<span class="opensans size13"><b><?=\Yii::t('app', 'Adult');?></b></span>
+												<span class="opensans size13"><b><?=\Yii::t('app', 'Person count');?></b></span>
 												<select class="form-control mySelectBoxClass" id="formAdult">
 												  <option>1</option>
 												  <option selected>2</option>
 												  <option>3</option>
 												  <option>4</option>
 												  <option>5</option>
+												  <option>6</option>
+												  <option>7</option>
+												  <option>8</option>
+												  <option>9</option>
+												  <option>10</option>
+												  <option>11</option>
+												  <option>12</option>
+												  <option>13</option>
 												</select>
 									</div>
-								</div>
-
-								<div class="w50percentlast">	
-									<div class="wh90percent textleft right">
-											<span class="opensans size13"><b><?=\Yii::t('app', 'Child');?></b></span>
-												<select class="form-control mySelectBoxClass" id="formChild">
-												  <option selected>0</option>
-												  <option>1</option>
-												  <option>2</option>
-												  <option>3</option>
-												  <option>4</option>
-												  <option>5</option>
-												</select>
-									</div>
-								</div>
 							</div>
 							
 							<div class="room2 none">
@@ -746,7 +733,6 @@ $this->title = 'Kiralık Villam';
 							<input type="hidden" name="sd" id="start_date" />
 							<input type="hidden" name="ed" id="end_date" />
 							<input type="hidden" name="a" id="adult" />
-							<input type="hidden" name="c" id="child" />
 						<button type="submit" class="btn-search"><?=\Yii::t('app', 'Search');?></button>
 						</form>
 					</div>
@@ -756,29 +742,31 @@ $this->title = 'Kiralık Villam';
 			<div class="col-md-4">
 				<div class="shadow cstyle05">
 					<div class="fwi one">
-					<a href="<?=Url::to('@web/villa/')?>">
-						<img src="<?=Url::to('@web/')?>images/villa/thumbnails/begonvil-01.JPG" alt="" />
+					<a href="<?=Url::to('@web/villa/').$villa0["slug"]?>">
+						<img src="<?=Url::to('@web/')?>images/villa/t/<?=$villa0["pic"]?>" style="height:100%" alt="" />
 							<div class="mhover none"><span class="icon"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></span></div>
 					</a>
 					</div>
-					<div class="ctitle">Cote d'azur<a href="<?=Url::to('@web/villa')?>"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></a>
-						<span>$59.99</span>
+					<div class="ctitle"><?=$villa0["name"]?><a href="<?=Url::to('@web/villa/').$villa0["slug"]?>"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></a>
+						<span><?=$villa0["price"]. " ".$villa0["curr"]?></span>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="shadow cstyle05">
 					<div class="fwi one">
-					<a href="<?=Url::to('@web/villa/')?>">
-						<img src="<?=Url::to('@web/')?>images/villa/thumbnails/begonvil-02.JPG" alt="" />
+					<a href="<?=Url::to('@web/villa/').$villa1["slug"]?>">
+						<img src="<?=Url::to('@web/')?>images/villa/t/<?=$villa1["pic"]?>" style="height:100%" alt="" />
 							<div class="mhover none"><span class="icon"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></span></div>
 					</a>
 					</div>
-					<div class="ctitle">Cote d'azur<a href="<?=Url::to('@web/villa')?>"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></a>
-						<span>$59.99</span>
+					<div class="ctitle"><?=$villa1["name"]?><a href="<?=Url::to('@web/villa/').$villa1["slug"]?>"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></a>
+						<span><?=$villa1["price"]." ". $villa1["curr"]?></span>
 					</div>
-				</div>			
+				</div>
 			</div>
+
+
 		  </div>
 		</div>
 		
@@ -834,6 +822,8 @@ $this->title = 'Kiralık Villam';
    <!-- Nicescroll  -->	
 	<script src="<?=Url::to('@web/')?>assets/js/jquery.nicescroll.min.js"></script>
 	
+	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/moment.min.js'></script>	
+	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/daterangepicker.js'></script>	
     <!-- CarouFredSel -->
     <script src="<?=Url::to('@web/')?>assets/js/jquery.carouFredSel-6.2.1-packed.js"></script>
     <script src="<?=Url::to('@web/')?>assets/js/helper-plugins/jquery.touchSwipe.min.js"></script>

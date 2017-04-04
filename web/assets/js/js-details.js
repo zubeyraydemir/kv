@@ -5,6 +5,52 @@ jQuery(function() {
 	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker();
 	$("#datepicker").datepicker('setDate', new Date($("#datepicker").data("date")));
 	$("#datepicker2").datepicker('setDate', new Date($("#datepicker2").data("date")));
+
+	 
+$('#daterangepicker,#daterangepicker2').daterangepicker({
+    "autoApply": true,
+    "showDropdowns": true,
+    "locale": {
+        "format": "DD/MM/YYYY",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "H",
+        "daysOfWeek": ["Pz", "Pt", "Sa", "Çş", "Pş", "Cu", "Ct"],
+        "monthNames": [
+            "Ocak",
+            "Şubat",
+            "Mart",
+            "Nisan",
+            "Mayıs",
+            "Haziran",
+            "Temmuz",
+            "Ağustos",
+            "Eylül",
+            "Ekim",
+            "Kasım",
+            "Aralık"
+        ],
+        "firstDay": 1
+    },
+    "showCustomRangeLabel": false,
+    "minDate": moment(),
+    "opens": "center"
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+});
+
+if ($('#daterangepicker').data("sdate") != "")
+{
+$('#daterangepicker').data('daterangepicker').setStartDate(moment($('#daterangepicker').data("sdate")));
+$('#daterangepicker').data('daterangepicker').setEndDate(moment($('#daterangepicker').data("edate")));
+$('#daterangepicker2').data('daterangepicker').setStartDate(moment($('#daterangepicker').data("sdate")));
+$('#daterangepicker2').data('daterangepicker').setEndDate(moment($('#daterangepicker').data("edate")));
+}
+
 });
 
 
@@ -186,21 +232,29 @@ $(window).scroll(function(){
 jQuery(window).scroll(function(){            
 	var $iw = $('body').innerWidth();
 	
-	if(jQuery(window).scrollTop() != 0){
-		jQuery('.mtnav').stop().animate({top: '0px'}, 500);
-		jQuery('.logo').stop().animate({width: '100px'}, 100);
+		
+		if(jQuery(window).scrollTop() != 0){
+			jQuery('.mtnav').stop().animate({top: '0px'}, 500);
+			jQuery('img.logo').stop().animate({width: '90px'}, 100);
+			
+			jQuery('a.logo').stop().animate({marginTop: '0px'}, 100);
+			//jQuery('a.logo').toggleClass("logo");
+			
 
-	}       
-	else {
-		 if ( $iw < 992 ) {
-		  }
-		  else{
-		   jQuery('.mtnav').stop().animate({top: '30px'}, 500);
-		  }
-
-		jQuery('.logo').stop().animate({width: '120px'}, 100);		
-
-	}
+		}       
+		else {
+			 if ( $iw < 992 ) {
+			  }
+			  else{
+			   jQuery('.mtnav').stop().animate({top: '30px'}, 500);
+			  }
+			
+			
+			jQuery('img.logo').stop().animate({width: '120px'}, 100);
+			//jQuery('a.logo').toggleClass("logo");
+			jQuery('a.logo').stop().animate({marginTop: '-35px'}, 100);
+	
+		}
 	
 	//Social
 	if(jQuery(window).scrollTop() >= 900){
@@ -261,4 +315,23 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	$("#tabs").toggleClass("col-md-12");
 	$("#panels").toggleClass("hidden")
   }
+});
+
+
+$("#updateDate").click(function(){
+	jQuery("#start_date").val(jQuery('#daterangepicker').data('daterangepicker').startDate._d.sql());
+	jQuery("#end_date").val(jQuery('#daterangepicker').data('daterangepicker').endDate._d.sql());
+	$("#updateform").submit();
+});
+$("#updateDate2").click(function(e){
+	e.preventDefault();
+	jQuery("#start_date").val(jQuery('#daterangepicker2').data('daterangepicker').startDate._d.sql());
+	jQuery("#end_date").val(jQuery('#daterangepicker2').data('daterangepicker').endDate._d.sql());
+	$("#updateform").submit();
+});
+
+$("#resForm").submit(function() {
+	$("input[name=sd]").val($('#daterangepicker2').data('daterangepicker').startDate._d.sql());
+	$("input[name=ed]").val($('#daterangepicker2').data('daterangepicker').endDate._d.sql());
+	return true;
 });

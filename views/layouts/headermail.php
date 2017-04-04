@@ -22,31 +22,11 @@ use yii\helpers\Html;
 				<a href="<?=Url::to('@web/')?>" class="navbar-brand logo" style="height:1%;padding:0"><img src="<?=Url::to('@web/')?>images/logo.png" alt="Kiralik Villam" class="logo"/></a>
 			  </div>
 			  <div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li>
-						<form action="<?=Url::to('@web/villalar')?>" class="">
-							<div class="input-group" style="width:180px; margin-top:10px">
-									<input type="search" name="vname" placeholder="<?=\Yii::t('app', 'Search by villa name');?>" class="form-control"  />
-									<div class="input-group-btn">
-											<button class="btn btn-info">
-											<span class="glyphicon glyphicon-search"></span>
-											</button>
-									</div>
-							</div>
-						</form> 
-					</li>
+				<ul class="nav navbar-nav navbar-right"> 
 				  <li><a href="<?=Url::to('@web/list')?>"><?=\Yii::t('app', 'Villas');?></a></li>
-				  <!--li class="dropdown">
-					<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?=\Yii::t('app', 'Services');?><b class="lightcaret mt-2"></b></a>
-					<ul class="dropdown-menu">
-					  <li><a href="<?=Url::to('@web/')?>#"><?=\Yii::t('app', 'TURSAB');?></a></li>
-					  <li><a href="<?=Url::to('@web/')?>#"><?=\Yii::t('app', 'Tourism Butterfly');?></a></li>
-					  <li><a href="<?=Url::to('@web/')?>#"><?=\Yii::t('app', 'Villa Owners');?></a></li>
-					</ul>
-				  </li-->		
 					
-					<!--li><a href="<?=Url::to('hizmetler')?>"><?=\Yii::t('app', 'Services');?></a></li>
-					<li><a href="<?=Url::to('haberler')?>"><?=\Yii::t('app', 'News');?></a></li-->
+					<li><a href="<?=Url::to('hizmetler')?>"><?=\Yii::t('app', 'Services');?></a></li>
+					<li><a href="<?=Url::to('haberler')?>"><?=\Yii::t('app', 'News');?></a></li>
 					<li><a href="<?=Url::to('hakkinda')?>"><?=\Yii::t('app', 'About Us');?></a></li>
 					<li><a href="<?=Url::to('@web/').\Yii::t('app', 'contact')?>"><?=\Yii::t('app', 'Contact');?></a></li>
 

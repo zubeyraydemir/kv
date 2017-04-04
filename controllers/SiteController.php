@@ -62,7 +62,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = [];
+        $model["regions"] = Yii::$app->db->createCommand("SELECT name FROM regions order by name")->queryAll();
+        $prices = Yii::$app->db->createCommand("SELECT min(price) price, e.id, e.name, e.data from prices p join estates e on p.villa_id = e.id where start_date >=MAKEDATE(year(now()),1) group by e.id order by rand() limit 2")->queryAll();
+        for($i = 0; $i < 2; $i++)
+        {
+            $temp = json_decode($prices[$i]["data"], true);
+            $model["villa$i"] = [];
+            $model["villa$i"]["slug"] = $prices[$i]["name"];
+            $model["villa$i"]["price"] = $prices[$i]["price"];
+            $model["villa$i"]["pic"] = $temp["pictures"][0];
+            $model["villa$i"]["name"] = $temp["name"];
+            $model["villa$i"]["curr"] = strtoupper($temp["currency"]);
+        }
+        
+        return $this->render('index', $model);
     }
     
     public function actionVilla()
@@ -71,15 +85,32 @@ class SiteController extends Controller
         $cookies = Yii::$app->response->cookies;
 
         $model = [];
-        if ($rcookies->has('start'))
+        
+        $start = Yii::$app->request->post('sd');
+        $end = Yii::$app->request->post('ed');
+
+        if (!empty($start))
+        {
+            $cookies->remove('start');
+            $cookies->remove('end');
+            // add a new cookie to the response to be sent
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'start',
+                'value' => $start,
+            ]));
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'end',
+                'value' => $end,
+            ]));
+            $model["start"] = $start;
+            $model["end"] = $end;
+        } 
+        else if ($rcookies->has('start'))
         {
             $model["start"] = $rcookies->get('start');
             $model["end"] = $rcookies->get('end');
         }
 
-        if (!empty($start))
-        {
-        }
 
 
 
@@ -107,26 +138,103 @@ class SiteController extends Controller
         $model["villa"] = $villa;
         $model["res"] = $reserves;
         $model["prices"] = $prices;
+
+        $prices = Yii::$app->db->createCommand("SELECT min(price) price, e.id, e.name, e.data from prices p join estates e on p.villa_id = e.id where start_date >=MAKEDATE(year(now()),1) group by e.id order by rand() limit 3")->queryAll();
+        for($i = 0; $i < 3; $i++)
+        {
+            $temp = json_decode($prices[$i]["data"], true);
+            $model["villa$i"] = [];
+            $model["villa$i"]["slug"] = $prices[$i]["name"];
+            $model["villa$i"]["price"] = $prices[$i]["price"];
+            $model["villa$i"]["pic"] = $temp["pictures"][0];
+            $model["villa$i"]["name"] = $temp["name"];
+            $model["villa$i"]["curr"] = strtoupper($temp["currency"]);
+        }
+
         return $this->render('villa', $model);
     }
     
+    public function actionReservationmail()
+    {
+            $model["start_date"] = Yii::$app->request->post('sd');
+            $model["end_date"] = Yii::$app->request->post('ed');
+            $model["name"] = Yii::$app->request->post('name');
+            $model["mail"] = Yii::$app->request->post('mail');
+            $model["phone"] = Yii::$app->request->post('phone');
+            $model["note"] = Yii::$app->request->post('note', "");
+
+            $model["villa_id"] = Yii::$app->request->post('id');
+            $model["villa_name"] = Yii::$app->request->post('vname');
+
+            $model["available"] = Yii::$app->request->post('avail') == "1" ? "Müsait" : "Müsait değil";
+            $model["total_price"] = Yii::$app->request->post('price', -1);
+            $model["pre_payment"] = Yii::$app->request->post('payment', 0);
+        return $this->render('reservation',$model);
+    }
+    public function actionReservation()
+    {
+        $model = [];
+		if (Yii::$app->request->isPost) 
+		{
+            $model["start_date"] = Yii::$app->request->post('sd');
+            $model["end_date"] = Yii::$app->request->post('ed');
+            $model["name"] = Yii::$app->request->post('name');
+            $model["mail"] = Yii::$app->request->post('mail');
+            $model["phone"] = Yii::$app->request->post('phone');
+            $model["note"] = Yii::$app->request->post('note', "");
+
+            $model["villa_id"] = Yii::$app->request->post('id');
+            $model["villa_name"] = Yii::$app->request->post('vname');
+
+            $model["available"] = Yii::$app->request->post('avail') == "1" ? "Müsait" : "Müsait değil";
+            $model["total_price"] = Yii::$app->request->post('price', -1);
+            $model["pre_payment"] = Yii::$app->request->post('payment', 0);
+
+            $model["created"] = date("Y-m-d h:i:s");
+
+			Yii::$app->db->createCommand()->insert('reservation_requests', $model)->execute();
+            try
+            {
+                $mailbody = $this->renderPartial('reservationmail', $model);
+                Yii::$app->mailer->compose()
+                    ->setFrom('info@kiralikvillam.com')
+                    ->setTo([$model["mail"] => $model["name"]])
+                    ->setBcc(['zubeyr_aydemir@msn.com', "rez@kiralikvillam.com"])
+                    ->setTextBody(strip_tags($mailbody))
+                    ->setHtmlBody($mailbody)
+                    ->setSubject('KiralikVillam Rezervasyon')
+                    ->send();
+            }
+            catch(\Swift_SwiftException $exception)
+            {
+                //return 'Can sent mail due to the following exception'.print_r($exception);
+            }
+            
+
+                
+            return $this->render('reservation', $model);
+            
+        }
+    }
     public function actionList()
     {
         $rcookies = Yii::$app->request->cookies;
+        $cookies = Yii::$app->response->cookies;
 
-
+        $rname = Yii::$app->request->get('vname');
+        if (empty($rname))
+            $vname = Yii::$app->request->get('name');
+        else
+            $vname = $rname;
         $name = Yii::$app->request->get('n');
         $start = Yii::$app->request->get('sd');
         $end = Yii::$app->request->get('ed');
         $adult = Yii::$app->request->get('a');
-        $child = Yii::$app->request->get('c');
         $adult = empty($adult) ? 2 : $adult;
-        $child = empty($child) ? 0 : $child;
 
-        $cookies = Yii::$app->response->cookies;
         $villa_ids = "";
         $priceq = "";
-        if (empty($start) && $rcookies->has('start'))
+        if (empty($start) && $rcookies->has('start') && empty($rname))
         {
             $start = $rcookies->get('start');
             $end = $rcookies->get('end');
@@ -204,21 +312,21 @@ class SiteController extends Controller
                 $sdate = new \DateTime($start); 
             }
 
+            for ($i=0;$i<count($posts);$i++)
+            {
+                $posts[$i]["price"] = 0;
+            }
             while ($sdate < $edate)
             {
                 $totalday++;
                 $date = $sdate->format('Y-m-d');
                 for ($i=0;$i<count($posts);$i++)
                 {
-                    $posts[$i]["price"] = 0;
                     $villa = $posts[$i];
                     foreach ($prices as $price)
                     {
                         if ($price["villa_id"] == $villa["id"] && $price["start_date"] <= $date && $price["end_date"] >= $date)
                         {
-							$date1 = new \DateTime($start);
-							$date2 = new \DateTime($end);
-							$interval = $date1->diff($date2);
                             $posts[$i]["price"] += $price["price"];
                             break;
                         }
@@ -271,12 +379,14 @@ class SiteController extends Controller
             $posts[$i]["slug"] = $this->slugify($posts[$i]["name"]);  
         }
 
+        $regions = Yii::$app->db->createCommand("SELECT name FROM regions order by name")->queryAll();
         $model = [
-            "name"=>$name,
+            "name"=>$vname,
+            "regs"=>$name,
+            "regions" => $regions,
             "start"=>$start,
             "end"=>$end,
             "adult"=>$adult,
-            "child"=>$child,
             "villas"=>$posts,
             "days" => $totalday
         ];
@@ -323,6 +433,7 @@ class SiteController extends Controller
             ->setFrom('info@kiralikvillam.com')
             ->setTo('zubeyr_aydemir@msn.com')
             ->setSubject('KiralikVillam İleticim')
+            ->setTextBody(strip_tags($mailbody))
             ->setHtmlBody($mailbody)
             ->send();
 

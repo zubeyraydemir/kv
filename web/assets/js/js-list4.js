@@ -214,20 +214,29 @@ $(document).ready(function(){
 jQuery(window).scroll(function(){            
 	var $iw = $('body').innerWidth();
 	
-	if(jQuery(window).scrollTop() != 0){
-		jQuery('.mtnav').stop().animate({top: '0px'}, 500);
-		jQuery('.logo').stop().animate({width: '100px'}, 100);
-	}       
-	else {
-		 if ( $iw < 992 ) {
-		  }
-		  else{
-		   jQuery('.mtnav').stop().animate({top: '30px'}, 500);
-		  }
+		
+		if(jQuery(window).scrollTop() != 0){
+			jQuery('.mtnav').stop().animate({top: '0px'}, 500);
+			jQuery('img.logo').stop().animate({width: '90px'}, 100);
+			
+			jQuery('a.logo').stop().animate({marginTop: '0px'}, 100);
+			//jQuery('a.logo').toggleClass("logo");
+			
 
-		jQuery('.logo').stop().animate({width: '120px'}, 100);		
-
-	}
+		}       
+		else {
+			 if ( $iw < 992 ) {
+			  }
+			  else{
+			   jQuery('.mtnav').stop().animate({top: '30px'}, 500);
+			  }
+			
+			
+			jQuery('img.logo').stop().animate({width: '120px'}, 100);
+			//jQuery('a.logo').toggleClass("logo");
+			jQuery('a.logo').stop().animate({marginTop: '-35px'}, 100);
+	
+		}
 	
 
 	//Social
@@ -463,12 +472,44 @@ $(document).ready(function($){
 
 });
 
-$(window).on('hashchange',function(){ 
-    //alert("slm");
+$("#clearfilter").click(function(){ 
+	$(':input','#searchForm')
+	.not(':button, :submit, :reset, :hidden, #daterangepicker')
+	.val('')
+	.removeAttr('checked')
+	.removeAttr('selected');
+	hackerList.filter();
 });
 
 
 var hackerList =null;	
+
+function filter(elem) {
+	var filters = {};
+	$.each($('#searchForm').serializeArray(), function(_, kv) {
+	if (filters.hasOwnProperty(kv.name)) {
+		filters[kv.name] = $.makeArray(filters[kv.name]);
+		filters[kv.name].push(kv.value);
+	}
+	else {
+		filters[kv.name] = kv.value;
+	}
+	});
+
+	hackerList.filter(function(item) {
+		var res = true;
+		var vals = item.values();
+		if (vals.name.toLowerCase().indexOf(filters.name.toLowerCase()) < 0) {
+			res = false;
+		} 
+		if (vals.max_people_count*1 < filters.a*1)
+			res = false;
+		
+		return res;
+	});
+	$(elem).notify("Liste güncellendi", { position:"right bottom", autoHideDelay: 1000, className: "success" });
+}
+
 jQuery(document).ready(function(jQuery){
 	var options = {
     item: 'villa-item',
@@ -483,16 +524,17 @@ jQuery(document).ready(function(jQuery){
 hackerList = new List('villa-list', options, villaValues);
 $("b.price").filter(function() {return $(this).text().trim() == "0";}).parent().text("-");
 
-/*
 
-hackerList.filter(function(item) {
-if (item.values().oven == "on") {
-   return true;
-} else {
-   return false;
-}
+$( "#searchForm input,select" ).not("#daterangepicker").bind("propertychange change keyup input paste",function() {
+  filter(this);
 });
 
+  filter();
+  
+hackerList.on("pageChange", function(){
+	$("html, body").animate({ scrollTop: 120 }, "slow");
+});
+/*
 jQuery('.pagination-sm').twbsPagination({
         totalPages: 35,
         visiblePages: 7,
@@ -519,9 +561,10 @@ jQuery(function($) {
 	var minpri = villaValues[0].price;
 	for (var i=0;i<villaValues.length;i++)
 	{
-		if (villaValues[i].price < minpri)
+		if (villaValues[i].price < minpri && villaValues[i].price > 0)
 			minpri = villaValues[i].price;
 	}
+
 	$('.countprice').countTo({
 		from: 0,
 		to: minpri,

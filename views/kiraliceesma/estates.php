@@ -120,6 +120,13 @@ if (isset($villa["data"]))
 							<input type="number" class="form-control" id="deposit" name="deposit" value="<?=($data?$data["deposit"]:"")?>">
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="pre_payment">Ön ödeme yüzdesi</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="pre_payment" name="pre_payment" value="<?=(isset($data["pre_payment"])?$data["pre_payment"]:"")?>">
+						</div>
+					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="cleaning_price">Temizlik ücreti</label>
 						<div class="col-sm-10">

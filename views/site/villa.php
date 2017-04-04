@@ -19,6 +19,7 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
     <!-- Bootstrap -->
     <link href="<?=Url::to('@web/')?>dist/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="<?=Url::to('@web/')?>assets/css/custom.css" rel="stylesheet" media="screen">
+    <link href="<?=Url::to('@web/')?>assets/css/daterangepicker.css" rel="stylesheet" media="screen">
 
 
 	<link href="<?=Url::to('@web/')?>examples/carousel/carousel.css" rel="stylesheet">
@@ -181,33 +182,62 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 				<div class="line3"></div>
 				
 				<div class="hpadding20">
+					<?php
+					$available = true;
+					if (isset($start))
+					{
+						foreach ($res as $r)
+						{
+							if (($r["start_date"] <= $start && $r["end_date"] > $start || $r["start_date"] < $end && $r["end_date"] >= $end) 
+								|| ($start <= $r["start_date"] && $end >= $r["end_date"]  ))
+								$available = false;
+						}
+					}
+					?>
 					
-					<?=isset($start) ? '<h2 class="opensans slim green2">Harika!</h2>Seçtiğiniz tarihlerde rezervasyon yapabilirsiniz.' : "Fiyat seçeneklerini görmek için tarih seçiniz"?>
+					<?php
+					if ($available)
+					{
+						echo isset($start) ? '<h2 class="opensans slim green2">Harika!</h2>Seçtiğiniz tarihlerde rezervasyon yapabilirsiniz.' : '<p class="padding20">Fiyat seçeneklerini görmek için tarih seçiniz<br><span class="green">Fiyat ve rezervasyon durumunu görmek için <b>Rezervasyon Yap</b>\'a tıklayınız</span></p>';
+					}
+					else
+					{
+						echo '<h2 class="opensans slim red">Üzgünüz!</h2>Seçtiğiniz tarihlerde villamız dolu.';
+					}
+					$resavail = $available;
+					?>
 				</div>
 				
 				<div class="line3 margtop20"></div>
-				
+				<form id="updateform" action="<?=Url::to('@web/villa/').$villa["name"]?>" method="post">
+							<input type="hidden" name="sd" id="start_date" />
+							<input type="hidden" name="ed" id="end_date" />
+							<input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
 				<div class="col-md-12 bordertype3 padding20">
 					<?php
 					$pridesc = "";
 					//echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days "; 
 					$minpri = 99999;
+					$pre_payment = 0;
 					if (count($prices) > 0)
 					{
 						if (isset($start))
 						{
 							$date = new DateTime($start);
 							$total_price = 0;
+							$price_found = 0;
 							while ($date->format("Y-m-d") < $end)
 							{
 								foreach($prices as $price)
 								{
-									if ($price["start_date"] <= $date && $price["end_date"] >= $date)
+									if ($price["start_date"] <= $date->format("Y-m-d") && $price["end_date"] >= $date->format("Y-m-d"))
 									{
 										$total_price += $price["price"];
+										$price_found++;
+										break;
 									}
 								}
-									$date->add(new DateInterval('P1D')); 
+								$date->add(new DateInterval('P1D')); 
 							}
 						}
 						foreach($prices as $price)
@@ -215,28 +245,54 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 							if ($minpri > $price["price"])
 								$minpri = $price["price"];
 						}
-
+						if (isset($total_price) && isset($data["pre_payment"]))
+						{
+							$pre_payment = round($data["pre_payment"] * $total_price / 100);
+						}
 						if (isset($start))
 						{
 							$date1 = new DateTime($start);
 							$date2 = new DateTime($end);
 							$interval = $date1->diff($date2);
-							echo $interval->d. " gecelik konaklama.<br>";
+							if ($available)
+							{
+								if ($price_found == $interval->d)
+								{
+									echo "<div class='col-md-4'>". $interval->d. " gecelik <br>konaklama<br></div>";
+									echo "<div class='col-md-8'><span class='green size30'>". $total_price." ". strtoupper($data["currency"])."</span> </div>";
+								}
+								else
+								{
+									echo "Girdiğiniz tarihler arasında fiyat bilgisi eksik. Rezervasyon talebi yaparak veya bizi arayarak fiyat hakkında bilgi alabilirsiniz";
+								}
+							}
+							else
+							{
+								echo '<p class=""><span class="green">Fiyat ve rezervasyon durumunu görmek için <b>Rezervasyon Yap</b>\'a tıklayınız</span></p>';
+							}
+							
+						}
+						else
+						{
+							echo "<p>Gecelik en düşük <span class='green size20'>$minpri ". strtoupper($data["currency"]) ."</span>'den başlayan fiyatlarla rezervasyon yapabilirsiniz.</p><br>";
 						}
 
 					}
 					else
 					{
-						$pridesc = "Girdiğiniz tarihler arasında fiyat bilgisi bulunamadı. Rezervasyonda bulunarak veya bizi arayarak fiyat bilgisi hakkında bilgi alabilirsiniz";
+						echo "Girdiğiniz tarihler arasında fiyat bilgisi bulunamadı. Rezervasyon talebi yaparak veya bizi arayarak fiyat hakkında bilgi alabilirsiniz";
 					}
 					?>
 				</div>
 				<div class="clearfix"></div><br/>
 				
 				<div class="hpadding20">
-					<a href="<?=Url::to('@web/')?>#" class="add2fav margtop5">Add to favourite</a>
-					<a href="#tabs" class="booknow margtop20 btnmarg" onclick="$('.nav-tabs a[href=#roomrates]').tab('show');"><?=\Yii::t('app', 'Book now');?></a>
+					<input type="text" class="form-control mySelectCalendar" id="daterangepicker" data-sdate="<?=isset($start)?$start:""?>" data-edate="<?=isset($end)?$end:""?>"/>
+					<br>
+					<a id="updateDate" href="javascript:void(0)" class="add2fav margtop5"><?=\Yii::t('app', 'Update date');?></a>
+					<a href="javascript:void(0)" class="booknow margtop20 btnmarg" onclick="$('html, body').animate({ scrollTop: 650 }, 'slow');$('.nav-tabs a[href=#roomrates]').tab('show');"><?=\Yii::t('app', 'Book now');?></a>
 				</div>
+				</form>
 			</div>
 			<!-- END OF RIGHT INFO -->
 
@@ -249,12 +305,12 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 				<div class="cstyle10"></div>
 		
 				<ul class="nav nav-tabs" id="myTab">
-					<li onclick="mySelectUpdate()" class="active"><a data-toggle="tab" href="#summary"><span class="summary"></span><span class="hidetext"><?=\Yii::t('app', 'About');?></span>&nbsp;</a></li>
-					<li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#roomrates"><span class="rates"></span><span class="hidetext"><?=\Yii::t('app', 'Reservation');?></span>&nbsp;</a></li>
-					<li onclick="loadScript()" class=""><a data-toggle="tab" href="#maps"><span class="maps"></span><span class="hidetext"><?=\Yii::t('app', 'Maps');?></span>&nbsp;</a></li>
-					<li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#thingstodo"><span class="thingstodo"></span><span class="hidetext"><?=\Yii::t('app', 'Things to do');?></span>&nbsp;</a></li>
+					<li onclick="mySelectUpdate()" class="active"><a data-toggle="tab" href="#summary"><span class="summary"></span><span class=""><?=\Yii::t('app', 'About');?></span>&nbsp;</a></li>
+					<li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#roomrates"><span class="rates"></span><span class=""><?=\Yii::t('app', 'Reservation');?></span>&nbsp;</a></li>
+					<!--li onclick="loadScript()" class=""><a data-toggle="tab" href="#maps"><span class="maps"></span><span class="hidetext"><?=\Yii::t('app', 'Maps');?></span>&nbsp;</a></li-->
+					<!--li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#thingstodo"><span class="thingstodo"></span><span class="hidetext"><?=\Yii::t('app', 'Things to do');?></span>&nbsp;</a></li-->
 					<!--li onclick="mySelectUpdate()" class=""><a data-toggle="tab" href="#preferences"><span class="preferences"></span><span class="hidetext">Preferences</span>&nbsp;</a></li>
-					<li onclick="mySelectUpdate(); trigerJslider(); trigerJslider2(); trigerJslider3(); trigerJslider4(); trigerJslider5(); trigerJslider6();" class=""><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext">Reviews</span>&nbsp;</a></li-->
+					<!-li onclick="mySelectUpdate(); trigerJslider(); trigerJslider2(); trigerJslider3(); trigerJslider4(); trigerJslider5(); trigerJslider6();" class=""><a data-toggle="tab" href="#reviews"><span class="reviews"></span><span class="hidetext">Reviews</span>&nbsp;</a></li-->
 					
 				</ul>			
 				<div class="tab-content4" >
@@ -365,68 +421,107 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 					</div>
 					<!-- TAB 2 -->
 					<div id="roomrates" class="tab-pane fade ">
-						<form action="<?=Url::to('@web/')?>reservation" method="post">
-							<div class="hpadding20">
-								<p class="dark">Rezervasyon bilgileriniz</p>
-								<div class="col-md-2 offset-0">
-									</div>
-								<div class="col-md-4 offset-0">
-									<div class="w50percent">
-										<div class="wh90percent textleft">
-											<span class="opensans size13"><b><?=\Yii::t("app","Check in date")?></b></span>
-											<input type="text" class="form-control mySelectCalendar" id="datepicker" placeholder="mm/dd/yyyy" data-date="<?=isset($start)?$start:""?>"/>
+						<form id="resForm" action="<?=Url::to('@web/')?>reservation" method="post">
+							<input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
+							<input type="hidden" name="sd" />
+							<input type="hidden" name="ed" />
+							<input type="hidden" name="id" value="<?=$villa["id"]?>" />
+							<input type="hidden" name="vname" value="<?=$data["name"]?>" />
+							<input type="hidden" name="avail" value="<?=isset($resavail) ? "1" : "0"?>"/>
+							<input type="hidden" name="price" value="<?=isset($total_price) ? $total_price : "-1"?>" />
+							<input type="hidden" name="payment" value="<?=isset($pre_payment) ? $pre_payment : "0"?>" />
+							
+							<div class="col-md-6">
+								<div class="hpadding20">
+									<p class="dark">Rezervasyon bilgileriniz</p>
+									<div class="col-md-4 offset-0">
 										</div>
+									<div class="col-md-8 offset-0"> 
+										
+										<input type="text" class="form-control mySelectCalendar" id="daterangepicker2" data-sdate="<?=isset($start)?$start:""?>" data-edate="<?=isset($end)?$end:""?>"/>
+										
 									</div>
-
-									<div class="w50percentlast">
-										<div class="wh90percent textleft right">
-											<span class="opensans size13"><b><?=\Yii::t("app","Check out date")?></b></span>
-											<input type="text" class="form-control mySelectCalendar" id="datepicker2" placeholder="mm/dd/yyyy" data-date="<?=isset($end)?$end:""?>"/>
+									<div class="col-md-4 offset-0">
 										</div>
+									<div class="col-md-8 offset-0">
+										
+											<button id="updateDate2" class="updatebtn caps center"><?=\Yii::t("app","Update")?></button>
+									
 									</div>
+									<div class="clearfix"></div>
 								</div>
-								<div class="col-md-4 offset-0">
-									
-									
-									<div class="col-md-4 center offset-0">
-										<button class="updatebtn caps center margtop20"><?=\Yii::t("app","Update")?></button>
-									</div>
+								<br/><br/>
+								
+								<div class="col-md-4 textright">
+									<div class="margtop15"><span class="dark"><?=\Yii::t("app","Contact Name")?>:</span><span class="red">*</span></div>
+								</div>
+								<div class="col-md-8"> 
+									<input type="text" class="form-control " name="name" placeholder="" required="true">
+								</div>
+								<div class="col-md-8 textleft margtop15">
 								</div>
 								<div class="clearfix"></div>
-							</div>
-							<br/><br/>
-							
-							<div class="col-md-2 textright">
-								<div class="margtop15"><span class="dark"><?=\Yii::t("app","Contact Name")?>:</span><span class="red">*</span></div>
-							</div>
-							<div class="col-md-4"> 
-								<input type="text" class="form-control " placeholder="">
-							</div>
-							<div class="col-md-4 textleft margtop15">
-							</div>
-							<div class="clearfix"></div>
-							
-							<br/>
-							<div class="col-md-2 textright">
-								<div class="margtop7"><span class="dark"><?=\Yii::t("app","Email Address")?>:</span><span class="red">*</span></div>
-							</div>
-							<div class="col-md-4 textleft">
-								<input type="text" class="form-control" placeholder="">
-							</div>
-							<div class="clearfix"></div>
-							
-							<br/>
-							<div class="col-md-2 textright">
-								<div class="margtop7"><span class="dark"><?=\Yii::t("app","Phone Number")?>:</span><span class="red">*</span></div>
-							</div>
-							<div class="col-md-4 textleft">
-								<input type="text" class="form-control" placeholder="">
-							</div>
-							<div class="clearfix"></div>
+								
+								<br/>
+								<div class="col-md-4 textright">
+									<div class="margtop7"><span class="dark"><?=\Yii::t("app","Email Address")?>:</span><span class="red">*</span></div>
+								</div>
+								<div class="col-md-8 textleft">
+									<input type="email" class="form-control" name="mail" required="true" placeholder="">
+								</div>
+								<div class="clearfix"></div>
+								
+								<br/>
+								<div class="col-md-4 textright">
+									<div class="margtop7"><span class="dark"><?=\Yii::t("app","Phone Number")?>:</span><span class="red">*</span></div>
+								</div>
+								<div class="col-md-8 textleft">
+									<input type="text" class="form-control" name="phone" required="true" placeholder="">
+								</div>
+								<div class="clearfix"></div>
+								
+								<br/>
+								<div class="col-md-4 textright">
+									<div class="margtop7"><span class="dark"><?=\Yii::t("app","Additional notes")?>:</span></div>
+								</div>
+								<div class="col-md-8 textleft">
+									<input type="text" class="form-control" name="note" placeholder="">
+								</div>
+								<div class="clearfix"></div>
 
-							<br/>
-							<div class="col-md-4">
+								<br/>
+								<div class="col-md-4 textright"></div>
+								<div class="col-md-8 textright">
+										<label><input type="checkbox" style="" required="true"> <a href="<?=Url::to('@web/sozlesme/kiralama_genel_kosullari.pdf')?>" target="_blank" class="blue"><u>Kiralama koşullarını</u></a> okudum, onaylıyorum</label>
+									
+								</div>
+								<?php
+								if ($pre_payment > 0) { 
+								?>
+								<div class="col-md-4 textright">
+									<div class="margtop7"><span class="dark"><?=\Yii::t("app","Pre payment")?>:</span><span class="red"></span></div>
+								</div>
+								<div class="col-md-8 textright">
+									<span class='green size30'><?=$pre_payment?> <?=strtoupper($data["currency"])?></span>
+								</div>
+								<?php }
+								if (isset($total_price)) { ?>
+								<div class="col-md-4 textright">
+									<div class="margtop7"><span class="dark"><?=\Yii::t("app","Total price")?>:</span><span class="red"></span></div>
+								</div>
+								<div class="col-md-8 textright">
+									<span class='green size30'><?=$total_price?> <?=strtoupper($data["currency"])?></span>
+								</div>
+								<?php } ?>
+								<div class="col-md-4 textright"></div>
+								<div class="col-md-8 textright">
+										<input type="submit"  class="booknow margtop20 btnmarg" value="<?=\Yii::t('app', 'Complete Reservation');?>">
+									
+								</div>
 							</div>
+							<div class="col-md-6">
+							</div>
+							<div class="clearfix"></div>
 						</form>
 						<br/>
 						
@@ -434,6 +529,8 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 						<div class="line2"></div>
 						<h2 class="hpadding20 dark"><?=\Yii::t("app", "Price table")?></h2>	
 						<div class="col-md-12">
+							<div class="table-responsive">
+								<br>
 						<table class="pricedate">
 							<thead>
 								<tr>
@@ -548,12 +645,13 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 							?>
 							</tbody>
 						</table>
+						</div>
 						<br>
 							<p style="border: 1px solid; background-color: #2c8fc9; color: black; float:left; padding:5px; margin:10px;">Dolu</p>
 							<p style="border: 1px solid; color: black; float:left; padding:5px; margin:10px;">Boş</p>
 							
-							<p style="background: linear-gradient(-45deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent);border: 1px solid; color: black; float:left; padding:5px; margin:10px;">Kiracı girişi</p>
-							<p style="background: linear-gradient(135deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent);border: 1px solid; color: black; float:left; padding:5px; margin:10px;">Kiracı çıkışı</p>
+							<p style="background: linear-gradient(-45deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent);border: 1px solid; color: black; float:left; padding:5px; margin:10px;">Giriş</p>
+							<p style="background: linear-gradient(135deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent);border: 1px solid; color: black; float:left; padding:5px; margin:10px;">Çıkış</p>
 						
 						</div>
 						<div class="line2"></div>							
@@ -1084,49 +1182,51 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 			
 			<div id="panels" class="col-md-4" >
 				
-				<div class="pagecontainer2 testimonialbox">
+				<!--div class="pagecontainer2 testimonialbox">
 					<div class="cpadding0 mt-10">
 						<span class="icon-quote"></span>
 						<p class="opensans size16 grey2">It was very comfortable to stay and staff were pleasant and welcoming.<br/>
 						<span class="lato 5bbfbf bold size13"><i>by Ellison from United Kingdom</i></span></p> 
 					</div>
-				</div>
+				</div-->
 				
 				<div class="pagecontainer2 mt20 needassistancebox">
 					<div class="cpadding1">
 						<span class="icon-help"></span>
-						<h3 class="opensans">Need Assistance?</h3>
-						<p class="size14 grey">Our team is 24/7 at your service to help you with your booking issues or answer any related questions</p>
-						<p class="opensans size30 green xslim">1-866-599-6674</p>
+						<h3 class="opensans">Yardım mı lazım?</h3>
+						<p class="size14 grey">Ekibimiz 24/7 size yardım etmek için hizmetinizdedir. Her türlü rezervasyon işlemi ve sorularınız için bizi arayabilirsiniz.</p>
+						<p class="opensans size30 green xslim">0 (216) 451 51 15</p>
 					</div>
 				</div><br/>
 				
 				<div class="pagecontainer2 mt20 alsolikebox">
 					<div class="cpadding1">
 						<span class="icon-location"></span>
-						<h3 class="opensans">You May Also Like</h3>
+						<h3 class="opensans">Bu villaları da beğenebilirsiniz</h3>
 						<div class="clearfix"></div>
 					</div>
 					<div class="cpadding1 ">
-						<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/smallthumb-1.jpg" class="left mr20" alt=""/></a>
-						<a href="<?=Url::to('@web/')?>#" class="dark"><b>Hotel Amaragua</b></a><br/>
-						<span class="opensans green bold size14">$36-$160</span> <span class="grey">avg/night</span><br/>
+						<a href="<?=Url::to('@web/villa/').$villa0["slug"]?>"><img src="<?=Url::to('@web/images/villa/t/').$villa0["pic"]?>" width="100px" class="left mr20" alt=""/></a>
+						<a href="<?=Url::to('@web/villa/').$villa0["slug"]?>" class="dark"><b><?=$villa0["name"]?></b></a><br/>
+						<span class="opensans green bold size14"><?=$villa0["price"]?></span> <span class="grey"><?=$villa0["curr"]?></span><br/>
 						<img src="<?=Url::to('@web/')?>images/filter-rating-5.png" alt=""/>
 					</div>
 					<div class="line5"></div>
 					<div class="cpadding1 ">
-						<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/smallthumb-2.jpg" class="left mr20" alt=""/></a>
-						<a href="<?=Url::to('@web/')?>#" class="dark"><b>Hotel Amaragua</b></a><br/>
-						<span class="opensans green bold size14">$36-$160</span> <span class="grey">avg/night</span><br/>
+						<a href="<?=Url::to('@web/villa/').$villa1["slug"]?>"><img src="<?=Url::to('@web/images/villa/t/').$villa1["pic"]?>" width="100px" class="left mr20" alt=""/></a>
+						<a href="<?=Url::to('@web/villa/').$villa1["slug"]?>" class="dark"><b><?=$villa1["name"]?></b></a><br/>
+						<span class="opensans green bold size14"><?=$villa1["price"]?></span> <span class="grey"><?=$villa1["curr"]?></span><br/>
 						<img src="<?=Url::to('@web/')?>images/filter-rating-5.png" alt=""/>
 					</div>
-					<div class="line5"></div>			
+					<div class="line5"></div>
 					<div class="cpadding1 ">
-						<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/smallthumb-3.jpg" class="left mr20" alt=""/></a>
-						<a href="<?=Url::to('@web/')?>#" class="dark"><b>Hotel Amaragua</b></a><br/>
-						<span class="opensans green bold size14">$36-$160</span> <span class="grey">avg/night</span><br/>
+						<a href="<?=Url::to('@web/villa/').$villa2["slug"]?>"><img src="<?=Url::to('@web/images/villa/t/').$villa2["pic"]?>" width="100px" class="left mr20" alt=""/></a>
+						<a href="<?=Url::to('@web/villa/').$villa2["slug"]?>" class="dark"><b><?=$villa2["name"]?></b></a><br/>
+						<span class="opensans green bold size14"><?=$villa2["price"]?></span> <span class="grey"><?=$villa2["curr"]?></span><br/>
 						<img src="<?=Url::to('@web/')?>images/filter-rating-5.png" alt=""/>
 					</div>
+					<div class="line5"></div>
+					
 					<br/>
 				
 					
@@ -1147,85 +1247,9 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 	
 	
 	<!-- FOOTER -->
-
-	<div class="footerbgblack">
-		<div class="container">		
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Let's socialize</span>
-				<div class="scont">
-					<a href="<?=Url::to('@web/')?>#" class="social1b"><img src="<?=Url::to('@web/')?>images/icon-facebook.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social2b"><img src="<?=Url::to('@web/')?>images/icon-twitter.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social3b"><img src="<?=Url::to('@web/')?>images/icon-gplus.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social4b"><img src="<?=Url::to('@web/')?>images/icon-youtube.png" alt=""/></a>
-					<br/><br/><br/>
-					<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/logosmal2.png" alt="" /></a><br/>
-					<span class="grey2">&copy; 2013  |  <a href="<?=Url::to('@web/')?>#">Privacy Policy</a><br/>
-					All Rights Reserved </span>
-					<br/><br/>
-					
-				</div>
-			</div>
-			<!-- End of column 1-->
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Travel Specialists</span>
-				<br/><br/>
-				<ul class="footerlistblack">
-					<li><a href="<?=Url::to('@web/')?>#">Golf Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Ski & Snowboarding</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney Parks Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disneyland Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney World Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Vacations As Advertised</a></li>
-				</ul>
-			</div>
-			<!-- End of column 2-->		
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Travel Specialists</span>
-				<br/><br/>
-				<ul class="footerlistblack">
-					<li><a href="<?=Url::to('@web/')?>#">Weddings</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Accessible Travel</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney Parks</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Cruises</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Round the World</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">First Class Flights</a></li>
-				</ul>				
-			</div>
-			<!-- End of column 3-->		
-			
-			<div class="col-md-3 grey">
-				<span class="ftitleblack">Newsletter</span>
-				<div class="relative">
-					<input type="email" class="form-control fccustom2black" id="exampleInputEmail1" placeholder="Enter email">
-					<button type="submit" class="btn btn-default btncustom">Submit<img src="<?=Url::to('@web/')?>images/arrow.png" alt=""/></button>
-				</div>
-				<br/><br/>
-				<span class="ftitleblack">Customer support</span><br/>
-				<span class="pnr">1-866-599-6674</span><br/>
-				<span class="grey2">office@travel.com</span>
-			</div>			
-			<!-- End of column 4-->			
-		
-			
-		</div>	
-	</div>
-	
-	<div class="footerbg3black">
-		<div class="container center grey"> 
-		<a href="<?=Url::to('@web/')?>#">Home</a> | 
-		<a href="<?=Url::to('@web/')?>#">About</a> | 
-		<a href="<?=Url::to('@web/')?>#">Last minute</a> | 
-		<a href="<?=Url::to('@web/')?>#">Early booking</a> | 
-		<a href="<?=Url::to('@web/')?>#">Special offers</a> | 
-		<a href="<?=Url::to('@web/')?>#">Blog</a> | 
-		<a href="<?=Url::to('@web/')?>#">Contact</a>
-		<a href="<?=Url::to('@web/')?>#top" class="gotop scroll"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></a>
-		</div>
-	</div>
-	
+    <?php $this->beginContent('@app/views/layouts/footer2.php'); ?>
+	<?php $this->endContent(); ?>
+	<!-- /FOOTER -->
 
 	<!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1313,6 +1337,9 @@ var myLng = -4.8825;
     <!-- jQuery KenBurn Slider  -->
     <script type="text/javascript" src="<?=Url::to('@web/')?>rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
 	
+	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/moment.min.js'></script>	
+	<script type='text/javascript' src='<?=Url::to('@web/')?>assets/js/daterangepicker.js'></script>	
+
     <!-- CarouFredSel -->
     <!--script src="<?=Url::to('@web/')?>assets/js/jquery.carouFredSel-6.2.1-packed.js"></script>
     <script src="<?=Url::to('@web/')?>assets/js/helper-plugins/jquery.touchSwipe.min.js"></script-->

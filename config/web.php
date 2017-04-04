@@ -30,13 +30,13 @@ $config = [
             // for the mailer to send real emails.
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'ssl://smtp.yandex.com',
+                'host' => 'smtp.yandex.com',
                 'username' => 'info@kiralikvillam.com',
                 'password' => '1qw2015',
-                'port' => '465',
-                'encryption' => 'SSL',
+                'port' => '587',
+                'encryption' => 'tls',
             ],
-            'useFileTransport' => true,
+            'useFileTransport' => false,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -76,6 +76,8 @@ $config = [
                     'hakkinda' => 'site/about',
                     'post/<id:\d+>' => 'post/view',
                     'sex' => 'site/sex',
+                    'reservationmail' => 'site/reservationmail',
+                    'reservation' => 'site/reservation',
 			),
 		],
         'authManager' => [

@@ -17,7 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
   <head>
   	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Travel Agency - HTML5 Booking template</title>
+    <?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
 	
     <!-- Bootstrap -->
     <link href="<?=Url::to('@web/')?>dist/css/bootstrap.css" rel="stylesheet" media="screen">
@@ -102,89 +103,13 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 	<!-- END OF CONTENT -->
 	
-
+ 
 	
 	
 	<!-- FOOTER -->
-	
-	<div class="footerbgblack">
-		<div class="container">		
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Let's socialize</span>
-				<div class="scont">
-					<a href="<?=Url::to('@web/')?>#" class="social1b"><img src="<?=Url::to('@web/')?>images/icon-facebook.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social2b"><img src="<?=Url::to('@web/')?>images/icon-twitter.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social3b"><img src="<?=Url::to('@web/')?>images/icon-gplus.png" alt=""/></a>
-					<a href="<?=Url::to('@web/')?>#" class="social4b"><img src="<?=Url::to('@web/')?>images/icon-youtube.png" alt=""/></a>
-					<br/><br/><br/>
-					<a href="<?=Url::to('@web/')?>#"><img src="<?=Url::to('@web/')?>images/logosmal2.png" alt="" /></a><br/>
-					<span class="grey2">&copy; 2013  |  <a href="<?=Url::to('@web/')?>#">Privacy Policy</a><br/>
-					All Rights Reserved </span>
-					<br/><br/>
-					
-				</div>
-			</div>
-			<!-- End of column 1-->
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Travel Specialists</span>
-				<br/><br/>
-				<ul class="footerlistblack">
-					<li><a href="<?=Url::to('@web/')?>#">Golf Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Ski & Snowboarding</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney Parks Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disneyland Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney World Vacations</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Vacations As Advertised</a></li>
-				</ul>
-			</div>
-			<!-- End of column 2-->		
-			
-			<div class="col-md-3">
-				<span class="ftitleblack">Travel Specialists</span>
-				<br/><br/>
-				<ul class="footerlistblack">
-					<li><a href="<?=Url::to('@web/')?>#">Weddings</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Accessible Travel</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Disney Parks</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Cruises</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">Round the World</a></li>
-					<li><a href="<?=Url::to('@web/')?>#">First Class Flights</a></li>
-				</ul>				
-			</div>
-			<!-- End of column 3-->		
-			
-			<div class="col-md-3 grey">
-				<span class="ftitleblack">Newsletter</span>
-				<div class="relative">
-					<input type="email" class="form-control fccustom2black" id="exampleInputEmail1" placeholder="Enter email">
-					<button type="submit" class="btn btn-default btncustom">Submit<img src="<?=Url::to('@web/')?>images/arrow.png" alt=""/></button>
-				</div>
-				<br/><br/>
-				<span class="ftitleblack">Customer support</span><br/>
-				<span class="pnr">1-866-599-6674</span><br/>
-				<span class="grey2">office@travel.com</span>
-			</div>			
-			<!-- End of column 4-->			
-		
-			
-		</div>	
-	</div>
-	
-	<div class="footerbg3black">
-		<div class="container center grey"> 
-		<a href="<?=Url::to('@web/')?>#">Home</a> | 
-		<a href="<?=Url::to('@web/')?>#">About</a> | 
-		<a href="<?=Url::to('@web/')?>#">Last minute</a> | 
-		<a href="<?=Url::to('@web/')?>#">Early booking</a> | 
-		<a href="<?=Url::to('@web/')?>#">Special offers</a> | 
-		<a href="<?=Url::to('@web/')?>#">Blog</a> | 
-		<a href="<?=Url::to('@web/')?>#">Contact</a>
-		<a href="<?=Url::to('@web/')?>#top" class="gotop scroll"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></a>
-		</div>
-	</div>
-	
+    <?php $this->beginContent('@app/views/layouts/footer.php'); ?>
+	<?php $this->endContent(); ?>
+	<!-- /FOOTER -->
 	
 	<!-- Javascript  -->
 	<script src="<?=Url::to('@web/')?>assets/js/js-about.js"></script>

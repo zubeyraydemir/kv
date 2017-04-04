@@ -123,7 +123,7 @@
 		  $('#map-canvas2').css({'display':'block'});
 		  var script = document.createElement('script');
 		  script.type = 'text/javascript';
-		  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
+		  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCbxlzilravwuCbdzTUoC-iKxw7T2glG34&v=3.exp&sensor=false&' +
 			  'callback=initialize';
 		  document.body.appendChild(script);
 		  

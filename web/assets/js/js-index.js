@@ -5,6 +5,43 @@
 jQuery(function() {
 	jQuery( "#datepicker,#datepicker2,#datepicker3,#datepicker4,#datepicker5,#datepicker6,#datepicker7,#datepicker8" ).datepicker(jQuery.datepicker.regional[ "tr" ]);
 	jQuery(".chosen-select").chosen({max_selected_options: 5, select_all_character: '*'});
+
+		 
+jQuery('#daterangepicker').daterangepicker({
+    "autoApply": true,
+    "showDropdowns": true,
+    "locale": {
+        "format": "DD/MM/YYYY",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "H",
+        "daysOfWeek": ["Pz", "Pt", "Sa", "Çş", "Pş", "Cu", "Ct"],
+        "monthNames": [
+            "Ocak",
+            "Şubat",
+            "Mart",
+            "Nisan",
+            "Mayıs",
+            "Haziran",
+            "Temmuz",
+            "Ağustos",
+            "Eylül",
+            "Ekim",
+            "Kasım",
+            "Aralık"
+        ],
+        "firstDay": 1
+    },
+    "showCustomRangeLabel": false,
+    "minDate": moment(),
+    "opens": "center"
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+});
 });
 
 
@@ -225,44 +262,6 @@ jQuery(window).scroll(function(){
 		}
 		
 		
-		//Social
-		if(jQuery(window).scrollTop() >= 300){
-			jQuery('.social1').stop().animate({top:'0px'}, 100);
-			
-			setTimeout(function (){
-				jQuery('.social2').stop().animate({top:'0px'}, 100);
-			}, 100);
-			
-			setTimeout(function (){
-				jQuery('.social3').stop().animate({top:'0px'}, 100);
-			}, 200);
-			
-			setTimeout(function (){
-				jQuery('.social4').stop().animate({top:'0px'}, 100);
-			}, 300);
-			
-			setTimeout(function (){
-				jQuery('.gotop').stop().animate({top:'0px'}, 200);
-			}, 400);				
-			
-		}       
-		else {
-			setTimeout(function (){
-				jQuery('.gotop').stop().animate({top:'100px'}, 200);
-			}, 400);	
-			setTimeout(function (){
-				jQuery('.social4').stop().animate({top:'-120px'}, 100);				
-			}, 300);
-			setTimeout(function (){
-				jQuery('.social3').stop().animate({top:'-120px'}, 100);		
-			}, 200);	
-			setTimeout(function (){
-			jQuery('.social2').stop().animate({top:'-120px'}, 100);		
-			}, 100);	
-
-			jQuery('.social1').stop().animate({top:'-120px'}, 100);			
-
-		}
 		
 		
 	});	
@@ -297,9 +296,8 @@ jQuery(".one").mouseleave(function() {
 jQuery('form').submit(function(e) {
     e.preventDefault();
 	jQuery("#villa_name").val(jQuery("#formname").val());
-	jQuery("#start_date").val(jQuery.datepicker.formatDate('yy-mm-dd', jQuery('#datepicker').datepicker('getDate')));
-	jQuery("#end_date").val(jQuery.datepicker.formatDate('yy-mm-dd', jQuery('#datepicker2').datepicker('getDate')));
+	jQuery("#start_date").val(jQuery('#daterangepicker').data('daterangepicker').startDate._d.sql());
+	jQuery("#end_date").val(jQuery('#daterangepicker').data('daterangepicker').endDate._d.sql());
 	jQuery("#adult").val(jQuery("#formAdult").val());
-	jQuery("#child").val(jQuery("#formChild").val());
 	this.submit();
 });

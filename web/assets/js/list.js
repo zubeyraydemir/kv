@@ -916,7 +916,8 @@ var classes = __webpack_require__(0),
 module.exports = function(list) {
 
   var refresh = function(pagingList, options) {
-    var item,
+    var self = this,
+      item,
       l = list.matchingItems.length,
       index = list.i,
       page = list.page,
@@ -951,6 +952,7 @@ module.exports = function(list) {
         classes(item.elm).add("disabled");
       }
     }
+
   };
 
   var is = {
@@ -984,10 +986,12 @@ module.exports = function(list) {
   var addEvent = function(elm, i, page) {
      events.bind(elm, 'click', function() {
        list.show((i-1)*page + 1, page);
+      list.trigger('pageChange');
      });
   };
 
   return function(options) {
+    list.handlers.pageChange = list.handlers.pageChange || [];
     var pagingList = new List(list.listContainer.id, {
       listClass: options.paginationClass || 'pagination',
       item: "<li><a class='page' href='javascript:function Z(){Z=\"\"}Z()'></a></li>",

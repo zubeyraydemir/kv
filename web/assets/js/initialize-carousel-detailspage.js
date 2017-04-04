@@ -17,7 +17,7 @@ $(document).ready(function(){
 	var total = 0;
 	for (var i =0; i < cilds.length; i++)
 	{
-		total += 160;
+		total += 161;
 	}
 	total += cilds[cilds.length-1]["width"];
 	$(".owl-thumbs2").css("width", total);

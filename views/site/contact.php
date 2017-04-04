@@ -177,31 +177,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 		
 		
-		<!-- FOOTER -->
-		
-		<div class="footerbg sfix3">
-			<div class="container">		
-				<footer>
-					<div class="footer">
-						<a href="<?=Url::to('@web/')?>#" class="social1"><img src="<?=Url::to('@web/')?>images/icon-facebook.png" alt=""/></a>
-						<a href="<?=Url::to('@web/')?>#" class="social2"><img src="<?=Url::to('@web/')?>images/icon-twitter.png" alt=""/></a>
-						<a href="<?=Url::to('@web/')?>#" class="social3"><img src="<?=Url::to('@web/')?>images/icon-gplus.png" alt=""/></a>
-						<a href="<?=Url::to('@web/')?>#" class="social4"><img src="<?=Url::to('@web/')?>images/icon-youtube.png" alt=""/></a>
-						<br/><br/>
-						Copyright &copy; 2013 <a href="<?=Url::to('@web/')?>#">Travel Agency</a> All rights reserved. <a href="<?=Url::to('@web/')?>http://titanicthemes.com">TitanicThemes.com</a>
-						<br/><br/>
-						<a href="<?=Url::to('@web/')?>#top" id="gotop2" class="gotop"><img src="<?=Url::to('@web/')?>images/spacer.png" alt=""/></a>
-					</div>
-				</footer>
-			</div>	
-		</div>
-		
-		
-
-		
-		
-	</div>
-	<!-- END OF WRAP -->
+	<!-- FOOTER -->
+    <?php $this->beginContent('@app/views/layouts/footer.php'); ?>
+	<?php $this->endContent(); ?>
+	<!-- /FOOTER -->
 	
 	
 	<script>
