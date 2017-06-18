@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -10,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\imagine\Image;
 use Imagine\Image\Box;
+use yii\db\Expression;
 
 class SiteController extends Controller
 { 
@@ -189,8 +191,8 @@ class SiteController extends Controller
             $model["available"] = Yii::$app->request->post('avail') == "1" ? "Müsait" : "Müsait değil";
             $model["total_price"] = Yii::$app->request->post('price', -1);
             $model["pre_payment"] = Yii::$app->request->post('payment', 0);
-
-            $model["created"] = date("Y-m-d h:i:s");
+             
+            $model["created"] = new Expression('NOW()');
 
 			Yii::$app->db->createCommand()->insert('reservation_requests', $model)->execute();
             try

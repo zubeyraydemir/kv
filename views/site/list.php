@@ -7,6 +7,7 @@ use yii\helpers\Html;
 $this->title = 'Kiralık Villam';
 \Yii::$app->language = 'tr';
 $asdf = \Yii::t('app', 'Hotels');
+$regs = explode(",", $model["regs"]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -156,7 +157,44 @@ $asdf = \Yii::t('app', 'Hotels');
 				<!-- END OF BOOK FILTERS -->	
 				
 				<div class="line2"></div>
+				
+				<!-- bölgeler -->		
+				<button type="button" class="collapsebtn" data-toggle="collapse" data-target="#collapse3">
+				 <?=\Yii::t('app', 'Where');?>? <span class="collapsearrow"></span>
+				</button>				
+				
+				<div id="collapse3" class="collapse in">
+					<div class="hpadding20">
+						<?php
+						foreach ($model["regions"] as $k=>$reg)
+						{
+								$checked = "";
+								foreach($regs as $rs)
+								{
+									if(!empty($rs) && $reg["name"] == $rs)
+										$checked = "checked='checked'";
+								}
+							?>
+							<div class="checkbox">
+								<label>
+								<input type="checkbox" name="bolge" <?=$checked?> value="<?=$reg["name"]?>">
+								<?=$reg["name"]?>
+								</label>
+							</div>
+							<?php
+						}
+						?>
+						</div>
+					
+					<div class="clearfix"></div>					
+				</div>
+				<!-- End of bölgeler -->
+				
+
 				<?php /*
+
+				<div class="line2"></div>
+				
 				<div class="padding20title"><h3 class="opensans dark"><?=\Yii::t('app', 'Filters');?></h3></div>
 				<div class="line2"></div>
 				
@@ -176,34 +214,7 @@ $asdf = \Yii::t('app', 'Hotels');
 					</div>
 				</div>
 				<!-- End of Price range -->	
-				
-				<div class="line2"></div>
-				
-				<!-- bölgeler -->		
-				<button type="button" class="collapsebtn collapsed" data-toggle="collapse" data-target="#collapse3">
-				 <?=\Yii::t('app', 'Region');?> <span class="collapsearrow"></span>
-				</button>				
-				
-				<div id="collapse3" class="collapse">
-					<div class="hpadding20">
-						<div class="radio">
-						  <label>
-							<input type="radio" name="bolge" id="Acomodation1" value="Kalkan" checked>
-							Kalkan
-						  </label>
-						</div>
-						<div class="radio">
-						  <label>
-							<input type="radio" name="bolge" id="Acomodation2" value="Kaş">
-							Kaş
-						  </label>
-						</div>
-						</div>
-					
-					<div class="clearfix"></div>					
-				</div>
-				<!-- End of bölgeler -->
-				
+
 				<div class="line2"></div>
 				
 				<!-- Hotel Preferences -->
@@ -441,7 +452,7 @@ $asdf = \Yii::t('app', 'Hotels');
 				<br/>
 				<br/>
 				
-			*/?>
+			*/ ?>
 				
 			</div>
 			<!-- END OF FILTERS -->
@@ -659,6 +670,15 @@ $asdf = \Yii::t('app', 'Hotels');
 		echo json_encode($data). ",";
 	}
 	?>
+		];
+		var regs = [
+			<?php
+			foreach($regs as $reg)
+			{
+				if(!empty($reg))
+					echo "'". $reg."',";
+			}
+			?>
 		];
 	</script>
 

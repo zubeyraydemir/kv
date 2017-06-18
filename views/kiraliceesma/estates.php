@@ -322,15 +322,15 @@ if (isset($villa["data"]))
 
 
 					<div class="form-group">
-						<label class="control-label col-sm-2">Rezervasyon</label>
-						<div class="col-sm-10">
+						<label class="control-label">Rezervasyon</label>
+						<div class="col-sm-12">
 							<div id="calendar" class="calendar"></div>
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label class="control-label col-sm-2">Fiyat</label>
-						<div class="col-sm-10">
+						<label class="control-label">Fiyat</label>
+						<div class="col-sm-12">
 							<div id="calendar2" class="calendar"></div>
 						</div>
 					</div>
@@ -511,6 +511,16 @@ function deleteEvent(event) {
     for(var i in dataSource) {
         if(dataSource[i].id == event.id) {
             dataSource.splice(i, 1);
+
+			$.ajax({
+				url: baseUrl+ 'kiraliceesma/reservedelete',
+				type: 'post',
+				data: { _csrf : _csrf, id: event.id },
+				async: false,
+				success: function (data) {
+					$.notify( "Rezervasyon silindi: " + event.name, { position:"top-center",  className: 'success', })
+				}
+			});
             break;
         }
     }
@@ -524,6 +534,16 @@ function deleteEvent2(event) {
     for(var i in dataSource) {
         if(dataSource[i].id == event.id) {
             dataSource.splice(i, 1);
+
+			$.ajax({
+				url: baseUrl+ 'kiraliceesma/pricedelete',
+				type: 'post',
+				data: { _csrf : _csrf, id: event.id },
+				async: false,
+				success: function (data) {
+					$.notify( "Fiyat silindi: " + event.para, { position:"top-center",  className: 'success', })
+				}
+			});
             break;
         }
     }
@@ -551,7 +571,7 @@ function saveEvent() {
                 dataSource[i].endDate = event.endDate;
 				
 				$.ajax({
-				url: baseUrl+ '/kiraliceesma/reserve',
+				url: baseUrl+ 'kiraliceesma/reserve',
 				type: 'post',
 				data: { _csrf : _csrf, id: event.id, name: event.name, description: event.location, start_date: event.startDate.sql(), end_date: event.endDate.sql(), villa_id: $("input[name=villa_id]").val() },
 				async: false,
@@ -567,7 +587,7 @@ function saveEvent() {
     {
 		var eid = 0;
 		$.ajax({
-		url: baseUrl+ '/kiraliceesma/reserve',
+		url: baseUrl+ 'kiraliceesma/reserve',
 		type: 'post',
 		data: {  _csrf : _csrf, name: event.name, description: event.location, start_date: event.startDate.sql(), end_date: event.endDate.sql(), villa_id: $("input[name=villa_id]").val() },
 		async: false,
@@ -613,7 +633,7 @@ function saveEvent2() {
                 dataSource[i].endDate = event.endDate;
 				
 				$.ajax({
-				url: baseUrl+ '/kiraliceesma/price',
+				url: baseUrl+ 'kiraliceesma/price',
 				type: 'post',
 				data: { _csrf : _csrf, id: event.id, price: event.price, start_date: event.startDate.sql(), end_date: event.endDate.sql(), villa_id: $("input[name=villa_id]").val() },
 				async: false,
@@ -629,7 +649,7 @@ function saveEvent2() {
     {
 		var eid = 0;
 		$.ajax({
-		url: baseUrl+ '/kiraliceesma/price',
+		url: baseUrl+ 'kiraliceesma/price',
 		type: 'post',
 		data: { _csrf : _csrf, price: event.price, start_date: event.startDate.sql(), end_date: event.endDate.sql(), villa_id: $("input[name=villa_id]").val() },
 		async: false,

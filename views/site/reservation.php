@@ -67,21 +67,23 @@ $this->params['breadcrumbs'][] = $this->title;
 			<!-- CONTENT -->
 			<div class="col-md-12 pagecontainer2 offset-0">
 				<div class="col-md-12 mt20">
-					<p>Sayın <?=$name?>,</p>
-					<p><b><?=$villa_name?></b> için yaptığınız <b><?=date("d.m.Y",strtotime($start_date))?> - <?=date("d.m.Y",strtotime($end_date))?></b> tarihleri arasındaki rezervasyon talebiniz bize ulaşmıştır. Seçtiğiniz tarihler arasında villamız <?=mb_strtolower($available, 'UTF-8')?> durumdadır.</p>
-					<br>
-					<?php if ($total_price > 0) { ?>
-					<p><b>Toplam fiyat:</b><?=$total_price?></p>
-					<p><b>Ön ödeme miktarı:</b><?=$pre_payment?></p>
-					<?php }?>
-					<p><b>Misafir notu:</b><?=$note?></p>
-					<br>
-					<p>En kısa süre içerisinde size geri dönüş yapılacaktır. <br>Dilediğiniz vakitte müşteri destek hattımızı <span style="color:#5bbfbf">0 (216) 451 51 15</span> arayabilirsiniz.</p>
-					<br><br>
-					<a href="http://www.kiralikvillam.com"><img src="<?=Url::to('@web/',true)?>images/logo.png" alt="Kiralik Villam" width="100"/><br>Kiralik Villam</a>
-					<br>0 (216) 451 51 15
-					<br>info@kiralikvillam.com 
-					
+	<p>Sayın <?=$name?>,</p>
+	<p><b><?=$villa_name?></b> için yaptığınız <b><?=date("d.m.Y",strtotime($start_date))?> - <?=date("d.m.Y",strtotime($end_date))?></b> tarihleri arasındaki rezervasyon talebiniz bize ulaşmıştır.</p>
+	<br>
+	<p>Tatil planınız için en kısa süre içerisinde size geri dönüş yapılacaktır. </p>
+	<br>
+	<?php if ($total_price > 0) { ?>
+	<p><b>Toplam fiyat:</b> <?=$total_price?></p>
+	<p><b>Ön ödeme miktarı:</b> <?=$pre_payment?></p>
+	<?php }?>
+	<p><b>Misafir notu:</b> <br><?=$note?></p>
+	<br>
+	<p>Dilediğiniz vakitte müşteri destek hattımızı <span style="color:#5bbfbf">0 (216) 451 51 15</span> arayabilirsiniz.</p>
+	<br><br>
+	<a href="http://www.kiralikvillam.com"><img src="<?=Url::to('@web/',true)?>images/logo.png" alt="Kiralik Villam" width="100"/><br>Kiralik Villam</a>
+	<br>0 (216) 451 51 15
+	<br>info@kiralikvillam.com 
+	
 				</div>
 			<div class="clearfix"></div><br/><br/>
 			</div>

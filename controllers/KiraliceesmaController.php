@@ -82,6 +82,16 @@ class KiraliceesmaController extends Controller
         return $this->render('index');
     }
 
+    public function actionRezervasyon()
+    {
+        $about = Yii::$app->db->createCommand('SELECT * FROM reservation_requests order by id desc limit 30')
+           ->queryAll();
+		//$data = json_encode($estates);
+        return $this->render('reservations', [
+            'res' => $about,
+        ]);
+    }
+
     public function slugify($text)
     {
     // replace non letter or digits by -
@@ -199,6 +209,21 @@ class KiraliceesmaController extends Controller
         ]);
     }
 	
+    public function actionReservedelete()
+    {
+        $request = Yii::$app->request;
+        $id =  $request->post("id");
+        Yii::$app->db->createCommand("delete from reservations where id = '$id'")->execute();
+
+    }
+	
+    public function actionPricedelete()
+    {
+        $request = Yii::$app->request;
+        $id =  $request->post("id");
+        Yii::$app->db->createCommand("delete from prices where id = '$id'")->execute();
+    }
+
     public function actionReserve()
     {
         $request = Yii::$app->request;

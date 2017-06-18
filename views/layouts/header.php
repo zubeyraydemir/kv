@@ -50,7 +50,7 @@ use yii\helpers\Html;
 					<li><a href="<?=Url::to('hakkinda')?>"><?=\Yii::t('app', 'About Us');?></a></li>
 					<li><a href="<?=Url::to('@web/').\Yii::t('app', 'contact')?>"><?=\Yii::t('app', 'Contact');?></a></li>
 
-					<li style="text-align:center"><img width="110px" src="<?=Url::to('@web/')?>images/tursabbw.png" alt=""/><br>Belge Numarası: 8744</li>
+					<li style="text-align:center"><script type="text/javascript" src="//cdn.tursab.org.tr/agencyapproval/21dd0061f3878be6aca3c7d5c66dd04d024a9e0bf6f72bacac8c7b2b14d6aeb0.js?t=1&w=110"></script></li>
 
 					<li><a href="https://www.facebook.com/kiralikvillam" class="sociallogo"><img width="28px" src="<?=Url::to('@web/')?>images/icon-facebook.png" alt=""/></a></li>
 					<li><a href="https://twitter.com/kiralikvillam" class="sociallogo"><img  width="28px" src="<?=Url::to('@web/')?>images/icon-twitter.png" alt=""/></a></li>

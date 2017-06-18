@@ -42,7 +42,7 @@ use yii\helpers\Html;
 			
 			<div class="col-md-3 grey">
 				
-					<div style="text-align:center"><img width="110px" src="<?=Url::to('@web/')?>images/tursab.png" alt=""/><br>Belge Numarası: 8744</div>
+					<div style="text-align:center"><script type="text/javascript" src="//cdn.tursab.org.tr/agencyapproval/21dd0061f3878be6aca3c7d5c66dd04d024a9e0bf6f72bacac8c7b2b14d6aeb0.js?t=1&w=150&a=1"></script></div>
 				<br/> 
 				<span class="ftitleblack"><?=\Yii::t("app", "Customer support")?></span><br/>
 				<span class="pnr">0 (216) 451 51 15</span><br/>

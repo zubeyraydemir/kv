@@ -127,11 +127,19 @@ $this->title = "Yönetim Paneli"
 						  </div>
 						  </a></li>
 
-						<li class="margbottom20">
+						<li class="">
 						  <a href="<?=Url::to('@web/kiraliceesma/hakkinda')?>" data-toggle="" >
 						  <div class="dash-ct">
 							  <span class="comments-icon left"></span>	
 							  <span class="dtxt">Hakkımızda</span>
+						  </div>
+						  </a></li>
+
+						<li class="">
+						  <a href="<?=Url::to('@web/kiraliceesma/rezervasyon')?>" data-toggle="" >
+						  <div class="dash-ct">
+							  <span class="comments-icon left"></span>	
+							  <span class="dtxt">Rezervasyonlar</span>
 						  </div>
 						  </a></li>
 						<!--li>
@@ -146,13 +154,6 @@ $this->title = "Yönetim Paneli"
 						  <div class="dash-ct">
 							  <span class="pages-icon left"></span>	
 							  <span class="dtxt">Pages</span>
-						  </div>
-						  </a></li>
-						<li class="margbottom20">
-						  <a href="#comments" data-toggle="tab">
-						  <div class="dash-ct">
-							  <span class="comments-icon left"></span>	
-							  <span class="dtxt">Comments</span>
 						  </div>
 						  </a></li>
 						<li>

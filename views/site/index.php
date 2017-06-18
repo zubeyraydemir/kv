@@ -63,9 +63,46 @@ $this->title = 'Kiralık Villam';
 	<div id="dajy" class="fullscreen-container mtslide sliderbg fixed">
 			<div class="fullscreenbanner">
 				<ul>
+ 
 
-					<!-- papercut fade turnoff flyin slideright slideleft slideup slidedown-->
-				
+		
+
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-13.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-12.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-11.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-10.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-09.jpg" alt=""/>
+					</li>
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-08.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-07.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-06.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-05.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-04.jpg" alt=""/>
+					</li>	
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-03.jpg" alt=""/>
+					</li>
+					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
+						<img src="<?=Url::to('@web/')?>images/slider/slider-02.jpg" alt=""/>
+					</li>	
 					<!-- FADE -->
 					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
 						<img src="<?=Url::to('@web/')?>images/slider/slider-01.jpg" alt=""/>
@@ -85,43 +122,6 @@ $this->title = 'Kiralık Villam';
 							 </div>
 						</div>	
 						*/ ?>
-					</li>	
-
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-02.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-03.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-04.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-05.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-06.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-07.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-08.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-09.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-10.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-11.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-12.jpg" alt=""/>
-					</li>	
-					<li data-transition="fade" data-slotamount="1" data-masterspeed="300"> 										
-						<img src="<?=Url::to('@web/')?>images/slider/slider-13.jpg" alt=""/>
 					</li>	
 				</ul>
 				<div class="tp-bannertimer none"></div>

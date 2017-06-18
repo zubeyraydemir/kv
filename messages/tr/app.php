@@ -152,7 +152,7 @@ return [
 	'Your reservation' => 'Rezervasyonunuz',
 	'Pre payment' => 'Ön ödeme',
 	'Total price' => 'Toplam',
-	'' => '',
+	'Where' => 'Nerede',
 	'' => '',
 	'' => '',
 	'' => '',

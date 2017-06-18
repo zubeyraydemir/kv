@@ -504,6 +504,16 @@ function filter(elem) {
 		} 
 		if (vals.max_people_count*1 < filters.a*1)
 			res = false;
+		if (regs.length > 0)
+		{
+			var regres = false;
+			for (var i = 0; i< regs.length; i++)
+			{
+				if (vals.region == regs[i])
+					regres = true;
+			}
+			res = res && regres;
+		}
 		
 		return res;
 	});

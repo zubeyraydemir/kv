@@ -437,7 +437,7 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 									<div class="col-md-4 offset-0">
 										</div>
 									<div class="col-md-8 offset-0"> 
-										
+										<?=$resavail ? "" : '<h2 class="opensans slim red">Üzgünüz!</h2>Seçtiğiniz tarihlerde villamız dolu gözüküyor.<br>' ?>
 										<input type="text" class="form-control mySelectCalendar" id="daterangepicker2" data-sdate="<?=isset($start)?$start:""?>" data-edate="<?=isset($end)?$end:""?>"/>
 										
 									</div>
@@ -1380,7 +1380,10 @@ var openPhotoSwipe = function() {
             $root = \Yii::getAlias('@webroot') . '/images/villa/';
 			$img = $root . $pic;
 			$url = Url::to('@web/')."images/villa/$pic";
-			$size = getimagesize($img);
+			if (file_exists($img))
+				$size = getimagesize($img);
+			else
+				$size = [800,600];
 			echo "{src: '$url', w:$size[0], h:$size[1]},";
 		}
 		?>
