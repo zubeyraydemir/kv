@@ -556,7 +556,7 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 							$priceCount = 0;
 							$currmonth = 0;
 							$price = "";
-							while ($date->format("Y-m-d") < $end_date)
+							while ($date->format("Y-m-d") <= $end_date)
 							{ 
 								if (count($prices) - 1 >= $priceCount)
 								{
@@ -601,7 +601,11 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 								//$bot .= "<td>$day</td>";
 								if ($date->format("Y-m-d") < $today)
 								{
-								$bot .= "<td bgcolor='#ddd'></td>";
+									$bot .= "<td bgcolor='#ddd'></td>";
+									if (count($reserves) > 0 && count($reserves) > $reserveCount && $date->format("Y-m-d") >= $reserves[$reserveCount]["end_date"])
+									{
+										$reserveCount++;
+									}
 								}
 								else
 								{
@@ -615,6 +619,8 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 												{
 													if ($date->format("Y-m-d") == $reserves[$reserveCount]["start_date"])
 														$bot .= "<td style='background: linear-gradient(-45deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent)' data-a=1>$day</td>";
+													else if ((count($reserves) > $reserveCount+1) && ($date->format("Y-m-d") == $reserves[$reserveCount+1]["start_date"]))
+														$bot .= "<td bgcolor='#2c8fc9' data-a=4>$day</td>";
 													else if ($date->format("Y-m-d") == $reserves[$reserveCount]["end_date"])
 														$bot .= "<td style='background: linear-gradient(135deg, #2c8fc9, #2c8fc9 49%, transparent 51%, transparent)' data-a=1>$day</td>";
 													else
@@ -624,7 +630,7 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 												{
 													$reserveCount++;
 													
-													if ((count($reserves) > $reserveCount) && $date->format("Y-m-d") >= $reserves[$reserveCount]["start_date"])
+													if ((count($reserves) > $reserveCount) && $date->format("Y-m-d") >= $reserves[$reserveCount]["start_date"] && $date->format("Y-m-d") <= $reserves[$reserveCount]["end_date"])
 														$bot .= "<td bgcolor='#2c8fc9' data-a=2>$day</td>";
 													else
 														$bot .= "<td data-a=3>$day</td>";
@@ -640,8 +646,7 @@ $this->title = 'Kiralık Villam - ' . $data["name"];
 									$bot .= "<td data-a=6>$day</td>";
 								}
 								$date->add(new DateInterval('P1D'));
-							}
-							echo "</table>";
+							} 
 							?>
 							</tbody>
 						</table>

@@ -486,15 +486,17 @@ var hackerList =null;
 
 function filter(elem) {
 	var filters = {};
-	$.each($('#searchForm').serializeArray(), function(_, kv) {
-	if (filters.hasOwnProperty(kv.name)) {
-		filters[kv.name] = $.makeArray(filters[kv.name]);
-		filters[kv.name].push(kv.value);
-	}
-	else {
-		filters[kv.name] = kv.value;
-	}
+	$.each($('#searchForm, input[name="bolge"], input[name="how"], input[name="other"]').serializeArray(), function(_, kv) {
+		if (filters.hasOwnProperty(kv.name)) {
+			filters[kv.name] = $.makeArray(filters[kv.name]);
+			filters[kv.name].push(kv.value);
+		}
+		else {
+			filters[kv.name] = kv.value;
+		}
 	});
+
+
 
 	hackerList.filter(function(item) {
 		var res = true;
@@ -504,7 +506,8 @@ function filter(elem) {
 		} 
 		if (vals.max_people_count*1 < filters.a*1)
 			res = false;
-		if (regs.length > 0)
+		
+		/*if (regs.length > 0)
 		{
 			var regres = false;
 			for (var i = 0; i< regs.length; i++)
@@ -513,11 +516,68 @@ function filter(elem) {
 					regres = true;
 			}
 			res = res && regres;
+		}*/
+
+		if (filters.bolge != undefined)
+			{
+				var regres = false;
+				if ($.isArray(filters.bolge))
+				{
+					for (var i = 0; i< filters.bolge.length; i++)
+					{
+						if (vals.region == filters.bolge[i])
+							regres = true;
+					}
+				}
+				else if (vals.region == filters.bolge)
+					regres = true;
+				res = res && regres;
+			}
+			
+		if (filters.how != undefined)
+		{
+			var regres = true;
+			if ($.isArray(filters.how))
+			{
+				for (var i = 0; i< filters.how.length; i++)
+				{
+					if (vals[filters.how[i]] != "on")
+						regres = false;
+				}
+			}
+			else if (vals[filters.how] != "on")
+				regres = false;
+			res = res && regres;
 		}
+
+		if (filters.other != undefined)
+		{
+			var regres = true;
+			if ($.isArray(filters.other))
+			{
+				for (var i = 0; i< filters.other.length; i++)
+				{
+					if (vals[filters.other[i]] != "on")
+						regres = false;
+				}
+			}
+			else if (vals[filters.other] != "on")
+				regres = false;
+			res = res && regres;
+	}
 		
 		return res;
 	});
-	$(elem).notify("Liste güncellendi", { position:"right bottom", autoHideDelay: 1000, className: "success" });
+	
+
+	if (elem != undefined) {
+		var elem = $(elem);
+		var msg = hackerList.matchingItems.length + " adet villa listelendi";
+		if (elem[0].type == "checkbox")
+			elem.parent().notify(msg, { position:"right bottom", autoHideDelay: 1000, className: "success" });
+		else
+			elem.notify(msg, { position:"right bottom", autoHideDelay: 1000, className: "success" });
+	}
 }
 
 jQuery(document).ready(function(jQuery){
@@ -536,6 +596,11 @@ $("b.price").filter(function() {return $(this).text().trim() == "0";}).parent().
 
 
 $( "#searchForm input,select" ).not("#daterangepicker").bind("propertychange change keyup input paste",function() {
+  filter(this);
+});
+
+//bölgeler
+$("#collapse3 input").bind("propertychange change keyup input paste",function() {
   filter(this);
 });
 

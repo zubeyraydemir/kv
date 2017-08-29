@@ -190,6 +190,61 @@ $regs = explode(",", $model["regs"]);
 				</div>
 				<!-- End of bölgeler -->
 				
+				
+				<!-- nasıl? -->		
+				<button type="button" class="collapsebtn" data-toggle="collapse" data-target="#collapse3">
+				 <?=\Yii::t('app', 'How');?>? <span class="collapsearrow"></span>
+				</button>				
+				
+				<div id="collapse3" class="collapse in">
+					<div class="hpadding20">
+						<?php
+						$how_filter = ["private_villa", "inside_site", "sea_view", "nature_view", "natural_secured", "curtain_secured"];
+						foreach ($how_filter as $filter)
+						{
+							?>
+							<div class="checkbox">
+								<label>
+								<input type="checkbox" name="how" value="<?=$filter?>">
+								<?=\Yii::t('app', $filter);?>
+								</label>
+							</div>
+							<?php
+						}
+						?>
+						</div>
+					
+					<div class="clearfix"></div>					
+				</div>
+				<!-- End of nasıl? -->
+				
+				
+				<!-- başka? -->		
+				<button type="button" class="collapsebtn" data-toggle="collapse" data-target="#collapse3">
+				 <?=\Yii::t('app', 'Other');?>? <span class="collapsearrow"></span>
+				</button>				
+				
+				<div id="collapse3" class="collapse in">
+					<div class="hpadding20">
+						<?php
+						$how_filter = ["private_parking", "shared_parking", "private_pool", "shared_pool", "closed_pool", "heated_pool", "child_pool", "jacuzzi", "pet_allowed"];
+						foreach ($how_filter as $filter)
+						{
+							?>
+							<div class="checkbox">
+								<label>
+								<input type="checkbox" name="other" value="<?=$filter?>">
+								<?=\Yii::t('app', $filter);?>
+								</label>
+							</div>
+							<?php
+						}
+						?>
+						</div>
+					
+					<div class="clearfix"></div>					
+				</div>
+				<!-- End of başka? -->
 
 				<?php /*
 

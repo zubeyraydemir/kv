@@ -440,6 +440,12 @@ if (isset($villa["data"]))
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="col-sm-4 control-label">Min. Kiralama Gün</label>
+					<div class="col-sm-7">
+						<input name="event-kiralama" type="number" step="1" class="form-control" value=1>
+					</div>
+				</div>
+				<div class="form-group">
 					<label for="min-date" class="col-sm-4 control-label">Dates</label>
 					<div class="col-sm-7">
 							<div class="input-group input-daterange" data-provide="datepicker">
@@ -500,6 +506,7 @@ jQuery(document).ready(function(){
 	function editEvent2(event) {
     $('#event-fiyat input[name="event-index"]').val(event ? event.id : '');
     $('#event-fiyat input[name="event-para"]').val(event ? event.price : '');
+    $('#event-fiyat input[name="event-kiralama"]').val(event ? event.minDay : 1);
     $('#event-fiyat input[name="event-start-date2"]').datepicker('setDate', event ? event.startDate : '');
     $('#event-fiyat input[name="event-end-date2"]').datepicker('setDate', event ? event.endDate : '');
     $('#event-fiyat').modal();
@@ -619,6 +626,7 @@ function saveEvent2() {
     var event = {
         id: $('#event-fiyat input[name="event-index"]').val(),
         price: $('#event-fiyat input[name="event-para"]').val(),
+        minDay: $('#event-fiyat input[name="event-kiralama"]').val(),
         startDate: $('#event-fiyat input[name="event-start-date2"]').datepicker('getDate'),
         endDate: $('#event-fiyat input[name="event-end-date2"]').datepicker('getDate')
     }
@@ -635,7 +643,7 @@ function saveEvent2() {
 				$.ajax({
 				url: baseUrl+ 'kiraliceesma/price',
 				type: 'post',
-				data: { _csrf : _csrf, id: event.id, price: event.price, start_date: event.startDate.sql(), end_date: event.endDate.sql(), villa_id: $("input[name=villa_id]").val() },
+				data: { _csrf : _csrf, id: event.id, price: event.price, days: event.minDay, start_date: event.startDate.sql(), end_date: event.endDate.sql(), villa_id: $("input[name=villa_id]").val() },
 				async: false,
 				success: function (data) {
 					$.notify( "Fiyat güncellendi: " + event.price, { position:"top-center",  className: 'success', })
